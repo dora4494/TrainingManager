@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div data-th-text="${formation.intitule}"></div>
+
+<form action="/supprimer-formation" method="post">
+    <input type="hidden" name="id" th:value="${formation.id}" />
+    <button type="submit">Supprimer formation</button>
+</form>
+
+<form action="/modifier-formation" method="get">
+    <input type="hidden" name="id" th:value="${formation.id}" />
+    <button type="submit">Modifier formation</button>
+</form>
+
+</body>
+</html>

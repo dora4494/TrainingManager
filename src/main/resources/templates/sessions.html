@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+
+<table>
+  <tr data-th-each="ses: ${sessions}">
+
+    <th>Intitulé :</th>
+    <td> <a th:href="@{/details-session(id=${ses.id})}"
+           data-th-text="${ses.formation.intitule}"></a></td>
+    <th>Client :</th>
+    <td data-th-text="${ses.client}"></td>
+    <th>Date de début :</th>
+    <td data-th-text="${ses.dateDebut}"></td>
+    <th>Date de fin :</th>
+    <td data-th-text="${ses.dateFin}"></td>
+    <th>Formateur :</th>
+    <td data-th-each="form: ${ses.formateur}">
+      <span data-th-text="${form.prenom}"></span>
+      <span data-th-text="${form.nom}"></span>
+    </td>
+    <th>Participants :</th>
+    <td data-th-each="participant: ${ses.participants}">
+      <span data-th-text="${participant.prenom}"></span>
+      <span data-th-text="${participant.nom}"></span>
+    </td>
+  </tr>
+</table>
+
+<form action="/creer-session" method="get">
+  <button type="submit">Ajouter une session de formation</button>
+</form>
+
+</body>
+</html>

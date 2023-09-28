@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div data-th-text="${utilisateur.nom}"></div>
+
+<form action="/supprimer-utilisateur" method="post">
+    <input type="hidden" name="id" th:value="${utilisateur.id}" />
+    <button type="submit">Supprimer utilisateur</button>
+</form>
+
+<form action="/modifier-utilisateur" method="get">
+    <input type="hidden" name="id" th:value="${utilisateur.id}" />
+    <button type="submit">Modifier utilisateur</button>
+</form>
+
+</body>
+</html>

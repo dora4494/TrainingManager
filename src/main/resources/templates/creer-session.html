@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/session-creee}" th:object="${session}"
+      method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"  />
+    <div class="session">
+        <label for="select-Formation">Intitulé de la formation :</label>
+        <select th:field="*{formation}" id="select-Formation" name="formation" required>
+            <option th:each="formation: ${@formationService.listeFormations}"
+                    th:value="${formation.id}"
+                    th:text="${formation.intitule}"></option>
+        </select>
+    </div>
+
+    <div class="session">
+        <label for="client">Client :</label> <input type="text"
+                                              th:field="*{client}" id="nom" name="nom"
+                                              placeholder="Nom" required>
+    </div>
+
+
+    <div class="session">
+        <label for="dateDebut">Date de début de la session :</label> <input type="date"
+                                                  th:field="*{dateDebut}" id="dateDebut" name="dateDebut"
+                                                  placeholder="Date de début" required>
+    </div>
+
+    <div class="session">
+        <label for="dateFin">Date de fin de la session :</label> <input type="date"
+                                                                            th:field="*{dateFin}" id="dateFin" name="dateFin"
+                                                                            placeholder="dateFin" required>
+    </div>
+
+
+    <div class="session">
+        <label for="select-Utilisateur">Formateur :</label> <select
+            th:field="*{formateur}" id="select-Utilisateur" name="formateur"
+            placeholder="Sélectionnez le formateur" required>
+        <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+    </select>
+    </div>
+
+
+
+    <div class="session">
+        <label for="select-Utilisateur">Participants :</label> <select
+            th:field="*{participants}" id="select-Utilisateur" name="participants" multiple
+            placeholder="Sélectionnez les participants" required>
+        <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+    </select>
+    </div>
+
+    <div>
+        <button type="submit">Enregistrer</button>
+    </div>
+</form>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <span>Intitulé de la formation : </span>
+    <span data-th-text="${sessionFormation.formation.intitule}"></span>
+</div>
+
+<div>
+    <span>Client : </span>
+    <span data-th-text="${sessionFormation.client}"></span>
+</div>
+
+<div>
+    <span>Date de démarrage : </span>
+    <span data-th-text="${sessionFormation.dateDebut}"></span>
+</div>
+
+<div>
+    <span>Date de fin : </span>
+    <span data-th-text="${sessionFormation.dateFin}"></span>
+</div>
+
+<div>
+    <span>Durée : </span>
+    <span data-th-text="${sessionFormation.duree}"></span>
+</div>
+
+<div>
+    <span>Formateur : </span>
+    <span data-th-text="${sessionFormation.formateur.prenom}"></span>
+    <span data-th-text="${sessionFormation.formateur.nom}"></span>
+</div>
+
+<div>
+    <span>Tarif : </span>
+    <span data-th-text="${sessionFormation.cout}"></span>
+</div>
+
+<div>
+    <span>Modalités : </span>
+    <span data-th-text="${sessionFormation.modalites}"></span>
+</div>
+
+<div>
+    <span>Liste des participant-e-s : </span>
+    <ul>
+        <li th:each="participant : ${sessionFormation.participants}"
+            data-th-text="${participant.prenom + ' ' + participant.nom}"></li>
+    </ul>
+</div>
+
+
+
+<form action="/supprimer-session" method="post">
+    <input type="hidden" name="id" th:value="${sessionFormation.id}" />
+    <button type="submit">Supprimer session</button>
+</form>
+
+<form action="/modifier-session" method="get">
+    <input type="hidden" name="id" th:value="${sessionFormation.id}" />
+    <button type="submit">Modifier session</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/formation-cree}" th:object="${formation}"
+      method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"  />
+    <div class="formation">
+        <label for="intitule">Intitulé de l'action de formation :</label> <input type="text"
+                                                    th:field="*{intitule}" id="intitule" name="intitule"
+                                                    placeholder="Intitule" required>
+    </div>
+
+    <div>
+        <button type="submit">Enregistrer</button>
+    </div>
+</form>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+
+<table>
+
+  <h2>Liste des utilisateurs :</h2>
+
+  <tr data-th-each="utilisateur: ${utilisateurs}">
+
+    <th>Prénom :</th>
+    <td><a th:href="@{details-utilisateur(id=${utilisateur.id})}"
+           data-th-text="${utilisateur.prenom}"></a></td>
+
+    <th>Nom :</th>
+    <td><a th:href="@{details-utilisateur(id=${utilisateur.id})}"
+           data-th-text="${utilisateur.nom}"></a></td>
+
+    <th>Mail :</th>
+    <td data-th-text="${utilisateur.mail}"></td>
+  </tr>
+</table>
+
+<form action="/creer-utilisateur" method="get">
+  <button type="submit">Ajouter un participant</button>
+</form>
+
+</body>
+</html>
