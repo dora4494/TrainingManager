@@ -40,4 +40,25 @@ public class SessionService {
     }
 
 
+    public void archiverSession (Session session) {
+    if (session.getEtat() == 1) {
+        session.setEtat(3);
+        sessionRepository.save(session);
+    }
+    }
+
+    public void modifierSession(Session session){
+        if(session.getEtat() == 1) {
+            sessionRepository.save(session);
+        }
+    }
+
+    public void annulerSession(Session session){
+        if(session.getEtat() == 1){
+            session.setEtat(2);
+            sessionRepository.save(session);
+        }
+    }
+
+
 }

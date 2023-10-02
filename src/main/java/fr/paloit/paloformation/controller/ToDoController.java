@@ -27,7 +27,7 @@ public class ToDoController {
             toDoService.etatFait(todo);
         }
         assert todo != null;
-        return "redirect:/session/detail-session?id=" + todo.getSession().getId();
+        return "redirect:/detail-session?id=" + todo.getSession().getId();
     }
 
 

@@ -63,7 +63,10 @@
     </div>
 </form>
 
-
+<form action="/session-modifiee" method="post">
+    <input type="hidden" name="id" th:value="${session.id}" />
+    <button type="submit">Modifier session</button>
+</form>
 
 
 </body>

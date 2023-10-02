@@ -41,7 +41,9 @@ public class Session {
     private Long cout;
     private String modalites;
 
-    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, LocalDate dateDebut, LocalDate dateFin, Long cout, String modalites) {
+    private int etat = 1;
+
+    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, LocalDate dateDebut, LocalDate dateFin, Long cout, String modalites, int etat) {
         this.id = id;
         this.formation = formation;
         this.client = client;
@@ -53,6 +55,7 @@ public class Session {
         this.dateFin = dateFin;
         this.cout = cout;
         this.modalites = modalites;
+        this.etat = etat;
     }
 
     public Session() {
@@ -146,6 +149,14 @@ public class Session {
         this.modalites = modalites;
     }
 
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
     @Override
     public String toString() {
         return "Session{" +
@@ -160,6 +171,7 @@ public class Session {
                 ", dateFin=" + dateFin +
                 ", cout=" + cout +
                 ", modalites='" + modalites + '\'' +
+                ", etat=" + etat +
                 '}';
     }
 }
