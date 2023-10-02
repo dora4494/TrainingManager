@@ -1,8 +1,6 @@
 package fr.paloit.paloformation.controller;
 
-import fr.paloit.paloformation.model.Formation;
 import fr.paloit.paloformation.model.Session;
-import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,8 +24,8 @@ public class SessionController {
     }
 
     @GetMapping({"/creer-session"})
-    public String creerSession(@ModelAttribute Session session, Model model)
-    {
+    public String creerSession(@ModelAttribute Session session, Model model) {
+
         return "creer-session";
     }
 

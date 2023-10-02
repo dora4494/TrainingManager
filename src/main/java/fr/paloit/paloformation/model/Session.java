@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,6 +29,9 @@ public class Session {
     )
     private Set<Utilisateur> participants = new HashSet<>();
 
+    @OneToMany(mappedBy = "session")
+    private List<ToDo> todos = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "formateur_id")
     private Utilisateur formateur;
@@ -36,12 +41,12 @@ public class Session {
     private Long cout;
     private String modalites;
 
-
-    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, Utilisateur formateur, int duree, LocalDate dateDebut, LocalDate dateFin, Long cout, String modalites) {
+    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, LocalDate dateDebut, LocalDate dateFin, Long cout, String modalites) {
         this.id = id;
         this.formation = formation;
         this.client = client;
         this.participants = participants;
+        this.todos = todos;
         this.formateur = formateur;
         this.duree = duree;
         this.dateDebut = dateDebut;
@@ -52,7 +57,6 @@ public class Session {
 
     public Session() {
     }
-
 
     public Long getId() {
         return id;
@@ -84,6 +88,14 @@ public class Session {
 
     public void setParticipants(Set<Utilisateur> participants) {
         this.participants = participants;
+    }
+
+    public List<ToDo> getTodos() {
+        return todos;
+    }
+
+    public void setTodos(List<ToDo> todos) {
+        this.todos = todos;
     }
 
     public Utilisateur getFormateur() {
@@ -134,7 +146,6 @@ public class Session {
         this.modalites = modalites;
     }
 
-
     @Override
     public String toString() {
         return "Session{" +
@@ -142,6 +153,7 @@ public class Session {
                 ", formation=" + formation +
                 ", client='" + client + '\'' +
                 ", participants=" + participants +
+                ", todos=" + todos +
                 ", formateur=" + formateur +
                 ", duree=" + duree +
                 ", dateDebut=" + dateDebut +

@@ -1,8 +1,6 @@
 package fr.paloit.paloformation.controller;
 
-import fr.paloit.paloformation.model.Formation;
 import fr.paloit.paloformation.model.Utilisateur;
-import fr.paloit.paloformation.repository.UtilisateurRepository;
 import fr.paloit.paloformation.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

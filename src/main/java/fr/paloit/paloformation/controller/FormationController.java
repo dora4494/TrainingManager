@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @Controller
 public class FormationController {
 
@@ -17,27 +18,27 @@ public class FormationController {
     FormationService formationService;
 
     @GetMapping({"/formations"})
-    public String afficherFormations (Model model) {
+    public String afficherFormations(Model model) {
         model.addAttribute("formations", formationService.listeFormations());
-         return "formations";
+        return "formations";
     }
 
 
-@GetMapping({"/creer-formation"})
-    public String creerFormation (@ModelAttribute Formation formation, Model model) {
-    return "creer-formation";
-}
+    @GetMapping({"/creer-formation"})
+    public String creerFormation(@ModelAttribute Formation formation, Model model) {
+        return "creer-formation";
+    }
 
 
     @PostMapping({"/formation-cree"})
-    public String formationCreee (@ModelAttribute Formation formation) {
+    public String formationCreee(@ModelAttribute Formation formation) {
         formationService.creerFormation(formation);
         return "redirect:/formations";
     }
 
 
     @GetMapping({"/details-formation"})
-    public String detailFormation (Model model, Long id) {
+    public String detailFormation(Model model, Long id) {
         model.addAttribute("formation", formationService.trouverFormationById(id));
         return "detail-formation";
     }
@@ -53,7 +54,7 @@ public class FormationController {
     }
 
     @GetMapping({"/modifier-formation"})
-    public String modifierFormation (Model model,@RequestParam Long id ) {
+    public String modifierFormation(Model model, @RequestParam Long id) {
         model.addAttribute("formation", formationService.trouverFormationById(id));
         return "creer-formation";
     }

@@ -56,6 +56,19 @@
 </div>
 
 
+    <span>Liste des Todos :</span>
+    <ul>
+        <li th:each="todo : ${sessionFormation.todos}">
+            <span data-th-text="${todo.tache.libelle}"></span>
+            <span data-th-text="${todo.date}"></span>
+            <span data-th-text="${todo.etat}"></span>
+            <button type="button">
+                <a th:href="@{/todo-fait(id=${todo.id})}">Fait</a>
+            </button>
+        </li>
+    </ul>
+</div>
+
 
 <form action="/supprimer-session" method="post">
     <input type="hidden" name="id" th:value="${sessionFormation.id}" />

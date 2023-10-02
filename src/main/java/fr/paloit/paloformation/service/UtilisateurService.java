@@ -22,7 +22,7 @@ public class UtilisateurService {
     }
 
 
-    public void supprimerUtilisateur (Utilisateur utilisateur) {
+    public void supprimerUtilisateur(Utilisateur utilisateur) {
         utilisateurRepository.delete(utilisateur);
     }
 
