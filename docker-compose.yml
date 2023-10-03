@@ -1,0 +1,43 @@
+version: "3.3"
+services:
+  db:
+    image: "mysql:8.1.0"
+    env_file: ./.env
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+
+  app:
+    image: gradle:8.3.0-jdk17-alpine
+    env_file: ./.env
+    depends_on:
+      - db
+    volumes:
+      - .:/project
+    working_dir: /project
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    entrypoint: ./gradlew bootRun
+    environment:
+      SPRING_APPLICATION_JSON: '{
+            "spring.datasource.url"  : "jdbc:mysql://db:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false",
+            "spring.datasource.username" : "$MYSQLDB_USER",
+            "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+            "spring.jpa.hibernate.ddl-auto" : "create"
+          }'
+    stdin_open: true
+    tty: true
+
+  phpmyadmin:
+    image: "phpmyadmin:5.2.1"
+    env_file: ./.env
+    depends_on:
+      - db
+    ports:
+      - 8090:80
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+
+# Conenction sur localhost:8090 , login:root, password:my-secret-pw

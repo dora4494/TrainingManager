@@ -1,0 +1,27 @@
+= TrainingManager
+
+== Docker
+
+=== Prerequis
+
+Pour executer gradlew dans docker, il a besoin d'être executable.
+----
+chmod ug+x gradlew
+----
+
+=== Execution
+
+Pour démarrer un environnement complet (mysql + springboot):
+----
+docker-compose up
+----
+
+Le schéma de base de données est recréé au démarrage.
+
+Les variables d'environnement utilisées se trouve dans le fichier `.env` à la racine du projet.
+
+Pour démarre SpringBoot seul en ligne de commande:
+----
+docker run -v $(pwd):/project -w /project -p 8080:8080 -it gradle:8.3.0-jdk17-alpine /bin/bash
+./gradlew bootRun
+----
