@@ -20,8 +20,32 @@ Le schéma de base de données est recréé au démarrage.
 
 Les variables d'environnement utilisées se trouve dans le fichier `.env` à la racine du projet.
 
+* Application formation: http://localhost:6868/formations
+* PhpAdmin: http://localhost:8090/
+
 Pour démarre SpringBoot seul en ligne de commande:
 ----
 docker run -v $(pwd):/project -w /project -p 8080:8080 -it gradle:8.3.0-jdk17-alpine /bin/bash
 ./gradlew bootRun
+----
+
+Le script `run_tests.sh` permet de démarrer l'environnement et d'exécuter les tests.
+
+Pour lancer directement les tests, on peut démarrer le docker-compose avec le profil "test"
+----
+docker compose --profile test up -d
+----
+
+Pour uniquement lancer l'application avec la base de données:
+----
+docker compose up -d
+----
+
+Vous pouvez ensuite executer les tests depuis l'environnement local avec
+----
+npx playwright test
+----
+ou
+----
+npx playwright test --ui
 ----

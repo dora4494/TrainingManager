@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.5"
 services:
   db:
     image: "mysql:8.1.0"
@@ -24,10 +24,17 @@ services:
             "spring.datasource.url"  : "jdbc:mysql://db:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false",
             "spring.datasource.username" : "$MYSQLDB_USER",
             "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
-            "spring.jpa.hibernate.ddl-auto" : "create"
+            "spring.jpa.hibernate.ddl-auto" : "create",
+            "logging.file.path" : "log"
           }'
     stdin_open: true
     tty: true
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://app:8080/formations || exit 1
+      interval: 2s
+      timeout: 3s
+      retries: 50
+      start_period: 2s
 
   phpmyadmin:
     image: "phpmyadmin:5.2.1"
@@ -39,5 +46,19 @@ services:
     environment:
       PMA_HOST: db
       MYSQL_ROOT_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+
+  playwright:
+    profiles: ["test"]
+    image: "mcr.microsoft.com/playwright"
+    depends_on:
+      app:
+        condition: service_healthy
+    volumes:
+      - ./playwright_test:/usr/src/docker_playwright_test
+    working_dir: /usr/src/docker_playwright_test
+    ports:
+      - 8000:8000
+    entrypoint: npx playwright test
+
 
 # Conenction sur localhost:8090 , login:root, password:my-secret-pw
