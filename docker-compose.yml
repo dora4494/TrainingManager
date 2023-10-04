@@ -58,7 +58,9 @@ services:
     working_dir: /usr/src/docker_playwright_test
     ports:
       - 8000:8000
-    entrypoint: npx playwright test
+    environment:
+      PLAYWRIGHT_JSON_OUTPUT_NAME: ./playwright-report/results.json
+    entrypoint: npx playwright test --reporter json
 
 
 # Conenction sur localhost:8090 , login:root, password:my-secret-pw
