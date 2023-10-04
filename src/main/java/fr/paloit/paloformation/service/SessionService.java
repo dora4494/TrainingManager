@@ -40,6 +40,9 @@ public class SessionService {
     }
 
 
+
+
+
     // Etat 1 : En cours , Etat 3 : Archivée
     public void archiverSession(Session session) {
         if (session.getEtat() == 1) {

@@ -37,6 +37,7 @@ public class ToDoService {
 
     }
 
+
     private static List<ToDo> getToDos(Session session, Tache conventionFormation, Tache feuilleEmargement) {
         LocalDate conventionFormationDate = session.getDateDebut().minusDays(7);
         System.out.println("Date de début : " + session.getDateDebut());
@@ -68,8 +69,6 @@ public class ToDoService {
     }
 
 
-
-
     // Etat 1 = "A FAIRE" , Etat 2 : "FAIT"
     public void modifierEtat(ToDo todo) {
         if (todo.getEtat() == 2) {
@@ -77,7 +76,7 @@ public class ToDoService {
         } else {
             todo.setEtat(2);
         }
-            toDoRepository.save(todo);
+        toDoRepository.save(todo);
 
     }
 

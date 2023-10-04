@@ -56,37 +56,45 @@
 </div>
 
 
-    <span>Liste des Todos :</span>
-    <ul>
-        <li th:each="todo : ${sessionFormation.todos}">
-            <span data-th-text="${todo.tache.libelle}"></span>
-            <span data-th-text="${todo.date}"></span>
-            <span data-th-text="${todo.etat}"  th:id="'todo-etat-'+${todo.id}"></span>
-            <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
-                    onclick="modifierToDo(this)">Fait</button>
+<h3>Cette semaine</h3>
+<ul>
+    <li th:each="todo : ${cetteSemaineTodos}">
+        <span data-th-text="${todo.tache.libelle}"></span>
+        <span data-th-text="${todo.date}"></span>
+        <span data-th-text="${todo.etat}" th:id="'todo-etat-'+${todo.id}"></span>
+        <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                onclick="modifierToDo(this)">Fait
+        </button>
+    </li>
+</ul>
 
-
-
-        </li>
-    </ul>
-</div>
+<h3>A venir</h3>
+<ul>
+    <li th:each="todo : ${aVenirTodos}">
+        <span data-th-text="${todo.tache.libelle}"></span>
+        <span data-th-text="${todo.date}"></span>
+        <span data-th-text="${todo.etat}" th:id="'todo-etat-'+${todo.id}"></span>
+        <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                onclick="modifierToDo(this)">Fait
+        </button>
+    </li>
+</ul>
 
 
 <form action="/archiver-session" method="post">
-    <input type="hidden" name="id" th:value="${sessionFormation.id}" />
+    <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
     <button type="submit">Archiver session</button>
 </form>
 
 <form action="/modifier-session" method="get">
-    <input type="hidden" name="id" th:value="${sessionFormation.id}" />
+    <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
     <button type="submit">Modifier session</button>
 </form>
 
 <form action="/annuler-session" method="post">
-    <input type="hidden" name="id" th:value="${sessionFormation.id}" />
+    <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
     <button type="submit">Annuler session</button>
 </form>
-
 
 
 <script>

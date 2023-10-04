@@ -1,14 +1,16 @@
 package fr.paloit.paloformation.controller;
 
 import fr.paloit.paloformation.model.Session;
+import fr.paloit.paloformation.model.ToDo;
 import fr.paloit.paloformation.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SessionController {
@@ -35,11 +37,32 @@ public class SessionController {
         return "redirect:/sessions";
     }
 
+
     @GetMapping({"/details-session"})
     public String detailSession(@RequestParam Long id, Model model) {
-        model.addAttribute("sessionFormation", sessionService.trouverSessionById(id));
+        Session sessionFormation = sessionService.trouverSessionById(id);
+        LocalDate dateDuJour = LocalDate.now();
+
+        List<ToDo> cetteSemaineTodos = new ArrayList<>();
+        List<ToDo> aVenirTodos = new ArrayList<>();
+
+        for (ToDo todo : sessionFormation.getTodos()) {
+            LocalDate todoDate = todo.getDate().atStartOfDay().toLocalDate();
+            if (todoDate.isBefore(dateDuJour.plusDays(7))) {
+                cetteSemaineTodos.add(todo);
+            } else {
+                aVenirTodos.add(todo);
+            }
+        }
+
+        model.addAttribute("sessionFormation", sessionFormation);
+        model.addAttribute("cetteSemaineTodos", cetteSemaineTodos);
+        model.addAttribute("aVenirTodos", aVenirTodos);
+
         return "detail-session";
     }
+
+
 
     @PostMapping({"/supprimer-session"})
     public String supprimerSession(@RequestParam Long id) {
