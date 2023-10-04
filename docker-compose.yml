@@ -1,6 +1,7 @@
 version: "3.5"
 services:
   db:
+    profiles: ["mysql"]
     image: "mysql:8.1.0"
     env_file: ./.env
     ports:
@@ -11,8 +12,8 @@ services:
   app:
     image: gradle:8.3.0-jdk17-alpine
     env_file: ./.env
-    depends_on:
-      - db
+    #depends_on:
+    #  - db
     volumes:
       - .:/project
     working_dir: /project
@@ -20,11 +21,21 @@ services:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     entrypoint: ./gradlew bootRun
     environment:
+      #SPRING_APPLICATION_JSON: '{
+      #      "spring.datasource.url"  : "jdbc:mysql://db:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false",
+      #      "spring.datasource.username" : "$MYSQLDB_USER",
+      #      "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+      #      "spring.jpa.hibernate.ddl-auto" : "create",
+      #
+      #      "logging.file.path" : "log"
+      #    }'
       SPRING_APPLICATION_JSON: '{
-            "spring.datasource.url"  : "jdbc:mysql://db:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false",
-            "spring.datasource.username" : "$MYSQLDB_USER",
-            "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
+            "spring.datasource.driver-class-name" : "org.hsqldb.jdbc.JDBCDriver",
+            "spring.datasource.url" : "jdbc:hsqldb:mem:testdb;DB_CLOSE_DELAY=-1",
+            "spring.datasource.username" : "sa",
+            "spring.datasource.password" : "",
             "spring.jpa.hibernate.ddl-auto" : "create",
+            
             "logging.file.path" : "log"
           }'
     stdin_open: true
@@ -37,6 +48,7 @@ services:
       start_period: 2s
 
   phpmyadmin:
+    profiles: ["debug"]
     image: "phpmyadmin:5.2.1"
     env_file: ./.env
     depends_on:
