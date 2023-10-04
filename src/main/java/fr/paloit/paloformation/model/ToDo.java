@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.model;
 
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class ToDo {
     private LocalDate date;
 
     private int etat = 1;
+
 
     @ManyToOne
     @JoinColumn(name = "session_id")
@@ -85,4 +87,18 @@ public class ToDo {
                 ", session=" + session +
                 '}';
     }
+
+    public Etat getEtatb() {
+        if (etat == 1) {
+            return Etat.A_FAIRE;
+        } else {
+            return Etat.FAIT;
+        }
+    }
+
+    public enum Etat {
+        A_FAIRE,FAIT
+    }
+
+
 }

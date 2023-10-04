@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.model;
 
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ public class Session {
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
     private Set<Utilisateur> participants = new HashSet<>();
+
 
     @OneToMany(mappedBy = "session")
     private List<ToDo> todos = new ArrayList<>();

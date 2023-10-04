@@ -40,21 +40,23 @@ public class SessionService {
     }
 
 
-    public void archiverSession (Session session) {
-    if (session.getEtat() == 1) {
-        session.setEtat(3);
-        sessionRepository.save(session);
-    }
-    }
-
-    public void modifierSession(Session session){
-        if(session.getEtat() == 1) {
+    // Etat 1 : En cours , Etat 3 : Archivée
+    public void archiverSession(Session session) {
+        if (session.getEtat() == 1) {
+            session.setEtat(3);
             sessionRepository.save(session);
         }
     }
 
-    public void annulerSession(Session session){
-        if(session.getEtat() == 1){
+    public void modifierSession(Session session) {
+        if (session.getEtat() == 1) {
+            sessionRepository.save(session);
+        }
+    }
+
+    // Etat 1 : En cours , Etat  : Annulée
+    public void annulerSession(Session session) {
+        if (session.getEtat() == 1) {
             session.setEtat(2);
             sessionRepository.save(session);
         }

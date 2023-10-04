@@ -61,10 +61,12 @@
         <li th:each="todo : ${sessionFormation.todos}">
             <span data-th-text="${todo.tache.libelle}"></span>
             <span data-th-text="${todo.date}"></span>
-            <span data-th-text="${todo.etat}"></span>
-            <button type="button">
-                <a th:href="@{/todo-fait(id=${todo.id})}">Fait</a>
-            </button>
+            <span data-th-text="${todo.etat}"  th:id="'todo-etat-'+${todo.id}"></span>
+            <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                    onclick="modifierToDo(this)">Fait</button>
+
+
+
         </li>
     </ul>
 </div>
@@ -85,6 +87,34 @@
     <button type="submit">Annuler session</button>
 </form>
 
+
+
+<script>
+
+    function modifierToDo(bouton) {
+        let todoId = bouton.getAttribute("etatTodo");
+        let url = "/todo-modifier?id=" + todoId;
+
+        fetch(url, {
+            method: "GET"
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error("Erreur");
+                }
+            })
+            .then(data => {
+                let todoEtatElement = document.getElementById("todo-etat-" + todoId);
+                todoEtatElement.textContent = data;
+            })
+            .catch(error => {
+                console.error("Erreur ", error);
+            });
+    }
+
+</script>
 
 
 </body>
