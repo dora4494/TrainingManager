@@ -1,0 +1,4 @@
+= Test avec Playwright
+
+Pour exécuter les tests, démarrer l'application puis lancer les tests.
+
