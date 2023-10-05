@@ -1,30 +1,34 @@
 import { test, expect, type Page } from '@playwright/test';
+import { FormationsPage } from './formations-page';
 
 test.use({
   ignoreHTTPSErrors: true,
 }); 
 
+let page_formations;
 test.beforeEach(async ({ page }) => {
-  //await page.goto('http://localhost:6868/formations');
-  await page.goto('http://app:8080/formations');
+    page_formations = new FormationsPage(page);
+    page_formations.ouvrir();
 });
 
+test.describe('Formations', () => {
+  test('Ajouter une formation', async ({ page }) => {
 
-
-test.describe('New Todo', () => {
-  test('should display first page', async ({ page }) => {
-    
-
-    // Make sure the list only has one todo item.
-    await expect(page.getByRole('heading')).toHaveText([
+    await expect(page_formations.titre).toHaveText([
       "Liste des formations :"
     ]);
 
-    const nb_items = await page.getByRole('link').count();
-    await page.getByRole('button', { name: 'Ajouter une formation' }).click();
-    page.getByPlaceholder('Intitule').fill("DDD");
-    await page.getByRole('button', { name: 'Enregistrer' }).click();
+    const nb_items = await page_formations.items_formation.count();
 
-    await expect(page.getByRole('link')).toHaveCount(nb_items + 1);
+    let myuuid = new Date().getTime();
+    let nom_formation = 'Test_' + myuuid
+
+    await expect(page_formations.items_formation.filter({ hasText: nom_formation})).toHaveCount(0);
+
+    page_formations.ajouter_formation(nom_formation);
+
+    await expect(page_formations.items_formation).toHaveCount(nb_items + 1);
+    await expect(page_formations.items_formation.filter({ hasText: nom_formation})).toHaveCount(1);
+
   });
 });

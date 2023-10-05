@@ -1,0 +1,20 @@
+= PLaywright
+
+== Installation
+
+Avant le premier lancement, appeler la commande suivante pour récupérer les dépendances.
+----
+npm install
+----
+
+== Execution
+
+Commande pour lancer les tests:
+----
+npx playwright test
+----
+
+Commande pour executer les tests avec l'interface de visualisation:
+----
+npx playwright test --ui
+----
