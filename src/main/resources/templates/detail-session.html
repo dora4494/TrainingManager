@@ -18,16 +18,16 @@
 
 <div>
     <span>Date de démarrage : </span>
-    <span data-th-text="${sessionFormation.dateDebut}"></span>
+    <span data-th-text="${#temporals.format(sessionFormation.dateDebut, 'dd-MM-yyyy')}"></span>
 </div>
 
 <div>
     <span>Date de fin : </span>
-    <span data-th-text="${sessionFormation.dateFin}"></span>
+    <span data-th-text="${#temporals.format(sessionFormation.dateFin, 'dd-MM-yyyy')}"></span>
 </div>
 
 <div>
-    <span>Durée : </span>
+    <span>Durée (minutes) : </span>
     <span data-th-text="${sessionFormation.duree}"></span>
 </div>
 

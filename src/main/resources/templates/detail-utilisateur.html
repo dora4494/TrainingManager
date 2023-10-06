@@ -6,7 +6,9 @@
 </head>
 <body>
 
+<div data-th-text="${utilisateur.prenom}"></div>
 <div data-th-text="${utilisateur.nom}"></div>
+<div data-th-text="${utilisateur.mail}"></div>
 
 <form action="/supprimer-utilisateur" method="post">
     <input type="hidden" name="id" th:value="${utilisateur.id}" />

@@ -54,7 +54,7 @@
             th:field="*{participants}" id="select-Utilisateur" name="participants" multiple
             placeholder="Sélectionnez les participants" required>
         <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
-                th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+                th:value="${utilisateur.id}" th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
     </select>
     </div>
 

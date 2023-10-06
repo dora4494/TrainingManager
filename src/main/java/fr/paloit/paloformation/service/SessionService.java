@@ -9,6 +9,8 @@ import fr.paloit.paloformation.repository.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class SessionService {
 
@@ -45,7 +47,9 @@ public class SessionService {
 
     // Etat 1 : En cours , Etat 3 : Archivée
     public void archiverSession(Session session) {
-        if (session.getEtat() == 1) {
+
+        LocalDate dateDuJour = LocalDate.now();
+        if (session.getEtat() == 1 && session.getDateDebut().isAfter(dateDuJour)) {
             session.setEtat(3);
             sessionRepository.save(session);
         }

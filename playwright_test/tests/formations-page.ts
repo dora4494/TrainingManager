@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import {test, expect, type Page, Locator} from '@playwright/test';
 
 export class FormationsPage {
     readonly page: Page;
@@ -21,6 +21,10 @@ export class FormationsPage {
     async ajouter_formation(titre: String) {
         await this.page.getByRole('button', { name: 'Ajouter une formation' }).click();
         this.page.getByPlaceholder('Intitule').fill(titre);
-        await this.boutonEnregister.click();
+       // await this.boutonEnregister.click();
+        await this.page.getByRole('button', { name: 'Enregistrer' }).click();
+        await expect(this.titre).toHaveText([
+            "Liste des formations :"
+        ]);
     }
 }

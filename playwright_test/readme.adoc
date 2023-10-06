@@ -5,6 +5,7 @@
 Avant le premier lancement, appeler la commande suivante pour récupérer les dépendances.
 ----
 npm install
+npx playwright install
 ----
 
 == Execution
