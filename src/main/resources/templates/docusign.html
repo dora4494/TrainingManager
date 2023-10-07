@@ -7,8 +7,8 @@
 <body>
 
 <form th:action="@{/docusign}" th:object="${utilisateur}"
-      method="GET" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}"  />
+      method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${utilisateur.id}" />
 
 
     <div class="session">
@@ -20,9 +20,12 @@
     </select>
     </div>
 
+    <!--
+    <input type="text" th:field="*{mail}" name="mail" required>
+    <input type="text" th:field="*{nom}" name="nom" required>
+-->
 
-
-    <a th:href="@{/docusign(utilisateurId=${utilisateur.id})}">Docusign</a>
+    <button type="submit">Envoyer la demande de signature</button>
 
 
 </form>

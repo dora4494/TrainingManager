@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form th:action="@{/docusign}" th:object="${utilisateur}"
+      method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"  />
+<div class="session">
+    <label for="select-Utilisateur">Formateur :</label> <select
+        th:field="*{nom}" id="select-Utilisateur" name="formateur"
+        placeholder="Sélectionnez le formateur" required>
+    <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+            th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+</select>
+</div>
+
+    <div>
+        <button type="submit">Envoyer la demande de signature</button>
+    </div>
+
+</form>
+
+
+
+</body>
+</html>

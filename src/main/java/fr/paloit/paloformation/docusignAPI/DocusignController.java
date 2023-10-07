@@ -7,9 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class DocusignController {
@@ -21,11 +24,12 @@ public class DocusignController {
     @Autowired
     UtilisateurService utilisateurService;
 
-    @GetMapping({"/docusign"})
-    public String envoyerDemandeSignature(@RequestParam Long id, Model model) throws IOException {
-        Utilisateur utilisateur = utilisateurService.trouverUtilisateurById(id);
-        docusignService.envoyerDemandeSignature(utilisateur);
-        return "docusign";
+
+    @GetMapping("/docusign")
+    public String demandeSignature(@RequestParam(name = "ids") List<Long> ids) throws IOException {
+        Iterable<Utilisateur> utilisateurs = utilisateurService.listeUtilisateursById(ids);
+        docusignService.envoyerDemandeSignature(utilisateurs);
+        return "redirect:/sessions";
     }
 
 }

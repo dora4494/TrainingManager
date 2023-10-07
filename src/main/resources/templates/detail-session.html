@@ -47,12 +47,20 @@
     <span data-th-text="${sessionFormation.modalites}"></span>
 </div>
 
+
 <div>
     <span>Liste des participant-e-s : </span>
-    <ul>
-        <li th:each="participant : ${sessionFormation.participants}"
-            data-th-text="${participant.prenom + ' ' + participant.nom}"></li>
-    </ul>
+    <form action="/docusign" method="get">
+        <ul>
+            <li th:each="participant : ${sessionFormation.participants}">
+                <span th:text="${participant.prenom + ' ' + participant.nom}"></span>
+                <input type="checkbox" name="ids" th:value="${participant.id}"/>
+            </li>
+        </ul>
+
+
+        <button type="submit">Envoyer demande de signature</button>
+    </form>
 </div>
 
 

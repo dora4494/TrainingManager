@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import fr.paloit.paloformation.model.Utilisateur;
 
+import java.util.List;
+
 @Service
 public class UtilisateurService {
 
@@ -30,6 +32,11 @@ public class UtilisateurService {
         return utilisateurRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable avec l'ID : " + id));
     }
+
+    public Iterable<Utilisateur> listeUtilisateursById(List<Long> ids) {
+        return utilisateurRepository.findAllById(ids);
+    }
+
 
 
 }

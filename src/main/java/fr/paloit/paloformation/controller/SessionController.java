@@ -2,6 +2,7 @@ package fr.paloit.paloformation.controller;
 
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.ToDo;
+import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,7 @@ public class SessionController {
 
 
     @GetMapping({"/details-session"})
-    public String detailSession(@RequestParam Long id, Model model) {
+    public String detailSession(@RequestParam Long id, Model model, @ModelAttribute Utilisateur utilisateur) {
         Session sessionFormation = sessionService.trouverSessionById(id);
         LocalDate dateDuJour = LocalDate.now();
 
@@ -59,9 +60,9 @@ public class SessionController {
         model.addAttribute("cetteSemaineTodos", cetteSemaineTodos);
         model.addAttribute("aVenirTodos", aVenirTodos);
 
+
         return "detail-session";
     }
-
 
 
     @PostMapping({"/supprimer-session"})
@@ -90,7 +91,7 @@ public class SessionController {
     @PostMapping({"/archiver-session"})
     public String archiverSession(@RequestParam Long id) {
         Session session = sessionService.trouverSessionById(id);
-        if(session != null) {
+        if (session != null) {
             sessionService.archiverSession(session);
         }
         assert session != null;
@@ -99,9 +100,9 @@ public class SessionController {
 
 
     @PostMapping({"/annuler-session"})
-    public String annulerSession(@RequestParam Long id){
+    public String annulerSession(@RequestParam Long id) {
         Session session = sessionService.trouverSessionById(id);
-        if(session != null) {
+        if (session != null) {
             sessionService.annulerSession(session);
         }
         return "redirect:/sessions";
