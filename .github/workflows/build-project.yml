@@ -7,8 +7,10 @@ jobs:
     contruire-projet:
       runs-on: ubuntu-latest
       steps:
-      - name: Récupération du code source du projet
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
       - name: Construction du projet
