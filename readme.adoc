@@ -1,5 +1,10 @@
 = TrainingManager
 
+== Intégration continue
+
+L'intégration continue est géré via des Github Actions.
+La configuration se trouve dans le répértoire `.github/workflows`
+
 == Docker
 
 === Prerequis
