@@ -80,14 +80,5 @@ public class ToDoService {
 
     }
 
-    /*
-    // Etat 1 = "A FAIRE" , Etat 2 : "FAIT"
-    public void etatFait(ToDo todo) {
-        if (todo.getEtat() == 1) {
-            todo.setEtat(2);
-            toDoRepository.save(todo);
-        }
-    }
-    */
 
 }
