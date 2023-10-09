@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Palo Training Manager</title>
 </head>
 <body>
 
-
+<div class="lst-container">
 <table>
-
   <h2>Liste des utilisateurs :</h2>
 
   <tr data-th-each="utilisateur: ${utilisateurs}">
@@ -25,9 +24,10 @@
     <td data-th-text="${utilisateur.mail}"></td>
   </tr>
 </table>
+</div>
 
-<form action="/creer-utilisateur" method="get">
-  <button type="submit">Ajouter un participant</button>
+<form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
+  <button type="submit" class="btn-enregistrer">Ajouter un participant</button>
 </form>
 
 </body>

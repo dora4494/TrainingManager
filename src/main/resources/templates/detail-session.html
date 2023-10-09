@@ -2,53 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Palo Training Manager</title>
 </head>
 <body>
 
-<div>
+<div id="container-detail-session">
+<div class="details-container">
+
+    <div class="input-container">
     <span>Intitulé de la formation : </span>
     <span data-th-text="${sessionFormation.formation.intitule}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Client : </span>
     <span data-th-text="${sessionFormation.client}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Date de démarrage : </span>
     <span data-th-text="${#temporals.format(sessionFormation.dateDebut, 'dd-MM-yyyy')}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Date de fin : </span>
     <span data-th-text="${#temporals.format(sessionFormation.dateFin, 'dd-MM-yyyy')}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Durée (minutes) : </span>
     <span data-th-text="${sessionFormation.duree}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Formateur : </span>
     <span data-th-text="${sessionFormation.formateur.prenom}"></span>
     <span data-th-text="${sessionFormation.formateur.nom}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Tarif : </span>
     <span data-th-text="${sessionFormation.cout}"></span>
 </div>
 
-<div>
+    <div class="input-container">
     <span>Modalités : </span>
     <span data-th-text="${sessionFormation.modalites}"></span>
 </div>
+</div>
 
-
-<div>
+<div id="container-lst-participants">
     <span>Liste des participant-e-s : </span>
     <form action="/docusign" method="get">
         <ul>
@@ -58,12 +61,13 @@
             </li>
         </ul>
 
-
+        <div class="container-btn-enregistrer">
         <button type="submit">Envoyer demande de signature</button>
+        </div>
     </form>
 </div>
 
-
+<div id="container-lst-todo-urgence-haute">
 <h3>Cette semaine</h3>
 <ul>
     <li th:each="todo : ${cetteSemaineTodos}">
@@ -75,7 +79,9 @@
         </button>
     </li>
 </ul>
+</div>
 
+<div id="container-lst-todo-urgence-moyenne">
 <h3>A venir</h3>
 <ul>
     <li th:each="todo : ${aVenirTodos}">
@@ -87,23 +93,23 @@
         </button>
     </li>
 </ul>
+</div>
 
-
-<form action="/archiver-session" method="post">
+<form action="/archiver-session" method="post" class="container-btn-archiver">
     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-    <button type="submit">Archiver session</button>
+    <button type="submit" class="btn-archiver">Archiver session</button>
 </form>
 
-<form action="/modifier-session" method="get">
+<form action="/modifier-session" method="get" class="container-btn-modifier">
     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-    <button type="submit">Modifier session</button>
+    <button type="submit" class="btn-modifier">Modifier session</button>
 </form>
 
-<form action="/annuler-session" method="post">
+<form action="/annuler-session" method="post" class="container-btn-annuler">
     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-    <button type="submit">Annuler session</button>
+    <button type="submit" class="btn-annuler">Annuler session</button>
 </form>
-
+</div>
 
 <script>
 

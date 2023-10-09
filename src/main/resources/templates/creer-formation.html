@@ -2,26 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="/css/creer-formation.css">
+    <title>Palo Training Manager</title>
 </head>
+
 <body>
 
-<form th:action="@{/formation-cree}" th:object="${formation}"
-      method="POST" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}"  />
-    <div class="formation">
-        <label for="intitule">Intitulé de l'action de formation :</label> <input type="text"
-                                                    th:field="*{intitule}" id="intitule" name="intitule"
-                                                    placeholder="Intitule" required>
-    </div>
-
-    <div>
-        <button type="submit">Enregistrer</button>
-    </div>
-</form>
+<div class="titre-container">
+    <h2 class="titre-item">Ajouter une formation</h2>
+</div>
 
 
+<div class="form-container">
+    <form th:action="@{/formation-cree}" th:object="${formation}"
+          method="POST" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
 
+        <div class="input-container">
+            <label for="intitule">Intitulé de l'action de formation :</label>
+            <input type="text" th:field="*{intitule}" id="intitule" name="intitule"
+                   placeholder="ex: TDD, Architecture hexagonale... " required>
+        </div>
+
+        <div class="container-btn-enregistrer">
+            <button type="submit" class="formation-form-btn">Enregistrer</button>
+        </div>
+    </form>
+
+
+</div>
 
 </body>
 </html>

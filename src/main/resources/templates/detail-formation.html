@@ -2,20 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Palo Training Manager</title>
 </head>
 <body>
 
-<div data-th-text="${formation.intitule}"></div>
 
-<form action="/supprimer-formation" method="post">
-    <input type="hidden" name="id" th:value="${formation.id}" />
-    <button type="submit">Supprimer formation</button>
+<div class="details-container">
+    <div data-th-text="${formation.intitule}">
+    </div>
+</div>
+
+<form action="/supprimer-formation" method="post" class="container-btn-supprimer">
+    <input type="hidden" name="id" th:value="${formation.id}"/>
+    <button type="submit" class="btn-supprimer">Supprimer formation</button>
 </form>
 
-<form action="/modifier-formation" method="get">
-    <input type="hidden" name="id" th:value="${formation.id}" />
-    <button type="submit">Modifier formation</button>
+<form action="/modifier-formation" method="get" class="container-btn-modifier">
+    <input type="hidden" name="id" th:value="${formation.id}"/>
+    <button type="submit" class="btn-modifier">Modifier formation</button>
 </form>
 
 </body>

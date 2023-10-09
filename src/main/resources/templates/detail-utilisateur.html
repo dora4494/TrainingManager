@@ -2,24 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Palo Training Manager</title>
 </head>
 <body>
 
-<div data-th-text="${utilisateur.prenom}"></div>
-<div data-th-text="${utilisateur.nom}"></div>
-<div data-th-text="${utilisateur.mail}"></div>
+<div class="details-container">
 
-<form action="/supprimer-utilisateur" method="post">
-    <input type="hidden" name="id" th:value="${utilisateur.id}"/>
-    <button type="submit">Supprimer utilisateur</button>
-</form>
+    <div class="input-container" data-th-text="${utilisateur.prenom}">
 
-<form action="/modifier-utilisateur" method="get">
-    <input type="hidden" name="id" th:value="${utilisateur.id}"/>
-    <button type="submit">Modifier utilisateur</button>
-</form>
+    </div>
+    <div class="input-container" data-th-text="${utilisateur.nom}">
 
+    </div>
+    <div class="input-container" data-th-text="${utilisateur.mail}">
+    </div>
+
+    <form action="/supprimer-utilisateur" method="post" class="container-btn-supprimer">
+        <input type="hidden" name="id" th:value="${utilisateur.id}"/>
+        <button type="submit" class="btn-supprimer">Supprimer utilisateur</button>
+    </form>
+
+    <form action="/modifier-utilisateur" method="get" class="container-btn-modifier">
+        <input type="hidden" name="id" th:value="${utilisateur.id}"/>
+        <button type="submit" class="btn-modifier">Modifier utilisateur</button>
+    </form>
+</div>
 
 </body>
 </html>

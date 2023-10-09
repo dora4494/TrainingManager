@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Palo Training Manager</title>
 </head>
 <body>
 
-
+<div class="lst-container">
 <table>
   <tr data-th-each="ses: ${sessions}">
 
@@ -33,9 +33,11 @@
     <td data-th-text="${ses.etat}"></td>
   </tr>
 </table>
+</div>
 
-<form action="/creer-session" method="get">
-  <button type="submit">Ajouter une session de formation</button>
+
+<form action="/creer-session" method="get" class="container-btn-enregistrer">
+  <button type="submit" class="btn-enregistrer">Ajouter une session de formation</button>
 </form>
 
 </body>

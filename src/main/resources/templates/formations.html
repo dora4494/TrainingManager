@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Palo Training Manager</title>
 </head>
 <body>
 
-
+<div class="lst-container">
 <table>
     <h2>Liste des formations :</h2>
 
@@ -15,9 +15,10 @@
                data-th-text="${formation.intitule}"></a></td>
     </tr>
 </table>
+</div>
 
-<form action="/creer-formation" method="get">
-    <button type="submit">Ajouter une formation</button>
+<form action="/creer-formation" method="get" class="container-btn-enregistrer">
+    <button type="submit" class="btn-enregistrer">Ajouter une formation</button>
 </form>
 
 </body>

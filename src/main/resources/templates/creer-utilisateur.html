@@ -2,39 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Palo Training Manager</title>
 </head>
 <body>
 
-<form th:action="@{/utilisateur-cree}" th:object="${utilisateur}"
-      method="POST" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}"  />
+<div class="titre-container">
+    <h2 class="titre-item">Créer un utilisateur</h2>
+</div>
 
-    <div class="utilisateur">
-        <label for="prenom">Prénom :</label> <input type="text"
-                                                    th:field="*{prenom}" id="prenom" name="prenom"
-                                                    placeholder="Prénom" required>
-    </div>
+<div class="form-container">
+    <form th:action="@{/utilisateur-cree}" th:object="${utilisateur}"
+          method="POST" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
 
-    <div class="utilisateur">
-        <label for="nom">Nom :</label> <input type="text"
-                                                         th:field="*{nom}" id="nom" name="nom"
-                                                         placeholder="Nom" required>
-    </div>
+        <div class="input-container">
+            <label for="prenom">Prénom :</label> <input type="text"
+             th:field="*{prenom}" id="prenom" name="prenom" required>
+        </div>
 
-
-    <div class="utilisateur">
-        <label for="mail">E-mail :</label> <input type="text"
-                                                    th:field="*{mail}" id="mail" name="mail"
-                                                    placeholder="E-mail" required>
-    </div>
+        <div class="input-container">
+            <label for="nom">Nom :</label> <input type="text"
+           th:field="*{nom}" id="nom" name="nom" required>
+        </div>
 
 
-    <div>
-        <button type="submit">Enregistrer</button>
-    </div>
-</form>
+        <div class="input-container">
+            <label for="mail">email :</label> <input type="text"
+            th:field="*{mail}" id="mail" name="mail" required>
+        </div>
 
+
+        <div class="container-btn-enregistrer">
+            <button type="submit" class="btn-enregistrer">Enregistrer</button>
+        </div>
+    </form>
+</div>
 
 
 </body>
