@@ -10,6 +10,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
+          distibution: 'adopt'
           java-version: '17'
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
