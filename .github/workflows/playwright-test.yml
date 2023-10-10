@@ -30,7 +30,8 @@ jobs:
           sleep 10s &&
           tail -n 100  log/spring.log || true
           curl http://localhost:8080/formations -I
-
+          cd playwright_java
+          ./gradlew test
 
 #      - name: Attente de la disponibilité de l'application
 #        uses: cygnetdigital/wait_for_response@v2.0.0
@@ -45,7 +46,7 @@ jobs:
 #          cd playwright_java
 #          ./mvnw exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
 
-      - name: Run tests
-        run: |
-          cd playwright_java
-          ./gradlew test
+#      - name: Run tests
+#        run: |
+#          cd playwright_java
+#          ./gradlew test
