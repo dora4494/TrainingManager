@@ -4,6 +4,8 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 
+import java.util.Optional;
+
 public class FormationPage {
     private final Page page;
     public final Locator boutonEnregister;
@@ -18,15 +20,14 @@ public class FormationPage {
     }
 
     public void ouvrir() {
-        final String appHost = System.getenv("APP_HOST");
-        //const host = process.env.APP_HOST as string ?? "localhost:8080" ;
-        String host = "localhost:8080";
+        String host = Optional.ofNullable(System.getenv("APP_HOST")).orElse("localhost:8080");
         page.navigate("http://" + host + "/formations");
     }
 
     public void ajouter_formation(String titre) {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
-        page.getByPlaceholder("Intitule").fill(titre);
+        page.locator("#intitule").fill(titre);
+        // page.getByPlaceholder("ex: TDD, Architecture hexagonale... ").fill(titre);
         boutonEnregister.click();
     }
 }

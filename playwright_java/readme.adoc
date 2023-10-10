@@ -1,4 +1,41 @@
 = Test avec Playwright
 
-Pour exécuter les tests, démarrer l'application puis lancer les tests.
+Pour exécuter les tests, il faut que l'application soir démarrée. lancer les tests.
+Ensuite, vous pouvez executer les tests via l'IDE ou via Gradle.
+
+Par défaut, les tests sont executés sur `localhost:8080`.
+Il est possible de modifier cette adresse en positionnant la variable d'environnement `APP_HOST`.
+
+== Debug
+
+Commande pour démarrer une interface permettant de debugger le test:
+----
+PWDEBUG=1 PLAYWRIGHT_JAVA_SRC=src/test/java ./gradlew test
+----
+
+Pour sélectionner les tests à lancer, on utilise l'option '--tests' (voir: https://docs.gradle.org/current/userguide/java_testing.html#test_filtering[Test filtering]).
+
+.Exemple pour ne lancer que le test `ajouter_une_formation_inexistante` de la classe `FormationsTest`
+----
+PWDEBUG=1 PLAYWRIGHT_JAVA_SRC=src/test/java ./gradlew test --tests fr.paloit.paloformation.playwright.scenario.FormationsTest.ajouter_une_formation_inexistante
+----
+
+Palywright fourni un outil permettant de visualisé une execution passée avec le https://playwright.dev/java/docs/trace-viewer[TraceViewer].
+
+Pour enregistrer les traces du test, il faut activer l'option au niveau de la classe PlaywrightExtension en changeant la valeur de la variable `TRACE_ACTIVE`.
+
+Une fois les traces activer, on peut ouvrir le TraceViewer avec la commande:
+----
+./gradlew runTraceViewer
+----
+
+`runTraceViewer` est une tâche gradle défini dans le fichier `build.gradle`.
+
+[NOTE]
+--
+Pour le moment, un seul fichier de trace est créé.
+Le TraceViewer affiche donc les traces du dernier test exécuté.
+Si besoin de conserver les traces de tous les tests, il faudra modifier le nom du fichier de trace dans `PlaywrightExtension`
+et gérer un paramètre au niveau de la commande gradle.
+--
 

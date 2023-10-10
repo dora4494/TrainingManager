@@ -1,5 +1,6 @@
 plugins {
 	id 'java'
+	id 'application'
 }
 
 group = 'fr.paloit'
@@ -23,4 +24,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+task runTraceViewer(type: JavaExec) {
+	group = "Execution"
+	description = "Run traceViewer"
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "com.microsoft.playwright.CLI"
+	args = ["show-trace", "build/trace/trace.zip"]
 }
