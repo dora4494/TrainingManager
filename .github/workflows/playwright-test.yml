@@ -30,12 +30,12 @@ jobs:
           sleep 10s &&
           tail -n 100  log/spring.log || true
           curl http://localhost:8080/formations -I
-          curl http://localhost:8085/invalid -I
 
-      - name: Attente de la disponibilité de l'application
-        uses: cygnetdigital/wait_for_response@v2.0.0
-        with:
-          url: 'http://localhost:8080/formations'
+
+#      - name: Attente de la disponibilité de l'application
+#        uses: cygnetdigital/wait_for_response@v2.0.0
+#        with:
+#          url: 'http://localhost:8080/formations'
 
 #      - name: Build & Install
 #        run: ./mvnw -B install -D skipTests --no-transfer-progress
