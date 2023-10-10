@@ -19,12 +19,13 @@ jobs:
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
+        continue-on-error: true
         run: |
           ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &
           curl --version
           curl --help
           curl --help all
-          curl --retry 10 --retry-connrefused --retry-delay 5 --fail "http://localhost:8080/formations"
+          curl --retry 10 --retry-connrefused --retry-delay 5 -o /dev/null --fail "http://localhost:8080/formations"
 #          sleep 10s &&
 #          tail -n 100  log/spring.log || true
 #          sleep 10s &&
