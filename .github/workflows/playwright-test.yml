@@ -24,7 +24,7 @@ jobs:
           curl --version
           curl --help
           curl --help all
-          curl --retry 10 --retry-connrefused --retry-delay 5  "http://localhost:8080/formations"
+          curl --retry 10 --retry-connrefused --retry-delay 5 --fail "http://localhost:8080/formations"
 #          sleep 10s &&
 #          tail -n 100  log/spring.log || true
 #          sleep 10s &&
