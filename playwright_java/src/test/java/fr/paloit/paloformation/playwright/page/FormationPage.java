@@ -24,10 +24,14 @@ public class FormationPage {
         page.navigate("http://" + host + "/formations");
     }
 
-    public void ajouter_formation(String titre) {
+    public void ajouterFormation(String titre) {
         page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
         page.locator("#intitule").fill(titre);
         // page.getByPlaceholder("ex: TDD, Architecture hexagonale... ").fill(titre);
         boutonEnregister.click();
+    }
+
+    public void allerSurFormation(String nomFormation) {
+        page.locator("a:has-text(\""+nomFormation+"\")").click();
     }
 }
