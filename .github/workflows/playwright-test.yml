@@ -44,8 +44,9 @@ jobs:
 #          cd playwright_java
 #          ./mvnw exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="install --with-deps"
 
-      - name: Run tests
+      - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
+      - name: Run tests
         run: |
           cd playwright_java
           ls
