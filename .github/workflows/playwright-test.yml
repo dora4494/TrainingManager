@@ -29,6 +29,8 @@ jobs:
           tail -n 100  log/spring.log || true
           sleep 10s &&
           tail -n 100  log/spring.log || true
+          curl http://localhost:8080/formations -I
+          curl http://localhost:8085/invalid -I
 
       - name: Attente de la disponibilité de l'application
         uses: cygnetdigital/wait_for_response@v2.0.0
