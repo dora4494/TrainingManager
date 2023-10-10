@@ -19,11 +19,17 @@ jobs:
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
+        run: ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &
+
+      - name: Vérification des logs
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &     
-          sleep 5s
+          sleep 10s
           tail -n 100  log/spring.log || true
-          sleep 5s
+          sleep 10s
+          tail -n 100  log/spring.log || true
+          sleep 10s
+          tail -n 100  log/spring.log || true
+          sleep 10s
           tail -n 100  log/spring.log || true
 
       - name: Attente de la disponibilité de l'application
