@@ -11,7 +11,7 @@
     <h2>Liste des formations :</h2>
 
     <tr data-th-each="formation: ${formations}">
-        <td><a th:href="@{details-formation(id=${formation.id})}"
+        <td><a th:href="@{'formation/'+${formation.id}}"
                data-th-text="${formation.intitule}"></a></td>
     </tr>
 </table>

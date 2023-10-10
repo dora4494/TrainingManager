@@ -5,10 +5,7 @@ import fr.paloit.paloformation.service.FormationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 @Controller
@@ -37,12 +34,11 @@ public class FormationController {
     }
 
 
-    @GetMapping({"/details-formation"})
-    public String detailFormation(Model model, Long id) {
+    @GetMapping({"/formation/{id}"})
+    public String detailFormation(Model model, @PathVariable Long id) {
         model.addAttribute("formation", formationService.trouverFormationById(id));
         return "detail-formation";
     }
-
 
     @PostMapping("/supprimer-formation")
     public String supprimerFormation(@RequestParam Long id) {
