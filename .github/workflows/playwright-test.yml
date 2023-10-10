@@ -20,14 +20,12 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
         run: |
-          ./gradlew bootRun &
-          sleep 10
-          tail -n 100  log/spring.log
+          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &          
 
       - name: Attente de la disponibilité de l'application
         uses: cygnetdigital/wait_for_response@v2.0.0
         with:
-          url: 'http://127.0.0.1:8080/formations'
+          url: 'http://localhost:8080/formations'
 
 #      - name: Build & Install
 #        run: ./mvnw -B install -D skipTests --no-transfer-progress
