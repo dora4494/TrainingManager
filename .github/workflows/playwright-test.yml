@@ -20,7 +20,11 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &          
+          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &     
+          sleep 5
+          tail -n 100  log/spring.log
+          sleep 5
+          tail -n 100  log/spring.log
 
       - name: Attente de la disponibilité de l'application
         uses: cygnetdigital/wait_for_response@v2.0.0
