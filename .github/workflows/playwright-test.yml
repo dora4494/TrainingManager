@@ -21,9 +21,9 @@ jobs:
       - name: Lancement de l'application
         continue-on-error: true
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &                    
+          ./gradlew bootRun --args='--spring.config.location=classpath:playwright_java/src/test/resources/application-for-playwright.properties' &                    
           set +e
-          curl --retry 10 --retry-connrefused --retry-delay 5 -o /dev/null --fail "http://localhost:8080/formations"
+          curl --retry 30 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8080/formations"
 #          sleep 10s &&
 #          tail -n 100  log/spring.log || true
 #          sleep 10s &&
