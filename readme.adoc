@@ -1,4 +1,5 @@
 = TrainingManager
+:source-highlighter: rouge
 
 == Technologie
 
@@ -10,6 +11,7 @@ L'intégration continue passe par des https://docs.github.com/fr/actions[Github 
 == Lancement
 
 Pour lancer l'application, utilisé la commande:
+[source,bash]
 ----
 ./gradlew bootRun
 ----
@@ -18,6 +20,7 @@ Des tâches gradle ont été ajoutés pour utiliser une configuration spécifiqu
 L'utilisation de la commande `bootRun[ENV]` va utiliser le fichier `application-[ENV].properties`.
 La liste des environnement
 Par exemple, pour lancer
+[source,bash]
 ----
 ./gradlew bootRunDev
 ----
@@ -29,6 +32,7 @@ On peut ainsi y mettre sa configuration personnel de développement.
 [%collapsible]
 ====
 Les tâches `bootRun[ENV]` font l'équivalent de la commande
+[source,bash]
 ----
 ./gradlew bootRun --args='--spring.profiles.active=ci'
 ----
@@ -37,10 +41,23 @@ Seuls les environnements définis peuvent être accessible.
 La liste de ces environnements est visible avec la commande `./gradlew -q configs`
 
 On peut également choisir le fichier `properties` à utiliser avec la commande:
+[source,bash]
 ----
 ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties'
 ----
 ====
+
+== Configuration
+
+Pour visualiser les requêtes SQL qui sont exécutés:
+
+[source,properties]
+----
+# Affichage des requêtes
+spring.jpa.show-sql=true
+# Mise en forme des requêtes
+spring.jpa.properties.hibernate.format_sql=true
+----
 
 == Intégration continue
 
@@ -52,6 +69,7 @@ La configuration se trouve dans le répértoire `.github/workflows`
 === Prerequis
 
 Pour executer gradlew dans docker, il a besoin d'être executable.
+[source,bash]
 ----
 chmod ug+x gradlew
 ----
@@ -59,6 +77,7 @@ chmod ug+x gradlew
 === Execution
 
 Pour démarrer un environnement complet (mysql + springboot):
+[source,bash]
 ----
 docker-compose up
 ----
@@ -71,6 +90,7 @@ Les variables d'environnement utilisées se trouve dans le fichier `.env` à la 
 * PhpAdmin: http://localhost:8090/
 
 Pour démarre SpringBoot seul en ligne de commande:
+[source,bash]
 ----
 docker run -v $(pwd):/project -w /project -p 8080:8080 -it gradle:8.3.0-jdk17-alpine /bin/bash
 ./gradlew bootRun
@@ -79,20 +99,24 @@ docker run -v $(pwd):/project -w /project -p 8080:8080 -it gradle:8.3.0-jdk17-al
 Le script `run_tests.sh` permet de démarrer l'environnement et d'exécuter les tests.
 
 Pour lancer directement les tests, on peut démarrer le docker-compose avec le profil "test"
+[source,bash]
 ----
 docker compose --profile test up -d
 ----
 
 Pour uniquement lancer l'application avec la base de données:
+[source,bash]
 ----
 docker compose up -d
 ----
 
 Vous pouvez ensuite executer les tests depuis l'environnement local avec
+[source,bash]
 ----
 npx playwright test
 ----
 ou
+[source,bash]
 ----
 npx playwright test --ui
 ----
