@@ -15,8 +15,9 @@ public class FormationService {
 
 
     public void creerFormation(Formation formation) {
-
-        formationRepository.save(formation);
+        if (formationRepository.findByIntitule(formation.getIntitule()) == null) {
+            formationRepository.save(formation);
+        }
     }
 
     public Iterable<Formation> listeFormations() {
