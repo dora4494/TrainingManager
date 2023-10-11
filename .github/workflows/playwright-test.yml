@@ -48,9 +48,11 @@ jobs:
       - name: Test attente avec un while
         shell: bash
         run: |
+          set +e
           retry=0;
-          while [ $retry -lt 10 -a "0" != "$(curl -s -S -o /dev/null http://localhost:8080/formations;echo $?)" ]; do ((retry++));echo "Wait($retry)...";sleep 1; done
-          curl -S -o /dev/null http://localhost:8080/formations         
+          url=http://localhost:8080/formations
+          while [ $retry -lt 10 -a "0" != "$(curl -s -S -o /dev/null $url;echo $?)" ]; do ((retry++));echo "Wait($retry)...";sleep 5; done
+          curl -S -o /dev/null $url       
 
       - name: Test attente de sur un port inconnu avec un set
         continue-on-error: true
