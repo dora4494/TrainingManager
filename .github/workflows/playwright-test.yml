@@ -20,7 +20,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:playwright_java/src/test/resources/application-for-playwright.properties' &
+          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &
 #          sleep 10s &&
 #          tail -n 100  log/spring.log || true
 #          sleep 10s &&
@@ -37,30 +37,16 @@ jobs:
 #        with:
 #          url: 'http://localhost:8080/formations'
 
-      - name: Test attente de sur un port inconnu avec shell
-        continue-on-error: true
-        shell: sh {0}
-        run: |
-          echo "Wait..."
-          curl --retry 3 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8085/unknown"
-          echo "Application is up"
 
       - name: Test attente avec un while
         shell: bash
         run: |
           set +e
+          ls playwright_java/src/test/resources/
           retry=0;
           url=http://localhost:8080/formations
           while [ $retry -lt 10 -a "0" != "$(curl -s -S -o /dev/null $url;echo $?)" ]; do ((retry++));echo "Wait($retry)...";sleep 5; done
           curl -S -o /dev/null $url       
-
-      - name: Test attente de sur un port inconnu avec un set
-        continue-on-error: true
-        run: |
-          set +e
-          echo "Wait..."
-          curl --retry 3 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8085/unknown"
-          echo "Application is up"
 
       - name: Attente de l'application
         run: |          
