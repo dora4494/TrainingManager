@@ -20,45 +20,20 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties' &
-#          sleep 10s &&
-#          tail -n 100  log/spring.log || true
-#          sleep 10s &&
-#          tail -n 100  log/spring.log || true
-#          sleep 10s &&
-#          tail -n 100  log/spring.log || true
-#          sleep 10s &&
-#          tail -n 100  log/spring.log || true
-#          curl http://localhost:8080/formations -I
+          ./gradlew bootRun --args="--spring.config.location=file://$(pwd)/playwright_java/src/test/resources/application-for-playwright.properties" &
 
-
-#      - name: Attente de la disponibilité de l'application
-#        uses: cygnetdigital/wait_for_response@v2.0.0
-#        with:
-#          url: 'http://localhost:8080/formations'
-
-
-      - name: Test attente avec un while
+      - name: Test attente de la disponibilité de l'application
         shell: bash
         run: |
-          set +e
-          ls playwright_java/src/test/resources/
+          set +e          
           retry=0;
           url=http://localhost:8080/formations
           while [ $retry -lt 10 -a "0" != "$(curl -s -S -o /dev/null $url;echo $?)" ]; do ((retry++));echo "Wait($retry)...";sleep 5; done
-          curl -S -o /dev/null $url       
-
-      - name: Attente de l'application
-        run: |          
-          echo "Wait..."
-          curl --retry 30 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8080/formations"
-          echo "Application is up"
+          curl -S -o /dev/null $url
 
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
       - name: Run tests
         run: |
           cd playwright_java
-          ls
-          pwd
           ./gradlew test
