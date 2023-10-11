@@ -21,9 +21,7 @@ jobs:
       - name: Lancement de l'application
         continue-on-error: true
         run: |
-          ./gradlew bootRun --args='--spring.config.location=classpath:playwright_java/src/test/resources/application-for-playwright.properties' &                    
-          set +e
-          curl --retry 30 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8080/formations"
+          ./gradlew bootRun --args='--spring.config.location=classpath:playwright_java/src/test/resources/application-for-playwright.properties' &
 #          sleep 10s &&
 #          tail -n 100  log/spring.log || true
 #          sleep 10s &&
@@ -39,6 +37,13 @@ jobs:
 #        uses: cygnetdigital/wait_for_response@v2.0.0
 #        with:
 #          url: 'http://localhost:8080/formations'
+
+      - name: Attente de l'application
+        run: |
+          set +e
+          echo "Wait..."
+          curl --retry 30 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8080/formations"
+          echo "Application is up"
 
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
