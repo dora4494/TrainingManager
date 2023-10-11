@@ -45,6 +45,13 @@ jobs:
           curl --retry 3 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8085/unknown"
           echo "Application is up"
 
+      - name: Test attente avec un while
+        shell: bash
+        run: |
+          retry=0;
+          while [ $retry -lt 10 -a "0" != "$(curl -s -S -o /dev/null http://localhost:8080/formations;echo $?)" ]; do ((retry++));echo "Wait($retry)...";sleep 1; done
+          curl -S -o /dev/null http://localhost:8080/formations         
+
       - name: Test attente de sur un port inconnu avec un set
         continue-on-error: true
         run: |
