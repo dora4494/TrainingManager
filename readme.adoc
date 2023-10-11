@@ -7,6 +7,41 @@ Le front est contruit par le moteur de templating https://www.thymeleaf.org/[Tym
 Les tests d'interface sont fait via https://playwright.dev/java/[playwright]. +
 L'intégration continue passe par des https://docs.github.com/fr/actions[Github actions].
 
+== Lancement
+
+Pour lancer l'application, utilisé la commande:
+----
+./gradlew bootRun
+----
+
+Des tâches gradle ont été ajoutés pour utiliser une configuration spécifique.
+L'utilisation de la commande `bootRun[ENV]` va utiliser le fichier `application-[ENV].properties`.
+La liste des environnement
+Par exemple, pour lancer
+----
+./gradlew bootRunDev
+----
+
+A noter que le fichier `application-dev.properties` est exclu de Git.
+On peut ainsi y mettre sa configuration personnel de développement.
+
+.Plus d'infos
+[%collapsible]
+====
+Les tâches `bootRun[ENV]` font l'équivalent de la commande
+----
+./gradlew bootRun --args='--spring.profiles.active=ci'
+----
+
+Seuls les environnements définis peuvent être accessible.
+La liste de ces environnements est visible avec la commande `./gradlew -q configs`
+
+On peut également choisir le fichier `properties` à utiliser avec la commande:
+----
+./gradlew bootRun --args='--spring.config.location=classpath:/application-ci.properties'
+----
+====
+
 == Intégration continue
 
 L'intégration continue est géré via des Github Actions.

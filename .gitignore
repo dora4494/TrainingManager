@@ -39,3 +39,4 @@ out/
 ### Project ###
 log/
 *.log
+src/main/resources/application-dev.properties

@@ -57,3 +57,28 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+def configurations = ['ci', 'dev']
+
+tasks.register("configs") {
+	group = "help"
+	description = "Liste des profils disponibles"
+	doFirst {
+		println "Liste des profils disponibles: $configurations"
+	}
+}
+
+configurations.forEach {
+	conf -> tasks.register("bootRun$conf") {
+		group = "application"
+		description = "Lancement de l'application Spring boot avec le profil '$conf'"
+		doFirst {
+			tasks.bootRun.configure {
+				systemProperty("spring.profiles.active", "$conf")
+			}
+		}
+		finalizedBy("bootRun")
+	}
+}
+
+
