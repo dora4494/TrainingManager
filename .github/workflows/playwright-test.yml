@@ -19,7 +19,6 @@ jobs:
       - name: Préparation Gradle
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
-        continue-on-error: true
         run: |
           ./gradlew bootRun --args='--spring.config.location=classpath:playwright_java/src/test/resources/application-for-playwright.properties' &
 #          sleep 10s &&
@@ -38,9 +37,24 @@ jobs:
 #        with:
 #          url: 'http://localhost:8080/formations'
 
-      - name: Attente de l'application
+      - name: Test attente de sur un port inconnu avec shell
+        continue-on-error: true
+        shell: sh {0}
+        run: |
+          echo "Wait..."
+          curl --retry 3 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8085/unknown"
+          echo "Application is up"
+
+      - name: Test attente de sur un port inconnu avec un set
+        continue-on-error: true
         run: |
           set +e
+          echo "Wait..."
+          curl --retry 3 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8085/unknown"
+          echo "Application is up"
+
+      - name: Attente de l'application
+        run: |          
           echo "Wait..."
           curl --retry 30 --retry-connrefused --retry-delay 1 -o /dev/null --fail "http://localhost:8080/formations"
           echo "Application is up"
