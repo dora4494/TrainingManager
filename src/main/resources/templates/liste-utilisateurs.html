@@ -13,11 +13,11 @@
   <tr data-th-each="utilisateur: ${utilisateurs}">
 
     <th>Prénom :</th>
-    <td><a th:href="@{details-utilisateur(id=${utilisateur.id})}"
+    <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
            data-th-text="${utilisateur.prenom}"></a></td>
 
     <th>Nom :</th>
-    <td><a th:href="@{details-utilisateur(id=${utilisateur.id})}"
+    <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
            data-th-text="${utilisateur.nom}"></a></td>
 
     <th>Mail :</th>

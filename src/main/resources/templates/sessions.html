@@ -11,7 +11,7 @@
   <tr data-th-each="ses: ${sessions}">
 
     <th>Intitulé :</th>
-    <td> <a th:href="@{/details-session(id=${ses.id})}"
+    <td> <a th:href="@{'session/'+${ses.id}}"
            data-th-text="${ses.formation.intitule}"></a></td>
     <th>Client :</th>
     <td data-th-text="${ses.client}"></td>

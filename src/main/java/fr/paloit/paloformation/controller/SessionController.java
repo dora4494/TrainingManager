@@ -39,8 +39,8 @@ public class SessionController {
     }
 
 
-    @GetMapping({"/details-session"})
-    public String detailSession(@RequestParam Long id, Model model, @ModelAttribute Utilisateur utilisateur) {
+    @GetMapping({"/session/{id}"})
+    public String detailSession(Model model, @PathVariable Long id, @ModelAttribute Utilisateur utilisateur) {
         Session sessionFormation = sessionService.trouverSessionById(id);
         LocalDate dateDuJour = LocalDate.now();
 

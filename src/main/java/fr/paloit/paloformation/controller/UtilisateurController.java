@@ -5,10 +5,7 @@ import fr.paloit.paloformation.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UtilisateurController {
@@ -36,8 +33,8 @@ public class UtilisateurController {
     }
 
 
-    @GetMapping({"/details-utilisateur"})
-    public String detailUtilisateur(Model model, Long id) {
+    @GetMapping({"/utilisateur/{id}"})
+    public String detailUtilisateur(Model model, @PathVariable Long id) {
         model.addAttribute("utilisateur", utilisateurService.trouverUtilisateurById(id));
         return "detail-utilisateur";
     }
