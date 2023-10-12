@@ -100,9 +100,9 @@
     <button type="submit" class="btn-archiver">Archiver session</button>
 </form>
 
-<form action="/modifier-session" method="get" class="container-btn-modifier">
+<form action="/modifier/session" method="get" class="container-btn-modifier">
     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-    <button type="submit" class="btn-modifier">Modifier session</button>
+    <button type="button" class="btn-modifier">Modifier session</button>
 </form>
 
 <form action="/annuler-session" method="post" class="container-btn-annuler">
@@ -136,6 +136,17 @@
             });
     }
 
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let btnModifier = document.querySelector('.btn-modifier');
+        btnModifier.addEventListener("click", function () {
+            let idSession = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
+            let redirectionUrl = '/modifier/session/' + idSession;
+            window.location.href = redirectionUrl;
+        });
+    });
 </script>
 
 </body>
