@@ -3,10 +3,11 @@
 
 == Technologie
 
-L'application est contruite avec https://spring.io/projects/spring-boot[Spring Boot]. +
-Le front est contruit par le moteur de templating https://www.thymeleaf.org/[Tymeleaf]. +
-Les tests d'interface sont fait via https://playwright.dev/java/[playwright]. +
-L'intégration continue passe par des https://docs.github.com/fr/actions[Github actions].
+* L'application est contruite avec https://spring.io/projects/spring-boot[Spring Boot].
+* Le front est contruit par le moteur de templating https://www.thymeleaf.org/[Tymeleaf].
+* Les tests d'interface sont fait via https://playwright.dev/java/[playwright].
+* L'intégration continue passe par des https://docs.github.com/fr/actions[Github actions].
+* La mise en page et le style utilise https://purecss.io/[Pure CSS].
 
 == Lancement
 
