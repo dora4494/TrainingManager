@@ -5,28 +5,32 @@
     <title>Palo Training Manager</title>
 </head>
 <body>
-
 <div class="details-container">
-
-    <div class="input-container" data-th-text="${utilisateur.prenom}">
-
-    </div>
-    <div class="input-container" data-th-text="${utilisateur.nom}">
-
-    </div>
-    <div class="input-container" data-th-text="${utilisateur.mail}">
-    </div>
+    <div class="input-container" data-th-text="${utilisateur.prenom}"></div>
+    <div class="input-container" data-th-text="${utilisateur.nom}"></div>
+    <div class="input-container" data-th-text="${utilisateur.mail}"></div>
 
     <form action="/supprimer-utilisateur" method="post" class="container-btn-supprimer">
         <input type="hidden" name="id" th:value="${utilisateur.id}"/>
         <button type="submit" class="btn-supprimer">Supprimer utilisateur</button>
     </form>
 
-    <form action="/modifier-utilisateur" method="get" class="container-btn-modifier">
+    <form action="/modifier/utilisateur" method="get" class="container-btn-modifier">
         <input type="hidden" name="id" th:value="${utilisateur.id}"/>
-        <button type="submit" class="btn-modifier">Modifier utilisateur</button>
+        <button type="button" class="btn-modifier">Modifier utilisateur</button>
     </form>
+
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let btnModifier = document.querySelector('.btn-modifier');
+        btnModifier.addEventListener("click", function () {
+            let idUtilisateur = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
+            let redirectionUrl = '/modifier/utilisateur/' + idUtilisateur;
+            window.location.href = redirectionUrl;
+        });
+    });
+</script>
 </body>
 </html>
