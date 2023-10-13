@@ -1,7 +1,7 @@
 name: Run Playwright Tests
 
 on:
-  push:
+  workflow_call:
 
 jobs:
   lancement-appli-et-test:
