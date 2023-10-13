@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href=".../trainingManager" rel="stylesheet" >
     <title>Palo Training Manager</title>
 </head>
 <body>
@@ -62,7 +63,7 @@
         </div>
 
         <div class="container-btn-enregistrer">
-            <button type="submit" class="btn-enregistrer">Enregistrer</button>
+            <button type="submit" class="pure-button">Enregistrer</button>
         </div>
     </form>
 </div>
@@ -70,7 +71,7 @@
 
 <form action="/session-modifiee" method="post" class="container-btn-modifier">
     <input type="hidden" name="id" th:value="${session.id}"/>
-    <button type="submit" class="btn-modifier">Modifier session</button>
+    <button type="submit" class="pure-button">Modifier session</button>
 </form>
 
 

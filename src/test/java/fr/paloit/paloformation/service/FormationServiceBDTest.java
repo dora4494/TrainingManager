@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
@@ -43,6 +44,7 @@ public class FormationServiceBDTest {
         assertEquals("La formation a été créée", resultat.erreur());
     }
 
+
     @Test
     public void testCreerFormationDejaExistant() {
         {
@@ -63,4 +65,6 @@ public class FormationServiceBDTest {
         assertEquals(false, resultat.isOk());
         assertEquals("La formation est déjà existante", resultat.erreur());
     }
+
+
 }

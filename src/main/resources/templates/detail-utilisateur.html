@@ -12,12 +12,12 @@
 
     <form action="/supprimer-utilisateur" method="post" class="container-btn-supprimer">
         <input type="hidden" name="id" th:value="${utilisateur.id}"/>
-        <button type="submit" class="btn-supprimer">Supprimer utilisateur</button>
+        <button type="submit" class="pure-button">Supprimer utilisateur</button>
     </form>
 
     <form action="/modifier/utilisateur" method="get" class="container-btn-modifier">
         <input type="hidden" name="id" th:value="${utilisateur.id}"/>
-        <button type="button" class="btn-modifier">Modifier utilisateur</button>
+        <button type="button" class="pure-button">Modifier utilisateur</button>
     </form>
 
 </div>

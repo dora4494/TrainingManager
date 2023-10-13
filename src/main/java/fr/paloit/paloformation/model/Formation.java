@@ -26,6 +26,9 @@ public class Formation {
     public Formation() {
     }
 
+    public Formation(boolean b, Object o) {
+    }
+
     public Long getId() {
         return id;
     }
@@ -57,5 +60,26 @@ public class Formation {
                 "id=" + id +
                 ", intitule='" + intitule + '\'' +
                 '}';
+    }
+
+
+    public static class Resultat {
+        private boolean ok;
+        private String message;
+
+        public Resultat(boolean ok, String message) {
+            this.ok = ok;
+            this.message = message;
+        }
+
+        public boolean isOk() {
+
+            return ok;
+        }
+
+        public String erreur() {
+
+            return message;
+        }
     }
 }

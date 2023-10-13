@@ -5,8 +5,6 @@ import fr.paloit.paloformation.repository.FormationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class FormationService {
 
@@ -14,11 +12,16 @@ public class FormationService {
     FormationRepository formationRepository;
 
 
-    public void creerFormation(Formation formation) {
-        if (formationRepository.findByIntitule(formation.getIntitule()) == null) {
+    public Formation.Resultat creerFormation(Formation formation) {
+        Formation formationExistante = formationRepository.findByIntitule(formation.getIntitule());
+        if (formationExistante == null) {
             formationRepository.save(formation);
+            return new Formation.Resultat(true, "La formation a été créée");
+        } else {
+            return new Formation.Resultat(false, "La formation est déjà existante");
         }
     }
+
 
     public Iterable<Formation> listeFormations() {
 
