@@ -32,13 +32,15 @@ public class FormationServiceBDTest {
     public void testCreerFormation() {
         Formation formation = new Formation(null, "TDD", new ArrayList<>());
 
-        formationService.creerFormation(formation);
+        Formation.Resultat resultat = formationService.creerFormation(formation);
 
         List<Formation> formations = StreamSupport
                 .stream(formationService.listeFormations().spliterator(), false)
                 .collect(Collectors.toList());
         assertEquals(1, formations.size());
-        assertEquals("TDD",formations.get(0).getIntitule());
+        assertEquals("TDD", formations.get(0).getIntitule());
+        assertEquals(true, resultat.isOk());
+        assertEquals("La formation a été créée", resultat.erreur());
     }
 
     @Test
@@ -51,12 +53,14 @@ public class FormationServiceBDTest {
         }
 
         Formation formation = new Formation(null, "TDD", new ArrayList<>());
-        formationService.creerFormation(formation);
+        Formation.Resultat resultat = formationService.creerFormation(formation);
 
         List<Formation> formations = StreamSupport
                 .stream(formationService.listeFormations().spliterator(), false)
                 .collect(Collectors.toList());
         assertEquals(1, formations.size());
-        assertEquals("TDD",formations.get(0).getIntitule());
+        assertEquals("TDD", formations.get(0).getIntitule());
+        assertEquals(false, resultat.isOk());
+        assertEquals("La formation est déjà existante", resultat.erreur());
     }
 }
