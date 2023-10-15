@@ -1,34 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Palo Training Manager</title>
+    <div th:replace="~{fragments :: head}"></div>
 </head>
+
 <body>
 
-<div class="lst-container">
-<table>
-  <h2>Liste des utilisateurs :</h2>
+<nav>
+    <div th:replace="~{fragments :: navbar}">...</div>
+</nav>
 
-  <tr data-th-each="utilisateur: ${utilisateurs}">
+<main class="main-content">
+    <div class="lst-container">
+        <table>
+            <h2>Liste des utilisateurs :</h2>
 
-    <th>Prénom :</th>
-    <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
-           data-th-text="${utilisateur.prenom}"></a></td>
+            <tr data-th-each="utilisateur: ${utilisateurs}">
 
-    <th>Nom :</th>
-    <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
-           data-th-text="${utilisateur.nom}"></a></td>
+                <th>Prénom :</th>
+                <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
+                       data-th-text="${utilisateur.prenom}"></a></td>
 
-    <th>Mail :</th>
-    <td data-th-text="${utilisateur.mail}"></td>
-  </tr>
-</table>
-</div>
+                <th>Nom :</th>
+                <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
+                       data-th-text="${utilisateur.nom}"></a></td>
 
-<form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
-  <button type="submit" class="pure-button">Ajouter un participant</button>
-</form>
+                <th>Mail :</th>
+                <td data-th-text="${utilisateur.mail}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
+        <button type="submit" class="pure-button">Ajouter un participant</button>
+    </form>
+
+</main>
 
 </body>
+
+<footer class="footer">
+    <div th:insert="~{fragments :: footer}">...</div>
+</footer>
+
 </html>

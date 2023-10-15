@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <meta charset="UTF-8">
-    <title>Palo Training Manager</title>
+    <div th:replace="~{fragments :: head}"></div>
 </head>
+
 <body>
 
-<div class="lst-container">
-<table>
-    <h2>Liste des formations :</h2>
+<nav>
+    <div th:replace="~{fragments :: navbar}">...</div>
+</nav>
 
-    <tr data-th-each="formation: ${formations}">
-        <td><a th:href="@{'formation/'+${formation.id}}"
-               data-th-text="${formation.intitule}"></a></td>
-    </tr>
-</table>
+<main class="main-content">
+<div class="lst-container">
+    <table>
+        <h2>Liste des formations :</h2>
+
+        <tr data-th-each="formation: ${formations}">
+            <td><a th:href="@{'formation/'+${formation.id}}"
+                   data-th-text="${formation.intitule}"></a></td>
+        </tr>
+    </table>
 </div>
+
 
 <form action="/creer-formation" method="get" class="container-btn-enregistrer">
     <button type="submit" class="pure-button">Ajouter une formation</button>
 </form>
 
-<div th:insert="fragments :: footer">...</div>
+</main>
+
 </body>
+
+<footer class="footer">
+    <div th:insert="~{fragments :: footer}">...</div>
+</footer>
+
 </html>

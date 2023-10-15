@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <div th:replace="~{fragments :: head}"></div>
 </head>
+
 <body>
 
-<form th:action="@{/docusign}" th:object="${utilisateur}"
-      method="POST" enctype="multipart/form-data">
-    <input type="hidden" th:field="*{id}"  />
-<div class="session">
-    <label for="select-Utilisateur">Formateur :</label> <select
-        th:field="*{nom}" id="select-Utilisateur" name="formateur"
-        placeholder="Sélectionnez le formateur" required>
-    <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
-            th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
-</select>
-</div>
+<nav>
+    <div th:replace="~{fragments :: navbar}">...</div>
+</nav>
 
-    <div>
-        <button type="submit">Envoyer la demande de signature</button>
-    </div>
+<main class="main-content">
 
-</form>
+    <form th:action="@{/docusign}" th:object="${utilisateur}"
+          method="POST" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="session">
+            <label for="select-Utilisateur">Formateur :</label> <select
+                th:field="*{nom}" id="select-Utilisateur" name="formateur"
+                placeholder="Sélectionnez le formateur" required>
+            <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                    th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+        </select>
+        </div>
 
+        <div>
+            <button type="submit">Envoyer la demande de signature</button>
+        </div>
 
+    </form>
+
+</main>
 
 </body>
+
+<footer class="footer">
+    <div th:insert="~{fragments :: footer}">...</div>
+</footer>
+
 </html>

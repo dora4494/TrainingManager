@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Palo Training Manager</title>
+    <div th:replace="~{fragments :: head}"></div>
 </head>
+
 <body>
 
+<nav>
+    <div th:replace="~{fragments :: navbar}">...</div>
+</nav>
+
+<main class="main-content">
 <div class="titre-container">
     <h2 class="titre-item">Créer un utilisateur</h2>
 </div>
@@ -38,6 +43,12 @@
     </form>
 </div>
 
+</main>
 
 </body>
+
+<footer class="footer">
+    <div th:insert="~{fragments :: footer}">...</div>
+</footer>
+
 </html>

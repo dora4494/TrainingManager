@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/css/trainingManager.css">
-    <title>Palo Training Manager</title>
+    <div th:replace="~{fragments :: head}"></div>
 </head>
 
 <body>
 
+<nav>
+    <div th:replace="~{fragments :: navbar}">...</div>
+</nav>
+
+<main class="main-content">
 <div class="titre-container">
     <h2 class="titre-item">Ajouter une formation</h2>
 </div>
@@ -32,5 +35,12 @@
 
 </div>
 
+</main>
+
 </body>
+
+<footer class="footer">
+    <div th:insert="~{fragments :: footer}">...</div>
+</footer>
+
 </html>
