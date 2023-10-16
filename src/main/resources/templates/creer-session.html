@@ -10,18 +10,18 @@
     <div th:replace="~{fragments :: header}">...</div>
 
 <main class="main">
-<div class="titre-container">
-    <h2 class="titre-item">Ajouter une session</h2>
+<div class="titre-main">
+    <h2 class="titre-main-item">Ajouter une session de formation</h2>
 </div>
 
 
-<div class="form-container">
+<div class="form-container-creer-session">
     <form th:action="@{/session-creee}" th:object="${session}"
-          method="POST" enctype="multipart/form-data">
+          method="POST" enctype="multipart/form-data" class="pure-form-aligned">
         <input type="hidden" th:field="*{id}"/>
-
-        <div class="input-container">
-            <label for="select-intitule-formation">Intitulé de la formation :</label>
+        <fieldset>
+        <div class="pure-control-group">
+            <label for="select-intitule-formation">Intitulé de la formation</label>
             <select th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
                 <option th:each="formation: ${@formationService.listeFormations}"
                         th:value="${formation.id}"
@@ -29,53 +29,52 @@
             </select>
         </div>
 
-        <div class="input-container">
-            <label for="client">Client :</label> <input type="text"
-                                                        th:field="*{client}" id="client" name="client" required>
+        <div class="pure-control-group">
+            <label for="aligned-client">Client</label>
+            <input type="text" th:field="*{client}" id="aligned-client" name="client" required>
         </div>
 
 
-        <div class="input-container">
-            <label for="dateDebut">Date de début de la session :</label> <input type="date"
-                                                                                th:field="*{dateDebut}" id="dateDebut"
-                                                                                name="dateDebut" required>
+        <div class="pure-control-group">
+            <label for="aligned-dateDebut">Date de début</label>
+            <input type="date" th:field="*{dateDebut}" id="aligned-dateDebut" name="dateDebut" required>
         </div>
 
-        <div class="input-container">
-            <label for="dateFin">Date de fin de la session :</label> <input type="date"
-                                                                            th:field="*{dateFin}" id="dateFin"
-                                                                            name="dateFin" required>
+        <div class="pure-control-group">
+            <label for="aligned-dateFin">Date de fin</label>
+            <input type="date" th:field="*{dateFin}" id="aligned-dateFin" name="dateFin" required>
         </div>
 
 
-        <div class="input-container">
-            <label for="select-formateur">Formateur :</label> <select
-                th:field="*{formateur}" id="select-formateur" name="formateur" required>
+        <div class="pure-control-group">
+            <label for="aligned-formateur">Formateur</label>
+            <select th:field="*{formateur}" id="aligned-formateur" name="formateur" required>
             <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                     th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
         </select>
         </div>
 
 
-        <div class="input-container">
-            <label for="select-participant">Participants :</label> <select
-                th:field="*{participants}" id="select-participant" name="select-participant" multiple required>
+        <div class="pure-control-group">
+            <label for="aligned-participant">Participants</label>
+            <select th:field="*{participants}" id="aligned-participant" name="select-participant" multiple required>
             <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                     th:value="${utilisateur.id}" th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
         </select>
         </div>
 
-        <div class="container-btn-enregistrer">
             <button type="submit" class="pure-button">Enregistrer</button>
-        </div>
+
+        </fieldset>
     </form>
 </div>
 
-
+<!--
 <form action="/session-modifiee" method="post" class="container-btn-modifier">
     <input type="hidden" name="id" th:value="${session.id}"/>
     <button type="submit" class="pure-button">Modifier session</button>
 </form>
+-->
 
 </main>
 

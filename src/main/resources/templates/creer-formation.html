@@ -16,23 +16,18 @@
     <h2 class="titre-main-item">Ajouter une formation</h2>
 </div>
 
-<div class="form-container">
+<div class="form-container-creer-formation">
     <form th:action="@{/formation-cree}" th:object="${formation}"
-          method="POST" enctype="multipart/form-data">
+          method="POST" enctype="multipart/form-data" class="pure-form">
         <input type="hidden" th:field="*{id}"/>
-
-        <div class="input-container">
-            <label for="intitule">Intitulé de l'action de formation :</label>
+<fieldset>
+            <label for="intitule">Intitulé de l'action de formation</label>
             <input type="text" th:field="*{intitule}" id="intitule" name="intitule"
-                   placeholder="ex: TDD, Architecture hexagonale... " required>
-        </div>
-
-        <div class="container-btn-enregistrer">
+                   placeholder="ex: TDD, Architecture... " required/>
             <button type="submit" class="pure-button">Enregistrer</button>
-        </div>
+
+</fieldset>
     </form>
-
-
 </div>
 
 </main>

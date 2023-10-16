@@ -6,10 +6,6 @@ body {
     font-size: smaller;
 }
 
-.custom-restricted-width {
-    width: 10em;
-}
-
 
 .nav {
     position: fixed;
@@ -40,25 +36,15 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
-
-.indicateur-retard, .indicateur-aujourdhui, .indicateur-a-venir {
-margin-right: 20px;
-}
-
-
 .main {
     float: right;
     width: 85%;
     margin-top: 10%;
 }
 
-.lst-container {
-
-}
-
 
 .footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #f0f0f0;
@@ -67,7 +53,75 @@ margin-right: 20px;
     font-size: x-small;
 }
 
+
+.custom-restricted-width {
+    width: 10em;
+}
+
+
+.indicateur-retard, .indicateur-aujourdhui, .indicateur-a-venir {
+margin-right: 20px;
+}
+
+
+.lst-container {
+
+}
+
+
 .icon {
     color: #62646a;
     margin-right: 6px;
 }
+
+.titre-main {
+    margin-left: 3%;
+}
+
+.titre-main-item {
+
+}
+
+.form-container-creer-formation, .form-container-creer-session, .form-container-creer-utilisateur {
+    margin-left: 3%;
+    margin-top: 2%;
+}
+
+.pure-g {
+    display: flex;
+    justify-content: space-between;
+}
+
+.pure-u-1-3 {
+    display: inline-block;
+}
+
+p, span {
+    display: inline-block;
+}
+
+#container-details-session {
+margin-left: 3%;
+}
+
+#container-lst-participants {
+margin-top: 3%;
+}
+
+#container-lst-todo-urgence-haute {
+    margin-top: 5%;
+}
+
+#container-lst-todo-urgence-moyenne {
+    margin-top: 5%;
+}
+
+#bouton-detail-session {
+margin-top: 2%;
+}
+
+.boutons-container-flex {
+    display: flex;
+    margin-top: 5%;
+}
+
