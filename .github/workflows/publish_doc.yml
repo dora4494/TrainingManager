@@ -1,0 +1,60 @@
+# Action to transform asciidoc files in HTML and publish the result to a specific branch.
+
+name: GitHub Pages Publish
+
+on:
+  workflow_call:
+
+env:
+  doc_branch: 'gh_pages'
+  working_branch: 'tmp_branch_for_doc'
+  published_folder: 'generated_docs'
+  adoc_folder: 'docs'
+
+jobs:
+
+  publish-doc:
+    runs-on: ubuntu-latest
+    container:
+      image: asciidoctor/docker-asciidoctor
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Git
+        run: |
+          git config --global --add safe.directory $(realpath .)
+          git config user.email github-action@github.com
+          git config user.name github-action
+
+      - name: Switch to working branch
+        run: |
+          git checkout -b ${{env.working_branch}}
+
+      - name: Generate HTML
+        run: |
+          asciidoctor -r asciidoctor-diagram -D ${{env.published_folder}} -R ${{env.adoc_folder}} $(find ${{env.adoc_folder}} -type f -name "[^_]*.adoc")
+          rm -rf ${{env.published_folder}}/.asciidoctor
+
+      - name: Adding docs files to working branch
+        run: |
+          echo "Add docs folder"
+          git add ${{env.published_folder}}
+          git commit -m "Update documentation"
+
+          echo "Checkout doc branch"
+          git fetch origin ${{env.doc_branch}}
+          git checkout ${{env.doc_branch}}
+
+          echo "Replace docs by the new one"
+          git rm -rf .
+          git checkout ${{env.working_branch}}  -- ${{env.published_folder}}
+          git mv ${{env.published_folder}}/* .
+
+          echo "Commit and push modification "
+          git commit -m "Update documentation"
+          git push -f
+
+# Need to set pages to publish in Github settings
+# Settings > Pages > GitHub Pages > Build and deployment
+# Source: Deploy from a branch
+# Branch: Select the branch with doc
+# Folder: / (root)
