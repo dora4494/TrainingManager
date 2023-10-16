@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
     <div th:replace="~{fragments :: head}"></div>
-</head>
 
 <body>
 
-<nav>
     <div th:replace="~{fragments :: navbar}">...</div>
-</nav>
 
-<main class="main-content">
+    <div th:replace="~{fragments :: header}">...</div>
+
+<main class="main">
 <div class="lst-container">
     <table>
         <h2>Liste des formations :</h2>
@@ -31,8 +30,6 @@
 
 </body>
 
-<footer class="footer">
     <div th:insert="~{fragments :: footer}">...</div>
-</footer>
 
 </html>

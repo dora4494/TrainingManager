@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+
     <div th:replace="~{fragments :: head}"></div>
-</head>
 
 <body>
 
-<nav>
     <div th:replace="~{fragments :: navbar}">...</div>
-</nav>
 
-<main class="main-content">
+    <div th:replace="~{fragments :: header}">...</div>
+
+<main class="main">
 
     <form th:action="@{/docusign}" th:object="${utilisateur}"
           method="POST" enctype="multipart/form-data">
@@ -34,8 +33,6 @@
 
 </body>
 
-<footer class="footer">
     <div th:insert="~{fragments :: footer}">...</div>
-</footer>
 
 </html>

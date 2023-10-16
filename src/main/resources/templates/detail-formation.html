@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Palo Training Manager</title>
-</head>
+
+    <div th:replace="~{fragments :: head}"></div>
+
 <body>
 
+    <div th:replace="~{fragments :: navbar}">...</div>
 
+    <div th:replace="~{fragments :: header}">...</div>
+
+<main class="main">
 <div class="details-container">
     <div class="input-container" data-th-text="${formation.intitule}"></div>
 
@@ -34,6 +37,10 @@
     });
 </script>
 
-<div th:insert="fragments :: footer">...</div>
+</main>
+
 </body>
+
+    <div th:insert="~{fragments :: footer}">...</div>
+
 </html>
