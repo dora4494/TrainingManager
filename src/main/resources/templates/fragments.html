@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head th:fragment="head">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+          integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+    <link rel="stylesheet" href="/css/trainingManager.css">
+    <script src="https://kit.fontawesome.com/46c79d9640.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Palo Training Manager</title>
+</head>
+
+<body>
+
+<header th:fragment="header" class="header">
+    <div class="indicateur-retard">Retard</div>
+    <div class="indicateur-aujourdhui">Formation aujourd'hui</div>
+    <div class="indicateur-a-venir">Formation à venir</div>
+</header>
+
+
+
+<nav th:fragment="navbar" class="nav">
+
+    <div class="pure-menu custom-restricted-width">
+        <span class="pure-menu-heading">PALO Training Manager</span>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item">
+                <a href="#" class="pure-menu-link">
+                    <i class="fas fa-home fa-xs icon"></i>
+                    Accueil
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a th:href="@{/sessions}" class="pure-menu-link">
+                    <i class="fa-regular fa-calendar fa-xs icon"></i>
+                    Planning</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#" class="pure-menu-link">
+                    <i class="fa-solid fa-user-group fa-xs icon"></i>
+                    Clients
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a th:href="@{/liste-utilisateurs}" class="pure-menu-link">
+                    <i class="fa-solid fa-graduation-cap fa-xs icon"></i>
+                    Formateurs
+                </a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="#" class="pure-menu-link">
+                    <i class="fa-solid fa-gears fa-xs icon"></i>
+                    Paramètres
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+</nav>
+
+
+<div th:fragment="footer" class="footer">
+    &copy; 2023 PALO TRAINING MANAGER
+</div>
+</body>
+</html>
