@@ -19,3 +19,6 @@ jobs:
 
   test-playwright:
     uses: ./.github/workflows/playwright-test.yml
+
+  publication-doc:
+    uses: ./.github/workflows/publish_doc.yml
