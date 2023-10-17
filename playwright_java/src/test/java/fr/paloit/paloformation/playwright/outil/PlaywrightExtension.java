@@ -27,7 +27,6 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
         } else {
             browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(500));
         }
-
     }
 
     @Override
@@ -37,7 +36,18 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
-        context = browser.newContext();
+        setContext();
+    }
+
+    public void setContext() {
+        setContext(new Browser.NewContextOptions());
+    }
+
+    public void setContext(Browser.NewContextOptions options) {
+        if (context != null) {
+            context.close();
+        }
+        context = browser.newContext(options);
         if (TRACE_ACTIVE) {
             context.tracing().start(new Tracing.StartOptions()
                     .setScreenshots(true)

@@ -3,6 +3,10 @@ name: Run Playwright Tests
 on:
   workflow_call:
 
+env:
+  user_manual_branch: 'tmp_user_manuel'
+  published_folder: 'playwright_java/build/docs'
+
 jobs:
   lancement-appli-et-test:
     runs-on: ubuntu-latest
@@ -37,3 +41,33 @@ jobs:
         run: |
           cd playwright_java
           ./gradlew test
+          
+      # Enregistrement de la documentation
+      - name: Configure Git
+        run: |
+          git config --global --add safe.directory $(realpath .)
+          git config user.email github-action@github.com
+          git config user.name github-action
+
+      - name: Création d'une branche contenant la documentation
+        shell: bash
+        run: |
+          set +e
+          git branch -D tmp 2>/dev/null
+          git checkout -b tmp
+
+      - name: Ajout de la documentation à la branche
+        run: |
+          mv ${{env.published_folder}} docs/ihm
+          pushd docs/ihm
+          touch index.tmp
+          echo "ifndef::ROOT_PATH[:ROOT_PATH: .]" >> index.tmp
+          echo "= Manuel utilisateur" >> index.tmp
+          for file in *.adoc; do echo "include::{ROOT_PATH}/$(basename "$file")[leveloffset=+1]" >> index.adoc; done
+          mv index.tmp index.adoc
+          popd
+          git add docs/ihm
+          git commit -m "Update user manual"
+          git push -f origin ${{env.user_manual_branch}}
+
+ 
