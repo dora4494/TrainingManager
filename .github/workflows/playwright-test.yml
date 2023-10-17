@@ -53,8 +53,8 @@ jobs:
         shell: bash
         run: |
           set +e
-          git branch -D tmp 2>/dev/null
-          git checkout -b tmp
+          git branch -D ${{env.user_manual_branch}} 2>/dev/null
+          git checkout -b ${{env.user_manual_branch}}
 
       - name: Ajout de la documentation à la branche
         run: |
