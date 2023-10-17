@@ -48,7 +48,7 @@ jobs:
           echo "Replace docs by the new one"
           git rm -rf .
           git checkout ${{env.working_branch}}  -- ${{env.published_folder}}
-          git checkout ${{env.user_manual_branch}}  -- ${{env.adoc_folder}}/ihm
+          git checkout origin/${{env.user_manual_branch}}  -- ${{env.adoc_folder}}/ihm
           git mv ${{env.published_folder}}/* .
 
           echo "Commit and push modification "
