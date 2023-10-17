@@ -63,7 +63,7 @@ jobs:
           touch index.tmp
           echo "ifndef::ROOT_PATH[:ROOT_PATH: .]" >> index.tmp
           echo "= Manuel utilisateur" >> index.tmp
-          for file in *.adoc; do echo "include::{ROOT_PATH}/$(basename "$file")[leveloffset=+1]" >> index.adoc; done
+          for file in *.adoc; do echo "include::{ROOT_PATH}/$(basename "$file")[leveloffset=+1]" >> index.tmp; done
           mv index.tmp index.adoc
           cd ../..
           git add docs/ihm
