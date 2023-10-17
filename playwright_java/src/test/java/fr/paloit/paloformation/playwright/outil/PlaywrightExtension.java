@@ -16,7 +16,7 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
     // Permet d'activer les traces utilisées par le TraceViewer.
     static boolean TRACE_ACTIVE = true;
     // En mode headless, le navigateur ne s'ouvre pas pendant l'execution
-    static boolean HEADLESS = false;
+    static boolean HEADLESS = true;
 
     @Override
     public void beforeAll(ExtensionContext context) {
