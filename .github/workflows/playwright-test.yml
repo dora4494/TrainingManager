@@ -59,13 +59,13 @@ jobs:
       - name: Ajout de la documentation à la branche
         run: |
           mv ${{env.published_folder}} docs/ihm
-          pushd docs/ihm
+          cd docs/ihm
           touch index.tmp
           echo "ifndef::ROOT_PATH[:ROOT_PATH: .]" >> index.tmp
           echo "= Manuel utilisateur" >> index.tmp
           for file in *.adoc; do echo "include::{ROOT_PATH}/$(basename "$file")[leveloffset=+1]" >> index.adoc; done
           mv index.tmp index.adoc
-          popd
+          cd ../..
           git add docs/ihm
           git commit -m "Update user manual"
           git push -f origin ${{env.user_manual_branch}}
