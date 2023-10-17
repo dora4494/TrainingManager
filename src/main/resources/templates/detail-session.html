@@ -41,8 +41,8 @@
                 </div>
                 <div class="pure-u-1-3">
                     <p>Formateur: </p>
-                    <span data-th-text="${sessionFormation.formateur.prenom}"></span>
-                    <span data-th-text="${sessionFormation.formateur.nom}"></span>
+                    <a th:href="@{'/utilisateur/'+${sessionFormation.formateur.id}}"
+                       data-th-text="${sessionFormation.formateur.prenom + ' ' + sessionFormation.formateur.nom}"></a>
                 </div>
             </div>
 
@@ -65,7 +65,8 @@
                     <tbody>
                     <th:block th:each="participant : ${sessionFormation.participants}">
                         <tr>
-                            <td><span th:text="${participant.prenom + ' ' + participant.nom}"></span></td>
+                            <td><a th:href="@{'/utilisateur/'+${participant.id}}"
+                                   data-th-text="${participant.prenom + ' ' + participant.nom}"></a></td>
                             <td><input type="checkbox" name="ids" th:value="${participant.id}"/></td>
                         </tr>
                     </th:block>
@@ -75,8 +76,6 @@
                 <button type="submit" class="pure-button" id="bouton-detail-session">Envoyer demande de signature</button>
             </form>
         </div>
-
-
 
 
         <div id="container-lst-todo-urgence-haute">

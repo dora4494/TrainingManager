@@ -19,6 +19,7 @@ body {
     margin-bottom: 10%;
     border-right: 1px solid #ccc;
     background-color: white;
+
 }
 
 
@@ -35,6 +36,7 @@ body {
     justify-content: flex-end;
     border-bottom: 1px solid #ccc;
     background-color: white;
+    border-left: 1px solid #ccc;
 
 }
 
@@ -143,6 +145,8 @@ p, span {
     margin: 0;
     box-sizing: border-box;
 }
+
+
 
 /*
 #boutonTodo {
