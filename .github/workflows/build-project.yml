@@ -21,4 +21,5 @@ jobs:
     uses: ./.github/workflows/playwright-test.yml
 
   publication-doc:
+    needs: test-playwright
     uses: ./.github/workflows/publish_doc.yml
