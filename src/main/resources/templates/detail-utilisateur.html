@@ -9,6 +9,8 @@
 
     <div th:replace="~{fragments :: header}">...</div>
 
+    <div class="content-container">
+
 <main class="main">
 <div class="details-container">
     <div class="input-container" data-th-text="${utilisateur.prenom}"></div>
@@ -39,7 +41,7 @@
 </script>
 
 </main>
-
+    </div>
 </body>
 
     <div th:insert="~{fragments :: footer}">...</div>
