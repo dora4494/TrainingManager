@@ -16,7 +16,7 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
     // Permet d'activer les traces utilisées par le TraceViewer.
     static boolean TRACE_ACTIVE = true;
     // En mode headless, le navigateur ne s'ouvre pas pendant l'execution
-    static boolean HEADLESS = true;
+    static boolean HEADLESS = false;
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -27,7 +27,6 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
         } else {
             browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(500));
         }
-
     }
 
     @Override
@@ -37,7 +36,18 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
-        context = browser.newContext();
+        setContext();
+    }
+
+    public void setContext() {
+        setContext(new Browser.NewContextOptions());
+    }
+
+    public void setContext(Browser.NewContextOptions options) {
+        if (context != null) {
+            context.close();
+        }
+        context = browser.newContext(options);
         if (TRACE_ACTIVE) {
             context.tracing().start(new Tracing.StartOptions()
                     .setScreenshots(true)
