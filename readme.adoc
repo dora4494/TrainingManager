@@ -1,3 +1,5 @@
+:site-url: https://palo-it.github.io/TrainingManager
+
 = TrainingManager
 :source-highlighter: rouge
 
@@ -10,12 +12,9 @@
 * La mise en page et le style utilise https://purecss.io/[Pure CSS].
 * La documentation est écrite en https://asciidoctor.org/[asciidoc] et publiée sur une https://docs.github.com/pages[Github pages].
 
-ifdef::env-github[]
 == Interface
 
-Vous pouvez consulter les principaux link:ihm/index.html[parcours utilisateur] de l'application.
-
-endif::[]
+Vous pouvez consulter les principaux link::{site-url}/ihm/index.html[parcours utilisateur] de l'application.
 
 == Lancement
 
@@ -75,4 +74,4 @@ La configuration se trouve dans le répértoire `.github/workflows`
 
 == Docker
 
-Si vous souhaitez démarrer l'application et les tests sous docker, vous trouverez des indications sur cette page: link:docker.html[Docker]
+Si vous souhaitez démarrer l'application et les tests sous docker, vous trouverez des indications sur cette page: link:{site-url}/docker.html[Docker]
