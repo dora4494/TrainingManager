@@ -33,7 +33,7 @@ jobs:
       - name: Generate HTML
         run: |
           git fetch origin ${{env.user_manual_branch}}
-          git checkout origin/${{env.user_manual_branch}}  -- ${{env.published_folder}}/ihm
+          git checkout origin/${{env.user_manual_branch}}  -- ${{env.adoc_folder}}/ihm
           asciidoctor -r asciidoctor-diagram -D ${{env.published_folder}} -R ${{env.adoc_folder}} $(find ${{env.adoc_folder}} -type f -name "[^_]*.adoc")
           rm -rf ${{env.published_folder}}/.asciidoctor
 
