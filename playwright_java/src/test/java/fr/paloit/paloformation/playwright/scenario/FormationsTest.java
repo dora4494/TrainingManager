@@ -23,10 +23,14 @@ public class FormationsTest {
         formationPage = new FormationPage(playwright.page());
         formationPage.ouvrir();
     }
+
+    @Test
+    void page_des_formations() {
+        assertThat(formationPage.titre).hasText("Liste des formations");
+    }
+
     @Test
     void ajouter_une_formation_inexistante() {
-
-        assertThat(formationPage.titre).hasText("Liste des formations :");
         final int nb_items = formationPage.items_formation.all().size();
 
         UUID uuid = UUID.randomUUID();
@@ -47,7 +51,6 @@ public class FormationsTest {
     @Test
     void ajouter_une_formation_existante() {
 
-        assertThat(formationPage.titre).hasText("Liste des formations :");
         final int nb_items = formationPage.items_formation.all().size();
 
         UUID uuid = UUID.randomUUID();
@@ -93,7 +96,6 @@ public class FormationsTest {
     }
 
     private String creer_formation() {
-        assertThat(formationPage.titre).hasText("Liste des formations :");
         final int nb_items = formationPage.items_formation.all().size();
 
         UUID uuid = UUID.randomUUID();
