@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.RegisterExtension;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -67,7 +69,7 @@ public class FormationsDoc {
 
         describeStep("Liste des formations après suppression", docs);
 
-        try (FileWriter fileWriter = new FileWriter(docs.resolve(testName + ".adoc").toString())) {
+        try (FileWriter fileWriter = new FileWriter(docs.resolve(testName + ".adoc").toString(), StandardCharsets.UTF_8)) {
             buffer.append("\n" + style());
             fileWriter.write(buffer.toString());
         } catch (IOException e) {
