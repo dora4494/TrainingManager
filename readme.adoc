@@ -14,7 +14,7 @@
 
 == Interface
 
-Vous pouvez consulter les principaux link::{site-url}/ihm/index.html[parcours utilisateur] de l'application.
+Vous pouvez consulter les principaux link:{site-url}/ihm/index.html[parcours utilisateur] de l'application.
 
 == Lancement
 
