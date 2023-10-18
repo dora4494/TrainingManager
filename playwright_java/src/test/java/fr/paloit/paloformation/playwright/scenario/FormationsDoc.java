@@ -2,27 +2,22 @@ package fr.paloit.paloformation.playwright.scenario;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Tracing;
 import com.microsoft.playwright.options.AriaRole;
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
 import fr.paloit.paloformation.playwright.page.DetailFormationPage;
 import fr.paloit.paloformation.playwright.page.FormationPage;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
-
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FormationsDoc {
 
@@ -30,9 +25,10 @@ public class FormationsDoc {
     public static PlaywrightExtension playwright = new PlaywrightExtension();
     FormationPage formationPage;
     String testName;
+
     @BeforeEach
     public void debut(TestInfo info) {
-        testName = info.getTestMethod().map(m ->m.getDeclaringClass().getSimpleName() + "." + m.getName()).get();
+        testName = info.getTestMethod().map(m -> m.getDeclaringClass().getSimpleName() + "." + m.getName()).get();
         playwright.setContext(new Browser.NewContextOptions()
                 .setViewportSize(700, 400));
         formationPage = new FormationPage(playwright.page());
@@ -44,6 +40,18 @@ public class FormationsDoc {
 
     final Path docs = Paths.get("build", "docs");
 
+    @AfterEach
+    public void writeDocFile() {
+        final String filename = docs.resolve(testName + ".adoc").toString();
+        try (OutputStreamWriter fileWriter = new OutputStreamWriter(new FileOutputStream(filename), StandardCharsets.UTF_8)) {
+            buffer.append("\n" + style());
+            fileWriter.write(buffer.toString());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        buffer = new StringBuffer();
+    }
+
     @Test
     void creation_d_une_formation(TestInfo info) {
         buffer.append("ifndef::ROOT_PATH[:ROOT_PATH: .]\n");
@@ -54,7 +62,7 @@ public class FormationsDoc {
 
         playwright.page().getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
         playwright.page().locator("#intitule").fill(nom_formation);
-        describeStep("Ajout d'une formation `" + nom_formation +"`", docs);
+        describeStep("Ajout d'une formation `" + nom_formation + "`", docs);
 
 
         playwright.page().locator("button", new Page.LocatorOptions().setHasText("Enregistrer")).click();
@@ -69,12 +77,6 @@ public class FormationsDoc {
 
         describeStep("Liste des formations après suppression", docs);
 
-        try (FileWriter fileWriter = new FileWriter(docs.resolve(testName + ".adoc").toString(), StandardCharsets.UTF_8)) {
-            buffer.append("\n" + style());
-            fileWriter.write(buffer.toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private String style() {
@@ -98,7 +100,7 @@ public class FormationsDoc {
         playwright.page().screenshot(new Page.ScreenshotOptions().setPath(docs.resolve(imagePath)));
         buffer.append(description);
         buffer.append("\n\n");
-        buffer.append("image::{ROOT_PATH}/"+imagePath+"[]\n");
+        buffer.append("image::{ROOT_PATH}/" + imagePath + "[]\n");
     }
 
 }
