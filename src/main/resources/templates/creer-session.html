@@ -55,7 +55,8 @@
 
                         <div class="pure-control-group">
                             <label for="aligned-formateur">Formateur</label>
-                            <select th:field="*{formateur}" id="aligned-formateur" name="formateur" required>
+                            <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
+                                <option value="">Sélectionnez un formateur</option> <!-- Option vide -->
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
                             </select>
@@ -65,7 +66,7 @@
                         <div class="pure-control-group">
                             <label for="aligned-participant">Participants</label>
                             <select th:field="*{participants}" id="aligned-participant" name="select-participant"
-                                    multiple required>
+                                    multiple>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}"
                                         th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
