@@ -4,45 +4,40 @@ body {
     font-family: 'Josefin Sans', sans-serif;
     color: #696969;
     font-size: smaller;
-}
-
-
-.nav {
-    position: fixed;
-    width: 15%;
-    height: 100vh;
-    overflow-y: auto;
-    font-size: small;
-    float: left;
     top: 0;
-    left: 0;
-    margin-bottom: 10%;
-    border-right: 1px solid #ccc;
-    background-color: white;
-
 }
 
 
 .header {
-    display: flex;
-    align-items: center;
     position: relative;
-    width: 85%;
+    width: 100%;
     height: 8vh;
-    font-size: small;
     float: left;
     top: 0;
-    left: 15%;
-    justify-content: flex-end;
     border-bottom: 1px solid #ccc;
     background-color: white;
     border-left: 1px solid #ccc;
 
+
 }
+
+
+#container-indicateurs {
+    display: flex;
+    align-items: center;
+    font-size: small;
+    justify-content: flex-end;
+    margin-top: 15px;
+    margin-right: 20px;
+
+}
+
 
 .main {
     float: right;
     width: 85%;
+    margin-right: 100px;
+    margin-top: 20px;
 
 }
 
@@ -55,11 +50,6 @@ body {
     text-align: center;
     padding: 10px;
     font-size: x-small;
-}
-
-
-.custom-restricted-width {
-    width: 10em;
 }
 
 
@@ -79,7 +69,7 @@ body {
 }
 
 .titre-main {
-    margin-left: 3%;
+    margin-left: 15px;
 }
 
 .titre-main-item {
@@ -87,9 +77,9 @@ body {
 }
 
 .form-container-creer-formation, .form-container-creer-session, .form-container-creer-utilisateur {
-    margin-left: 3%;
-    margin-top: 2%;
+
 }
+
 
 .pure-g {
     display: flex;
@@ -155,75 +145,134 @@ p, span {
 #bouton-sessions-submit, #bouton-sessions-submit, #bouton-formations-submit {
     margin-left: 3%;
 }
-/*
-#boutonTodo {
-    background-color: #FFC300;
-    border-radius: 5px;
-    height: 30px;
-    color:darkslategray;
-    border-color: lightgrey;
-    border-width: 1px;
-    width: 60px;
+
+
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
 }
 
-#boutonTodo.fait {
-    background-color: #33BEFF;
-    border-radius: 5px;
-    height: 30px;
-    color:darkslategray;
-    border-color: lightgrey;
-    border-width: 1px;
-    width: 60px;
-}
-*/
 
-/* SWITCH
-input[type=checkbox] {
-    height: 0;
-    width: 0;
-    visibility: hidden;
-}
-
-label {
-    cursor: pointer;
-    text-indent: -9999px;
-    width: 40px;
-    height: 20px;
-    background: grey;
-    display: block;
-    border-radius: 10px;
+#layout {
     position: relative;
-    top: -8px;
+    left: 0;
+    padding-left: 0;
 }
 
-label:after {
-    content: '';
+#layout.active #menu {
+    left: 190px;
+    width: 190px;
+}
+
+#layout.active .menu-link {
+    left: 190px;
+}
+
+
+#menu {
+    margin-left: -190px;
+    width: 190px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow-y: auto;
+    font-size: small;
+    border-right: 1px solid #ccc;
+    float: left;
+}
+
+.menu-link {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    background: #000;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 10px;
+    z-index: 10;
+    width: 2em;
+    height: auto;
+    padding: 2.1em 1.6em;
+}
+
+.menu-link:hover,
+.menu-link:focus {
+    background: #000;
+}
+
+.menu-link span {
+    position: relative;
+    display: block;
+}
+
+.menu-link span,
+.menu-link span:before,
+.menu-link span:after {
+    background-color: #fff;
+    pointer-events: none;
+    width: 100%;
+    height: 0.2em;
+}
+
+.menu-link span:before,
+.menu-link span:after {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
-    background: #fff;
-    border-radius: 8px;
-    transition: 0.3s;
+    margin-top: -0.6em;
+    content: " ";
 }
 
-input:checked + label {
-    background: #00BFFF;
+.menu-link span:after {
+    margin-top: 0.6em;
 }
 
-input:checked + label:after {
-    left: calc(100% - 2px);
-    transform: translateX(-100%);
+@media (min-width: 48em) {
+
+    .header,
+    .content {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    #layout {
+        padding-left: 190px;
+        left: 0;
+    }
+
+    #menu {
+        left: 190px;
+    }
+
+    .menu-link {
+        position: fixed;
+        left: 190px;
+        display: none;
+    }
+
+    #layout.active .menu-link {
+        left: 190px;
+    }
 }
 
-label:active:after {
-    width: 24px;
+@media (max-width: 48em) {
+
+    #layout.active {
+        position: relative;
+        left: 190px;
+    }
+
+    .main {
+        width: 90%;
+        margin-right: 20px;
+        margin-left: 10px;
+    }
+
+    #container-indicateurs {
+
+        margin-right: 5px;
+
+    }
 }
-*/
-
-
-
-
 
 

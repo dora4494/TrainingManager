@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,38 +15,39 @@
 
     <div class="content-container">
 
-<main class="main">
+        <main class="main">
 
-    <div class="titre-main">
-        <h2 class="titre-main-item">Liste des utilisateurs</h2>
+            <div class="titre-main">
+                <h2 class="titre-main-item">Liste des utilisateurs</h2>
+            </div>
+
+            <div id="lst-container-utilisateurs">
+                <table class="pure-table">
+                    <thead>
+                    <tr>
+                        <th>Prénom Nom</th>
+                        <th>Mail</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-th-each="utilisateur: ${utilisateurs}">
+                        <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
+                               data-th-text="${utilisateur.prenom + ' ' + utilisateur.nom}"></a></td>
+                        <td data-th-text="${utilisateur.mail}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
+                <button type="submit" class="pure-button" id="bouton-sessions-submit">Ajouter un participant</button>
+            </form>
+
+        </main>
     </div>
-
-    <div id="lst-container-utilisateurs">
-        <table class="pure-table">
-            <thead>
-            <tr>
-                <th>Prénom Nom</th>
-                <th>Mail</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-th-each="utilisateur: ${utilisateurs}">
-                <td><a th:href="@{'utilisateur/'+${utilisateur.id}}"
-                       data-th-text="${utilisateur.prenom + ' ' + utilisateur.nom}"></a></td>
-                <td data-th-text="${utilisateur.mail}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
-        <button type="submit" class="pure-button" id="bouton-sessions-submit">Ajouter un participant</button>
-    </form>
-
-</main>
-    </div>
+</div>
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>

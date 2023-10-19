@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,37 +15,38 @@
 
     <div class="content-container">
 
-<main class="main">
+        <main class="main">
 
-    <div class="titre-main">
-        <h2 class="titre-main-item">Liste des formations</h2>
+            <div class="titre-main">
+                <h2 class="titre-main-item">Liste des formations</h2>
+            </div>
+
+            <div id="lst-container-formations">
+                <table class="pure-table">
+                    <thead>
+                    <tr>
+                        <th>Intitulé</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-th-each="formation: ${formations}">
+                        <td><a th:href="@{'formation/'+${formation.id}}"
+                               data-th-text="${formation.intitule}"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <form action="/creer-formation" method="get" class="container-btn-enregistrer">
+                <button type="submit" class="pure-button" id="bouton-formations-submit">Ajouter une formation</button>
+            </form>
+
+        </main>
     </div>
-
-<div id="lst-container-formations">
-    <table class="pure-table">
-        <thead>
-        <tr>
-            <th>Intitulé</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr data-th-each="formation: ${formations}">
-            <td><a th:href="@{'formation/'+${formation.id}}"
-                   data-th-text="${formation.intitule}"></a></td>
-        </tr>
-        </tbody>
-    </table>
 </div>
-
-
-<form action="/creer-formation" method="get" class="container-btn-enregistrer">
-    <button type="submit" class="pure-button" id="bouton-formations-submit">Ajouter une formation</button>
-</form>
-
-</main>
-    </div>
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>

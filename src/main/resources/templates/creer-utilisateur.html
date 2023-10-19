@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
+
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,44 +17,51 @@
 
     <div class="content-container">
 
-<main class="main">
+        <main class="main">
 
-    <div class="titre-main">
-    <h2 class="titre-main-item">Créer un utilisateur</h2>
-</div>
+            <div class="titre-main">
+                <h2 class="titre-main-item">Créer un utilisateur</h2>
+            </div>
 
-<div class="form-container-creer-utilisateur">
-    <form th:action="@{/utilisateur-cree}" th:object="${utilisateur}"
-          method="POST" enctype="multipart/form-data" class="pure-form-aligned">
-        <input type="hidden" th:field="*{id}"/>
-        <fieldset>
+            <div class="form-container-creer-utilisateur">
+                <form th:action="@{/utilisateur-cree}" th:object="${utilisateur}"
+                      method="POST" enctype="multipart/form-data" class="pure-form-aligned">
+                    <input type="hidden" th:field="*{id}"/>
+                    <fieldset class="fieldset-form">
 
-            <div class="pure-control-group">
-            <label for="aligned-prenom">Prénom</label>
-                <input type="text" th:field="*{prenom}" id="aligned-prenom" name="prenom" required>
-        </div>
+                        <div class="pure-control-group">
+                            <label for="aligned-prenom">Prénom</label>
+                            <input type="text" th:field="*{prenom}" id="aligned-prenom" name="prenom" required>
+                        </div>
 
-            <div class="pure-control-group">
-            <label for="aligned-nom">Nom</label> <input type="text"
-           th:field="*{nom}" id="aligned-nom" name="nom" required>
-        </div>
+                        <div class="pure-control-group">
+                            <label for="aligned-nom">Nom</label> <input type="text"
+                                                                        th:field="*{nom}" id="aligned-nom" name="nom"
+                                                                        required>
+                        </div>
 
 
-            <div class="pure-control-group">
-            <label for="aligned-mail">Adresse email</label> <input type="text"
-            th:field="*{mail}" id="aligned-mail" name="mail" required>
-        </div>
+                        <div class="pure-control-group">
+                            <label for="aligned-mail">Email</label> <input type="text"
+                                                                           th:field="*{mail}" id="aligned-mail"
+                                                                           name="mail" required>
+                        </div>
 
-            <button type="submit" class="pure-button">Enregistrer</button>
+                        <button type="submit" class="pure-button">Enregistrer</button>
 
-        </fieldset>
-    </form>
-</div>
+                    </fieldset>
+                </form>
+            </div>
 
-</main>
+        </main>
+    </div>
+
+
 </div>
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>
+
+

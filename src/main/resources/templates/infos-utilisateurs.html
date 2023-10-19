@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,30 +15,31 @@
 
     <div class="content-container">
 
-<main class="main">
+        <main class="main">
 
-    <form th:action="@{/docusign}" th:object="${utilisateur}"
-          method="POST" enctype="multipart/form-data">
-        <input type="hidden" th:field="*{id}"/>
-        <div class="session">
-            <label for="select-Utilisateur">Formateur :</label> <select
-                th:field="*{nom}" id="select-Utilisateur" name="formateur"
-                placeholder="Sélectionnez le formateur" required>
-            <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
-                    th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
-        </select>
-        </div>
+            <form th:action="@{/docusign}" th:object="${utilisateur}"
+                  method="POST" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="session">
+                    <label for="select-Utilisateur">Formateur :</label> <select
+                        th:field="*{nom}" id="select-Utilisateur" name="formateur"
+                        placeholder="Sélectionnez le formateur" required>
+                    <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                            th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+                </select>
+                </div>
 
-        <div>
-            <button type="submit">Envoyer la demande de signature</button>
-        </div>
+                <div>
+                    <button type="submit">Envoyer la demande de signature</button>
+                </div>
 
-    </form>
+            </form>
 
-</main>
+        </main>
     </div>
+</div>
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>

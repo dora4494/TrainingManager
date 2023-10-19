@@ -4,24 +4,37 @@
 <head th:fragment="head">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
           integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css"/>
     <link rel="stylesheet" href="/css/trainingManager.css">
     <script src="https://kit.fontawesome.com/46c79d9640.js" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
     <meta charset="UTF-8">
     <title>Palo Training Manager</title>
 </head>
 
 <body>
 
+<div th:fragment="layout-menu">
+    <a href="#menu" id="menuLink" class="menu-link">
+
+        <span>
+
+        </span>
+    </a>
+</div>
+
+
 <header th:fragment="header" class="header">
-    <div class="indicateur-retard">Retard</div>
-    <div class="indicateur-aujourdhui">Formation aujourd'hui</div>
-    <div class="indicateur-a-venir">Formation à venir</div>
+    <div id="container-indicateurs">
+        <div class="indicateur-retard">Retard</div>
+        <div class="indicateur-aujourdhui">Formation aujourd'hui</div>
+        <div class="indicateur-a-venir">Formation à venir</div>
+    </div>
 </header>
 
 
+<nav th:fragment="navbar" id="menu">
 
-<nav th:fragment="navbar" class="nav">
 
     <div class="pure-menu custom-restricted-width">
         <span class="pure-menu-heading">PALO Training Manager</span>
@@ -59,11 +72,21 @@
         </ul>
     </div>
 
+
 </nav>
 
 
 <div th:fragment="footer" class="footer">
     &copy; 2023 PALO TRAINING MANAGER
 </div>
+
+
 </body>
 </html>
+
+
+
+
+
+
+

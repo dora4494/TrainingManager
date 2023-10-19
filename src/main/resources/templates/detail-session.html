@@ -5,194 +5,199 @@
 
 <body>
 
-<div th:replace="~{fragments :: navbar}">...</div>
+<div id="layout">
 
-<div th:replace="~{fragments :: header}">...</div>
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
-<div class="content-container">
+    <div th:replace="~{fragments :: navbar}">...</div>
 
-<main class="main">
-    <div id="container-details-session">
+    <div th:replace="~{fragments :: header}">...</div>
 
-        <div id="items-detail-session">
-            <div class="pure-g">
-                <div class="pure-u-1-3">
-                    <p>Intitulé de la formation: </p>
-                    <span data-th-text="${sessionFormation.formation.intitule}"></span>
-                </div>
-                <div class="pure-u-1-3">
-                    <p>Client: </p>
-                    <span data-th-text="${sessionFormation.client}"></span>
-                </div>
-                <div class="pure-u-1-3">
-                    <p>Durée (jours): </p>
-                    <span data-th-text="${sessionFormation.duree}"></span>
-                </div>
-            </div>
+    <div class="content-container">
 
-            <div class="pure-g">
-                <div class="pure-u-1-3">
-                    <p>Date de démarrage: </p>
-                    <span data-th-text="${#temporals.format(sessionFormation.dateDebut, 'dd-MM-yyyy')}"></span>
-                </div>
-                <div class="pure-u-1-3">
-                    <p>Date de fin: </p>
-                    <span data-th-text="${#temporals.format(sessionFormation.dateFin, 'dd-MM-yyyy')}"></span>
-                </div>
-                <div class="pure-u-1-3">
-                    <p>Formateur: </p>
-                    <a th:href="@{'/utilisateur/'+${sessionFormation.formateur.id}}"
-                       data-th-text="${sessionFormation.formateur.prenom + ' ' + sessionFormation.formateur.nom}"></a>
-                </div>
-            </div>
+        <main class="main">
+            <div id="container-details-session">
 
-            <div class="pure-g">
-                <div class="pure-u-1-3">
-                    <p>Tarif (€): </p>
-                    <span data-th-text="${sessionFormation.cout}"></span>
-                </div>
-                <div class="pure-u-1-3">
-                    <p>Modalités: </p>
-                    <span data-th-text="${sessionFormation.modalites}"></span>
-                </div>
-            </div>
-        </div>
+                <div id="items-detail-session">
+                    <div class="pure-g">
+                        <div class="pure-u-1-3">
+                            <p>Intitulé de la formation: </p>
+                            <span data-th-text="${sessionFormation.formation.intitule}"></span>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <p>Client: </p>
+                            <span data-th-text="${sessionFormation.client}"></span>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <p>Durée (jours): </p>
+                            <span data-th-text="${sessionFormation.duree}"></span>
+                        </div>
+                    </div>
 
-        <div id="container-lst-participants">
-            <h4>Liste des participants:</h4>
-            <form action="/docusign" method="get">
-                <table class="pure-table" id="table-participants">
-                    <tbody>
-                    <th:block th:each="participant : ${sessionFormation.participants}">
+                    <div class="pure-g">
+                        <div class="pure-u-1-3">
+                            <p>Date de démarrage: </p>
+                            <span data-th-text="${#temporals.format(sessionFormation.dateDebut, 'dd-MM-yyyy')}"></span>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <p>Date de fin: </p>
+                            <span data-th-text="${#temporals.format(sessionFormation.dateFin, 'dd-MM-yyyy')}"></span>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <p>Formateur: </p>
+                            <a th:href="@{'/utilisateur/'+${sessionFormation.formateur.id}}"
+                               data-th-text="${sessionFormation.formateur.prenom + ' ' + sessionFormation.formateur.nom}"></a>
+                        </div>
+                    </div>
+
+                    <div class="pure-g">
+                        <div class="pure-u-1-3">
+                            <p>Tarif (€): </p>
+                            <span data-th-text="${sessionFormation.cout}"></span>
+                        </div>
+                        <div class="pure-u-1-3">
+                            <p>Modalités: </p>
+                            <span data-th-text="${sessionFormation.modalites}"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="container-lst-participants">
+                    <h4>Liste des participants:</h4>
+                    <form action="/docusign" method="get">
+                        <table class="pure-table" id="table-participants">
+                            <tbody>
+                            <th:block th:each="participant : ${sessionFormation.participants}">
+                                <tr>
+                                    <td><a th:href="@{'/utilisateur/'+${participant.id}}"
+                                           data-th-text="${participant.prenom + ' ' + participant.nom}"></a></td>
+                                    <td><input type="checkbox" name="ids" th:value="${participant.id}"/></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+
+                        <button type="submit" class="pure-button" id="bouton-detail-session">Envoyer demande de
+                            signature
+                        </button>
+                    </form>
+                </div>
+
+
+                <div id="container-lst-todo-urgence-haute">
+                    <h3>Cette semaine</h3>
+                    <table class="pure-table" id="table-urg-haute">
+                        <thead>
                         <tr>
-                            <td><a th:href="@{'/utilisateur/'+${participant.id}}"
-                                   data-th-text="${participant.prenom + ' ' + participant.nom}"></a></td>
-                            <td><input type="checkbox" name="ids" th:value="${participant.id}"/></td>
+                            <th>Tâche</th>
+                            <th>Date</th>
+                            <th>État</th>
+                            <th>Action</th>
                         </tr>
-                    </th:block>
-                    </tbody>
-                </table>
-
-                <button type="submit" class="pure-button" id="bouton-detail-session">Envoyer demande de signature</button>
-            </form>
-        </div>
-
-
-        <div id="container-lst-todo-urgence-haute">
-            <h3>Cette semaine</h3>
-            <table class="pure-table" id="table-urg-haute">
-                <thead>
-                <tr>
-                    <th>Tâche</th>
-                    <th>Date</th>
-                    <th>État</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="todo : ${cetteSemaineTodos}">
-                    <td><span data-th-text="${todo.tache.libelle}"></span></td>
-                    <td><span data-th-text="${todo.date}"></span></td>
-                    <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
-                    <td>
-                        <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}" onclick="modifierToDo(this)" class="pure-button-active">Modifier</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                        </thead>
+                        <tbody>
+                        <tr th:each="todo : ${cetteSemaineTodos}">
+                            <td><span data-th-text="${todo.tache.libelle}"></span></td>
+                            <td><span data-th-text="${todo.date}"></span></td>
+                            <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
+                            <td>
+                                <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                                        onclick="modifierToDo(this)" class="pure-button-active">Modifier
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
 
-        <div id="container-lst-todo-urgence-moyenne">
-            <h3>A venir</h3>
-            <table class="pure-table" id="table-urg-moyenne">
-                <thead>
-                <tr>
-                    <th>Tâche</th>
-                    <th>Date</th>
-                    <th>État</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="todo : ${aVenirTodos}">
-                    <td><span data-th-text="${todo.tache.libelle}"></span></td>
-                    <td><span data-th-text="${todo.date}"></span></td>
-                    <td> <span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
-                    <td>
-                        <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}" onclick="modifierToDo(this)" class="pure-button-active">Modifier</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                <div id="container-lst-todo-urgence-moyenne">
+                    <h3>A venir</h3>
+                    <table class="pure-table" id="table-urg-moyenne">
+                        <thead>
+                        <tr>
+                            <th>Tâche</th>
+                            <th>Date</th>
+                            <th>État</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="todo : ${aVenirTodos}">
+                            <td><span data-th-text="${todo.tache.libelle}"></span></td>
+                            <td><span data-th-text="${todo.date}"></span></td>
+                            <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
+                            <td>
+                                <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                                        onclick="modifierToDo(this)" class="pure-button-active">Modifier
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
 
+                <div class="boutons-container-flex">
+                    <form action="/archiver-session" method="post" class="container-btn-archiver">
+                        <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
+                        <button type="submit" class="pure-button">Archiver session</button>
+                    </form>
+
+                    <form action="/modifier/session" method="get" class="container-btn-modifier">
+                        <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
+                        <button type="button" class="pure-button">Modifier session</button>
+                    </form>
+
+                    <form action="/annuler-session" method="post" class="container-btn-annuler">
+                        <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
+                        <button type="submit" class="pure-button">Annuler session</button>
+                    </form>
+                </div>
+            </div>
 
 
-        <div class="boutons-container-flex">
-            <form action="/archiver-session" method="post" class="container-btn-archiver">
-                <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                <button type="submit" class="pure-button">Archiver session</button>
-            </form>
+            <script>
 
-            <form action="/modifier/session" method="get" class="container-btn-modifier">
-                <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                <button type="button" class="pure-button">Modifier session</button>
-            </form>
+                function modifierToDo(bouton) {
+                    let todoId = bouton.getAttribute("etatTodo");
+                    let url = "/todo-modifier?id=" + todoId;
 
-            <form action="/annuler-session" method="post" class="container-btn-annuler">
-                <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                <button type="submit" class="pure-button">Annuler session</button>
-            </form>
-        </div>
-    </div>
+                    fetch(url, {
+                        method: "GET"
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.text();
+                            } else {
+                                throw new Error("Erreur");
+                            }
+                        })
+                        .then(data => {
+                            let todoEtatElement = document.getElementById("todo-etat-" + todoId);
+                            todoEtatElement.textContent = data;
+                        })
+                        .catch(error => {
+                            console.error("Erreur ", error);
+                        });
+                }
+
+            </script>
 
 
-
-
-    <script>
-
-        function modifierToDo(bouton) {
-            let todoId = bouton.getAttribute("etatTodo");
-            let url = "/todo-modifier?id=" + todoId;
-
-            fetch(url, {
-                method: "GET"
-            })
-                .then(response => {
-                    if (response.ok) {
-                        return response.text();
-                    } else {
-                        throw new Error("Erreur");
-                    }
-                })
-                .then(data => {
-                    let todoEtatElement = document.getElementById("todo-etat-" + todoId);
-                    todoEtatElement.textContent = data;
-                })
-                .catch(error => {
-                    console.error("Erreur ", error);
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let btnModifier = document.querySelector('.btn-modifier');
+                    btnModifier.addEventListener("click", function () {
+                        let idSession = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
+                        let redirectionUrl = '/modifier/session/' + idSession;
+                        window.location.href = redirectionUrl;
+                    });
                 });
-        }
+            </script>
 
-    </script>
-
-
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let btnModifier = document.querySelector('.btn-modifier');
-            btnModifier.addEventListener("click", function () {
-                let idSession = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
-                let redirectionUrl = '/modifier/session/' + idSession;
-                window.location.href = redirectionUrl;
-            });
-        });
-    </script>
-
-</main>
+        </main>
+    </div>
 </div>
 </body>
 

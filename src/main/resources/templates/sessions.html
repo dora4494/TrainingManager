@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,48 +15,50 @@
 
     <div class="content-container">
 
-<main class="main">
+        <main class="main">
 
-    <div class="titre-main">
-        <h2 class="titre-main-item">Liste des sessions enregistrées</h2>
+            <div class="titre-main">
+                <h2 class="titre-main-item">Liste des sessions enregistrées</h2>
+            </div>
+
+            <div id="lst-container-sessions">
+                <table class="pure-table">
+                    <thead>
+                    <tr>
+                        <th>Formation</th>
+                        <th>Client</th>
+                        <th>Date de début</th>
+                        <th>Date de fin</th>
+                        <th>Formateur</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr data-th-each="ses: ${sessions}">
+                        <td><a th:href="@{'session/'+${ses.id}}"
+                               data-th-text="${ses.formation.intitule}"></a></td>
+                        <td data-th-text="${ses.client}"></td>
+                        <td data-th-text="${ses.dateDebut}"></td>
+                        <td data-th-text="${ses.dateFin}"></td>
+                        <td data-th-each="form: ${ses.formateur}">
+                            <span data-th-text="${form.prenom}"></span>
+                            <span data-th-text="${form.nom}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <form action="/creer-session" method="get" class="container-btn-enregistrer">
+                <button type="submit" class="pure-button" id="bouton-sessions-submit">Ajouter une session de formation
+                </button>
+            </form>
+
+        </main>
     </div>
-
-    <div id="lst-container-sessions">
-        <table class="pure-table">
-            <thead>
-            <tr >
-                <th>Formation</th>
-                <th>Client</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
-                <th>Formateur</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr data-th-each="ses: ${sessions}">
-                <td><a th:href="@{'session/'+${ses.id}}"
-                       data-th-text="${ses.formation.intitule}"></a></td>
-                <td data-th-text="${ses.client}"></td>
-                <td data-th-text="${ses.dateDebut}"></td>
-                <td data-th-text="${ses.dateFin}"></td>
-                <td data-th-each="form: ${ses.formateur}">
-                    <span data-th-text="${form.prenom}"></span>
-                    <span data-th-text="${form.nom}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-    <form action="/creer-session" method="get" class="container-btn-enregistrer">
-        <button type="submit" class="pure-button" id="bouton-sessions-submit">Ajouter une session de formation</button>
-    </form>
-
-</main>
-    </div>
+</div>
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>

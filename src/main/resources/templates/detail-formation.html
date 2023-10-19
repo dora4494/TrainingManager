@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <div th:replace="~{fragments :: head}"></div>
+<div th:replace="~{fragments :: head}"></div>
 
 <body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
 
     <div th:replace="~{fragments :: navbar}">...</div>
 
@@ -11,38 +15,39 @@
 
     <div class="content-container">
 
-<main class="main">
-<div class="details-container">
-    <div class="input-container" data-th-text="${formation.intitule}"></div>
+        <main class="main">
+            <div class="details-container">
+                <div class="input-container" data-th-text="${formation.intitule}"></div>
 
 
-<form action="/supprimer-formation" method="post" class="container-btn-supprimer">
-    <input type="hidden" name="id" th:value="${formation.id}"/>
-    <button type="submit" class="pure-button">Supprimer formation</button>
-</form>
+                <form action="/supprimer-formation" method="post" class="container-btn-supprimer">
+                    <input type="hidden" name="id" th:value="${formation.id}"/>
+                    <button type="submit" class="pure-button">Supprimer formation</button>
+                </form>
 
-<form action="/modifier/formation" method="get" class="container-btn-modifier">
-    <input type="hidden" name="id" th:value="${formation.id}"/>
-    <button type="button" class="pure-button">Modifier formation</button>
-</form>
+                <form action="/modifier/formation" method="get" class="container-btn-modifier">
+                    <input type="hidden" name="id" th:value="${formation.id}"/>
+                    <button type="button" class="pure-button">Modifier formation</button>
+                </form>
 
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    let btnModifier = document.querySelector('.btn-modifier');
+                    btnModifier.addEventListener("click", function () {
+                        let idFormation = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
+                        let redirectionUrl = '/modifier/formation/' + idFormation;
+                        window.location.href = redirectionUrl;
+                    });
+                });
+            </script>
+
+        </main>
+    </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let btnModifier = document.querySelector('.btn-modifier');
-        btnModifier.addEventListener("click", function () {
-            let idFormation = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
-            let redirectionUrl = '/modifier/formation/' + idFormation;
-            window.location.href = redirectionUrl;
-        });
-    });
-</script>
-
-</main>
-    </div>$
 </body>
 
-    <div th:insert="~{fragments :: footer}">...</div>
+<div th:insert="~{fragments :: footer}">...</div>
 
 </html>
