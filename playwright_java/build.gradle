@@ -26,6 +26,10 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
 task runTraceViewer(type: JavaExec) {
 	group = "Execution"
 	description = "Run traceViewer"

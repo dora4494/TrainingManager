@@ -20,39 +20,45 @@ jobs:
       image: asciidoctor/docker-asciidoctor
     steps:
       - uses: actions/checkout@v4
-      - name: Configure Git
+      - name: Configuration Git
         run: |
           git config --global --add safe.directory $(realpath .)
           git config user.email github-action@github.com
           git config user.name github-action
 
-      - name: Switch to working branch
+      - name: Récupération de la branche de travail
         run: |
           git checkout -b ${{env.working_branch}}
 
-      - name: Generate HTML
+      - name: Generation du HTML
         run: |
+          git fetch origin ${{env.user_manual_branch}}
+          git checkout origin/${{env.user_manual_branch}}  -- ${{env.adoc_folder}}/ihm
           asciidoctor -r asciidoctor-diagram -D ${{env.published_folder}} -R ${{env.adoc_folder}} $(find ${{env.adoc_folder}} -type f -name "[^_]*.adoc")
           rm -rf ${{env.published_folder}}/.asciidoctor
 
-      - name: Adding docs files to working branch
+      - name: Copie des fichiers autres que asciidoc
         run: |
-          echo "Add docs folder"
-          git add ${{env.published_folder}}
-          git commit -m "Update documentation"
+          cd ${{env.adoc_folder}}
+          find . -not -name '*.adoc' -exec cp --parents {} ../${{env.published_folder}}/ \;
 
-          echo "Checkout doc branch"
+      - name: Ajout des documents dans la branche de travail
+        run: |
+          echo "Ajout du répertoire de documentation"
+          git add ${{env.published_folder}}
+          git commit -m "Mise à jour de la documentation"
+
+          echo "Récupération de la branche de documentation"
           git fetch origin ${{env.doc_branch}}
           git checkout ${{env.doc_branch}}
 
-          echo "Replace docs by the new one"
+          echo "Remplacement des documents par la nouvelle version"
           git rm -rf .
           git checkout ${{env.working_branch}}  -- ${{env.published_folder}}
-          # git checkout origin/${{env.user_manual_branch}}  -- ${{env.adoc_folder}}/ihm
           git mv ${{env.published_folder}}/* .
 
-          echo "Commit and push modification "
-          git commit -m "Update documentation"
+          echo "Commit et push des modification"
+          git commit -m "Mise à jour de la documentation"
           git push -f
 
 # Need to set pages to publish in Github settings
