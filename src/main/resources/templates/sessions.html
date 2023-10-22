@@ -37,8 +37,7 @@
                         <td><a th:href="@{'session/'+${ses.id}}"
                                data-th-text="${ses.formation.intitule}"></a></td>
                         <td data-th-text="${ses.client}"></td>
-                        <td data-th-text="${ses.dateDebut}"></td>
-                        <td data-th-text="${ses.dateFin}"></td>
+
                         <td data-th-each="form: ${ses.formateur}">
                             <span data-th-text="${form.prenom}"></span>
                             <span data-th-text="${form.nom}"></span>
@@ -62,3 +61,6 @@
 <div th:insert="~{fragments :: footer}">...</div>
 
 </html>
+
+
+

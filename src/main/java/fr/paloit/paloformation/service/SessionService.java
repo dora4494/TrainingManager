@@ -42,19 +42,6 @@ public class SessionService {
     }
 
 
-
-
-
-    // Etat 1 : En cours , Etat 3 : Archivée
-    public void archiverSession(Session session) {
-
-        LocalDate dateDuJour = LocalDate.now();
-        if (session.getEtat() == 1 && session.getDateDebut().isAfter(dateDuJour)) {
-            session.setEtat(3);
-            sessionRepository.save(session);
-        }
-    }
-
     public void modifierSession(Session session) {
         if (session.getEtat() == 1) {
             sessionRepository.save(session);
@@ -71,3 +58,8 @@ public class SessionService {
 
 
 }
+
+
+
+
+

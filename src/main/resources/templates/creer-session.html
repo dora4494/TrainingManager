@@ -42,21 +42,17 @@
                         </div>
 
 
-                        <div class="pure-control-group">
-                            <label for="aligned-dateDebut">Date de début</label>
-                            <input type="date" th:field="*{dateDebut}" id="aligned-dateDebut" name="dateDebut" required>
-                        </div>
-
-                        <div class="pure-control-group">
-                            <label for="aligned-dateFin">Date de fin</label>
-                            <input type="date" th:field="*{dateFin}" id="aligned-dateFin" name="dateFin" required>
+                        <div class="pure-control-group date-group">
+                            <label for="aligned-dates">Date(s)</label>
+                            <input type="date" th:field="*{dates}" id="aligned-dates" name="dates" required>
+                            <button type="button" class="ajoutDate">Ajouter une date</button>
                         </div>
 
 
                         <div class="pure-control-group">
                             <label for="aligned-formateur">Formateur</label>
                             <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
-                                <option value="">Sélectionnez un formateur</option> <!-- Option vide -->
+                                <option value="">Sélectionnez un formateur</option>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
                             </select>
@@ -88,9 +84,30 @@
 
         </main>
     </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.ajoutDate').on('click', function () {
+                var divDates = $('<div class="pure-control-group date-group">' +
+                    '<label for="aligned-dates">Date(s)</label>' +
+                    '<input type="date" name="dates">' +
+                    '</div>');
+
+                $('.date-group:last').after(divDates);
+
+            });
+        });
+    </script>
+
+
 </div>
+
 </body>
 
 <div th:insert="~{fragments :: footer}">...</div>
 
+
 </html>
+

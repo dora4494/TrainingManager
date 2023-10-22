@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,38 +29,27 @@ public class ToDoService {
     public void creerTodos(Session session) {
         Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
         Tache feuilleEmargement = tacheRepository.findById(2L).orElse(null);
-        List<ToDo> todos = getToDos(session, conventionFormation, feuilleEmargement);
 
-        for (ToDo todo : todos) {
-            toDoRepository.save(todo);
-        }
+        LocalDate dateLaPlusPetite = session.getDates().stream().min(Comparator.naturalOrder()).orElse(null);
 
-
-    }
-
-
-    private static List<ToDo> getToDos(Session session, Tache conventionFormation, Tache feuilleEmargement) {
-        LocalDate conventionFormationDate = session.getDateDebut().minusDays(7);
-        System.out.println("Date de début : " + session.getDateDebut());
-        System.out.println("Date de début moins 7 jours : " + conventionFormationDate);
+        System.out.println("Date la plus petite : " + dateLaPlusPetite);
 
         if (conventionFormation == null || feuilleEmargement == null) {
             throw new RuntimeException("Erreur: tâches introuvables");
         }
 
-        List<ToDo> todos = new ArrayList<>();
         ToDo conventionF = new ToDo();
         conventionF.setTache(conventionFormation);
         conventionF.setSession(session);
-        conventionF.setDate(conventionFormationDate);
-        todos.add(conventionF);
+        conventionF.setDate(dateLaPlusPetite.minusDays(7));
 
         ToDo feuilleE = new ToDo();
         feuilleE.setTache(feuilleEmargement);
         feuilleE.setSession(session);
-        feuilleE.setDate(session.getDateDebut().minusDays(2));
-        todos.add(feuilleE);
-        return todos;
+        feuilleE.setDate(dateLaPlusPetite.minusDays(2));
+
+        toDoRepository.save(conventionF);
+        toDoRepository.save(feuilleE);
     }
 
 

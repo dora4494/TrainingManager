@@ -88,17 +88,6 @@ public class SessionController {
     }
 
 
-    @PostMapping({"/archiver-session"})
-    public String archiverSession(@RequestParam Long id) {
-        Session session = sessionService.trouverSessionById(id);
-        if (session != null) {
-            sessionService.archiverSession(session);
-        }
-        assert session != null;
-        return "redirect:/sessions";
-    }
-
-
     @PostMapping({"/annuler-session"})
     public String annulerSession(@RequestParam Long id) {
         Session session = sessionService.trouverSessionById(id);
@@ -109,3 +98,6 @@ public class SessionController {
     }
 
 }
+
+
+

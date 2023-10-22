@@ -38,14 +38,20 @@ public class Session {
     @JoinColumn(name = "formateur_id")
     private Utilisateur formateur;
     private int duree;
-    private LocalDate dateDebut;
-    private LocalDate dateFin;
+
     private Long cout;
     private String modalites;
 
     private int etat = 1;
 
-    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, LocalDate dateDebut, LocalDate dateFin, Long cout, String modalites, int etat) {
+
+    @ElementCollection
+    @CollectionTable(name = "session_dates", joinColumns = @JoinColumn(name = "session_id"))
+    @Column(name = "session_date")
+    private Set<LocalDate> dates = new HashSet<>();
+
+
+    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, Long cout, String modalites, int etat, Set<LocalDate> dates) {
         this.id = id;
         this.formation = formation;
         this.client = client;
@@ -53,15 +59,16 @@ public class Session {
         this.todos = todos;
         this.formateur = formateur;
         this.duree = duree;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
         this.cout = cout;
         this.modalites = modalites;
         this.etat = etat;
+        this.dates = dates;
     }
+
 
     public Session() {
     }
+
 
     public Long getId() {
         return id;
@@ -119,22 +126,6 @@ public class Session {
         this.duree = duree;
     }
 
-    public LocalDate getDateDebut() {
-        return dateDebut;
-    }
-
-    public void setDateDebut(LocalDate dateDebut) {
-        this.dateDebut = dateDebut;
-    }
-
-    public LocalDate getDateFin() {
-        return dateFin;
-    }
-
-    public void setDateFin(LocalDate dateFin) {
-        this.dateFin = dateFin;
-    }
-
     public Long getCout() {
         return cout;
     }
@@ -159,6 +150,15 @@ public class Session {
         this.etat = etat;
     }
 
+    public Set<LocalDate> getDates() {
+        return dates;
+    }
+
+    public void setDates(Set<LocalDate> dates) {
+        this.dates = dates;
+    }
+
+
     @Override
     public String toString() {
         return "Session{" +
@@ -169,11 +169,10 @@ public class Session {
                 ", todos=" + todos +
                 ", formateur=" + formateur +
                 ", duree=" + duree +
-                ", dateDebut=" + dateDebut +
-                ", dateFin=" + dateFin +
                 ", cout=" + cout +
                 ", modalites='" + modalites + '\'' +
                 ", etat=" + etat +
+                ", dates=" + dates +
                 '}';
     }
 }
