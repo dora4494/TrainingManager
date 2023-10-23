@@ -18,7 +18,7 @@
 
         <main class="main">
             <div class="titre-main">
-                <h2 class="titre-main-item">Ajouter une session de formation</h2>
+                <h4 class="titre-main-item">Ajouter une session</h4>
             </div>
 
 
@@ -26,9 +26,9 @@
                 <form th:action="@{/session-creee}" th:object="${session}"
                       method="POST" enctype="multipart/form-data" class="pure-form-aligned">
                     <input type="hidden" th:field="*{id}"/>
-                    <fieldset>
+                    <fieldset id="fieldset-creer-session">
                         <div class="pure-control-group">
-                            <label for="select-intitule-formation">Intitulé de la formation</label>
+                            <label for="select-intitule-formation">Formation</label>
                             <select th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
                                 <option th:each="formation: ${@formationService.listeFormations}"
                                         th:value="${formation.id}"
