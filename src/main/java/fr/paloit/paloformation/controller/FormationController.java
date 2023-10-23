@@ -51,11 +51,12 @@ public class FormationController {
         return "redirect:/formations";
     }
 
-    @GetMapping({"/modifier/formation/{id}"})
-    public String modifierFormation(@PathVariable Long id, Model model) {
+
+
+    @GetMapping({"/modifier-formation"})
+    public String modifierFormation(@RequestParam Long id, Model model) {
         model.addAttribute("formation", formationService.trouverFormationById(id));
         return "creer-formation";
     }
-
 
 }

@@ -25,13 +25,17 @@
                         <button type="submit" class="pure-button">Supprimer formation</button>
                     </form>
 
-                    <form action="/modifier/formation" method="get" class="container-btn-modifier">
+
+                    <form action="/modifier-formation" method="get" class="container-btn-modifier">
                         <input type="hidden" name="id" th:value="${formation.id}"/>
-                        <button type="button" class="pure-button">Modifier formation</button>
+                        <button type="submit" class="pure-button">Modifier formation</button>
                     </form>
+
+
                 </div>
             </div>
 
+<!--
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     let btnModifier = document.querySelector('.btn-modifier');
@@ -42,7 +46,7 @@
                     });
                 });
             </script>
-
+-->
         </main>
     </div>
 </div>
