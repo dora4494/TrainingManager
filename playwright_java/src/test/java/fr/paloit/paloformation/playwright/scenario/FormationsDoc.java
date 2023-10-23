@@ -35,19 +35,17 @@ public class FormationsDoc {
         formationPage.ouvrir();
     }
 
-    int index = 0;
-
     @Test
     void creation_d_une_formation(TestInfo info) {
 
         doc.writeln("ifndef::ROOT_PATH[:ROOT_PATH: .]");
         doc.writeln("= Création et suppression d'une formation\n");
+
         describeStep("Page d'accueil");
 
         String titreFormation = "Tutorial";
 
         formationPage.boutonAjouter.click();
-        //playwright.page().getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
 
         ajoutFormationPage.remplirTitre(titreFormation);
         describeStep("Ajout d'une formation `" + titreFormation + "`");
@@ -65,13 +63,11 @@ public class FormationsDoc {
     }
 
     private void describeStep(String description) {
-        index++;
-        final String imageFilename = doc.getTestName() + "_" + index + ".jpg";
-        final Path imagePath = doc.getPath().resolve(imageFilename);
-        playwright.page().screenshot(new Page.ScreenshotOptions().setPath(imagePath));
+        final String imageFilename = doc.takeNextScreenshot(playwright.page());
         doc.writeln(description,
                 "",
                 "image::{ROOT_PATH}/" + imageFilename + "[]");
     }
+
 
 }

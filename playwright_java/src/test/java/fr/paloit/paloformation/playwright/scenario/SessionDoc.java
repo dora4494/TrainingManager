@@ -32,8 +32,6 @@ public class SessionDoc {
         sessionPage.ouvrir();
     }
 
-    int index = 0;
-
     @Test
     void creation_d_une_session(TestInfo info) throws InterruptedException {
 
@@ -57,10 +55,7 @@ public class SessionDoc {
     }
 
     private void describeStep(String description) {
-        index++;
-        final String imageFilename = doc.getTestName() + "_" + index + ".jpg";
-        final Path imagePath = doc.getPath().resolve(imageFilename);
-        playwright.page().screenshot(new Page.ScreenshotOptions().setPath(imagePath));
+        final String imageFilename = doc.takeNextScreenshot(playwright.page());
         doc.writeln(description,
                 "",
                 "image::{ROOT_PATH}/" + imageFilename + "[]");

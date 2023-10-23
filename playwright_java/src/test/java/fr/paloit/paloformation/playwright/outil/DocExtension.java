@@ -1,6 +1,7 @@
 package fr.paloit.paloformation.playwright.outil;
 
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Page;
 import fr.paloit.paloformation.playwright.page.FormationPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,12 +27,11 @@ public class DocExtension implements BeforeEachCallback, AfterEachCallback {
 
     public StringBuffer buffer = new StringBuffer();
 
-    @BeforeEach
-    public void debut(TestInfo info) {
+    private int indexScreenshot = 0;
 
-    }
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
+        indexScreenshot = 0;
         testName = context.getTestMethod().map(m -> m.getDeclaringClass().getSimpleName() + "." + m.getName()).get();
     }
 
@@ -75,6 +75,13 @@ public class DocExtension implements BeforeEachCallback, AfterEachCallback {
         );
     }
 
+    public String takeNextScreenshot(Page page) {
+        indexScreenshot++;
+        final String imageFilename = getTestName() + "_" + indexScreenshot + ".jpg";
+        final Path imagePath = getPath().resolve(imageFilename);
+        page.screenshot(new Page.ScreenshotOptions().setPath(imagePath));
+        return imageFilename;
+    }
 
     public void write(String... texts) {
         buffer.append(Arrays.stream(texts).collect(Collectors.joining("\n")));
