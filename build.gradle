@@ -75,6 +75,7 @@ configurations.forEach {
 		doFirst {
 			tasks.bootRun.configure {
 				systemProperty("spring.profiles.active", "$conf")
+				systemProperty("spring.sql.init.platform", "$conf")
 			}
 		}
 		finalizedBy("bootRun")
