@@ -1,6 +1,7 @@
 package fr.paloit.paloformation.playwright.scenario;
 
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
+import fr.paloit.paloformation.playwright.page.AjoutFormationPage;
 import fr.paloit.paloformation.playwright.page.DetailFormationPage;
 import fr.paloit.paloformation.playwright.page.FormationPage;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +19,10 @@ public class FormationsTest {
     @RegisterExtension
     public static PlaywrightExtension playwright = new PlaywrightExtension();
     FormationPage formationPage;
+    AjoutFormationPage ajoutFormationPage;
+
     @BeforeEach
     public void debut() {
-        formationPage = new FormationPage(playwright.page());
         formationPage.ouvrir();
     }
 
@@ -31,19 +33,19 @@ public class FormationsTest {
 
     @Test
     void ajouter_une_formation_inexistante() {
-        final int nb_items = formationPage.items_formation.all().size();
+        final int nb_items = formationPage.itemsFormation.all().size();
 
         UUID uuid = UUID.randomUUID();
         String nom_formation = "Test_" + uuid;
 
-        assertTrue(formationPage.items_formation.all()
+        assertTrue(formationPage.itemsFormation.all()
                 .stream().noneMatch(p -> p.textContent().equals(nom_formation)));
 
-        formationPage.ajouterFormation(nom_formation);
+        ajouterFormation(nom_formation);
 
-        assertEquals(nb_items + 1,formationPage.items_formation.all().size());
+        assertEquals(nb_items + 1,formationPage.itemsFormation.all().size());
 
-        assertEquals(1,formationPage.items_formation.all()
+        assertEquals(1,formationPage.itemsFormation.all()
                 .stream().filter(p -> p.textContent().equals(nom_formation))
                 .count());
 
@@ -51,27 +53,27 @@ public class FormationsTest {
     @Test
     void ajouter_une_formation_existante() {
 
-        final int nb_items = formationPage.items_formation.all().size();
+        final int nb_items = formationPage.itemsFormation.all().size();
 
         UUID uuid = UUID.randomUUID();
         String nom_formation = "Test_" + uuid;
 
-        assertTrue(formationPage.items_formation.all()
+        assertTrue(formationPage.itemsFormation.all()
                 .stream().noneMatch(p -> p.textContent().equals(nom_formation)));
 
-        formationPage.ajouterFormation(nom_formation);
+        ajouterFormation(nom_formation);
 
-        assertEquals(nb_items + 1,formationPage.items_formation.all().size());
+        assertEquals(nb_items + 1,formationPage.itemsFormation.all().size());
 
-        assertEquals(1,formationPage.items_formation.all()
+        assertEquals(1,formationPage.itemsFormation.all()
                 .stream().filter(p -> p.textContent().equals(nom_formation))
                 .count());
 
-        formationPage.ajouterFormation(nom_formation);
+        ajouterFormation(nom_formation);
 
-        assertEquals(nb_items + 1,formationPage.items_formation.all().size());
+        assertEquals(nb_items + 1,formationPage.itemsFormation.all().size());
 
-        assertEquals(1,formationPage.items_formation.all()
+        assertEquals(1,formationPage.itemsFormation.all()
                 .stream().filter(p -> p.textContent().equals(nom_formation))
                 .count());
 
@@ -91,22 +93,25 @@ public class FormationsTest {
 
         formationPage.ouvrir();
         assertEquals(0, playwright.page().locator("a:has-text(\""+nom_formation+"\")").count());
+    }
 
-
+    private void ajouterFormation(String nom_formation) {
+        formationPage.boutonAjouter.click();
+        ajoutFormationPage.ajouterFormation(nom_formation);
     }
 
     private String creer_formation() {
-        final int nb_items = formationPage.items_formation.all().size();
+        final int nb_items = formationPage.itemsFormation.all().size();
 
         UUID uuid = UUID.randomUUID();
         String nom_formation = "Test_" + uuid;
 
-        assertTrue(formationPage.items_formation.all()
+        assertTrue(formationPage.itemsFormation.all()
                 .stream().noneMatch(p -> p.textContent().equals(nom_formation)));
 
-        formationPage.ajouterFormation(nom_formation);
+        ajouterFormation(nom_formation);
 
-        assertEquals(nb_items + 1,formationPage.items_formation.all().size());
+        assertEquals(nb_items + 1,formationPage.itemsFormation.all().size());
         return nom_formation;
     }
 }

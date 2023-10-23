@@ -5,6 +5,7 @@ import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import fr.paloit.paloformation.playwright.outil.DocExtension;
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
+import fr.paloit.paloformation.playwright.page.AjoutFormationPage;
 import fr.paloit.paloformation.playwright.page.DetailFormationPage;
 import fr.paloit.paloformation.playwright.page.FormationPage;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,12 +24,14 @@ public class FormationsDoc {
     public static DocExtension doc = new DocExtension();
 
     FormationPage formationPage;
+    AjoutFormationPage ajoutFormationPage;
+    DetailFormationPage detailPage;
 
     @BeforeEach
     public void debut(TestInfo info) {
         playwright.setContext(new Browser.NewContextOptions()
                 .setViewportSize(700, 400));
-        formationPage = new FormationPage(playwright.page());
+
         formationPage.ouvrir();
     }
 
@@ -36,25 +39,25 @@ public class FormationsDoc {
 
     @Test
     void creation_d_une_formation(TestInfo info) {
-        Path docs = doc.getPath();
+
         doc.writeln("ifndef::ROOT_PATH[:ROOT_PATH: .]");
         doc.writeln("= Création et suppression d'une formation\n");
         describeStep("Page d'accueil");
 
-        String nom_formation = "Tutorial";
+        String titreFormation = "Tutorial";
 
-        playwright.page().getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
-        playwright.page().locator("#intitule").fill(nom_formation);
-        describeStep("Ajout d'une formation `" + nom_formation + "`");
+        formationPage.boutonAjouter.click();
+        //playwright.page().getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation")).click();
 
-        playwright.page().locator("button", new Page.LocatorOptions().setHasText("Enregistrer")).click();
+        ajoutFormationPage.remplirTitre(titreFormation);
+        describeStep("Ajout d'une formation `" + titreFormation + "`");
+        ajoutFormationPage.boutonEnregister.click();
 
         describeStep("Liste des formations après l'ajout");
 
-        formationPage.allerSurFormation(nom_formation);
+        formationPage.allerSurFormation(titreFormation);
         describeStep("Affchage du détail de la formation");
 
-        DetailFormationPage detailPage = new DetailFormationPage(playwright.page());
         detailPage.supprimerFormation();
 
         describeStep("Liste des formations après suppression");

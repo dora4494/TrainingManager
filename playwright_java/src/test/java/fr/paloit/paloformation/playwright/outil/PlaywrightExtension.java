@@ -3,8 +3,14 @@ package fr.paloit.paloformation.playwright.outil;
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.extension.*;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback, BeforeEachCallback, BeforeAllCallback {
 
@@ -12,6 +18,8 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
     static Browser browser;
     BrowserContext context;
     Page page;
+
+    private Object testInstance;
 
     // Permet d'activer les traces utilisées par le TraceViewer.
     static boolean TRACE_ACTIVE = true;
@@ -36,7 +44,30 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
 
     @Override
     public void beforeEach(ExtensionContext extensionContext) {
+        testInstance = extensionContext.getTestInstance().get();
         setContext();
+    }
+
+    public void autoInitPageFields(Object instanceObject) {
+       final List<Field> pageFields = Arrays.stream(instanceObject.getClass().getDeclaredFields())
+               .filter(field -> isPageObject(field))
+               .collect(Collectors.toList());
+
+        for (Field pageField : pageFields) {
+            try {
+                pageField.setAccessible(true);
+                final Constructor<?> constructor = pageField.getType().getConstructor(Page.class);
+                pageField.set(instanceObject, constructor.newInstance(this.page()));
+            } catch (IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private boolean isPageObject(Field field) {
+        field.setAccessible(true);
+        return Arrays.stream(field.getType().getConstructors())
+                .anyMatch(c -> c.getParameterTypes().length == 1 && c.getParameterTypes()[0] == Page.class);
     }
 
     public void setContext() {
@@ -55,6 +86,7 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
                     .setSources(true));
         }
         page = context.newPage();
+        autoInitPageFields(testInstance);
     }
 
     @Override
