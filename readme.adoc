@@ -57,6 +57,8 @@ On peut également choisir le fichier `properties` à utiliser avec la commande:
 
 == Configuration
 
+=== Visualisation des requêtes SQL
+
 Pour visualiser les requêtes SQL qui sont exécutés:
 
 [source,properties]
@@ -66,6 +68,19 @@ spring.jpa.show-sql=true
 # Mise en forme des requêtes
 spring.jpa.properties.hibernate.format_sql=true
 ----
+
+=== Initialisation des données
+
+Pour initialiser les données de référence dans le base, on passe par le fichier `data.sql` qui est exécuté au lancement.
+L'option `spring.jpa.defer-datasource-initialization` pour n'exécuter ce script qu'après la création de la base de données lorsque celle ci est créé au démarrage de l'application.
+
+[source,properties]
+----
+spring.jpa.defer-datasource-initialization=true
+----
+
+Les commandes gradle `bootRun[ENV]` positionne l'attribut `spring.sql.init.platform` avec le nom de l'environnement indiqué.
+Ainsi la commande `bootRundev` va exécuter le script `data.sql` et `data-dev.sql`.
 
 == Intégration continue
 
