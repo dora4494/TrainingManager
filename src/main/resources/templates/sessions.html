@@ -18,7 +18,7 @@
         <main class="main">
 
             <div class="titre-main">
-                <h2 class="titre-main-item">Liste des sessions enregistrées</h2>
+                <h4 class="titre-main-item">Liste des sessions enregistrées</h4>
             </div>
 
             <div id="lst-container-sessions">
@@ -27,21 +27,27 @@
                     <tr>
                         <th>Formation</th>
                         <th>Client</th>
-                        <th>Date de début</th>
-                        <th>Date de fin</th>
                         <th>Formateur</th>
+                        <th>Date(s)</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr data-th-each="ses: ${sessions}">
-                        <td><a th:href="@{'session/'+${ses.id}}"
-                               data-th-text="${ses.formation.intitule}"></a></td>
+                        <td><a th:href="@{'session/'+${ses.id}}" data-th-text="${ses.formation.intitule}"></a></td>
                         <td data-th-text="${ses.client}"></td>
-
-                        <td data-th-each="form: ${ses.formateur}">
-                            <span data-th-text="${form.prenom}"></span>
-                            <span data-th-text="${form.nom}"></span>
+                        <td>
+                            <span th:if="${#lists.isEmpty(ses.formateur)}">Non renseigné</span>
+                            <span th:unless="${#lists.isEmpty(ses.formateur)}"
+                                  th:text="${ses.formateur.prenom + ' ' + ses.formateur.nom}"></span>
                         </td>
+
+                        <td>
+                    <span th:each="date, iterStat : ${ses.dates}">
+                        <span th:text="${#temporals.format(date, 'dd-MM-yyyy')}"></span>
+                        <span th:if="${!iterStat.last}">, </span>
+                    </span>
+                        </td>
+
                     </tr>
                     </tbody>
                 </table>
