@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           cd playwright_java
-          ./gradlew test
+          ./gradlew test --info
           
       # Enregistrement de la documentation
       - name: Configure Git
