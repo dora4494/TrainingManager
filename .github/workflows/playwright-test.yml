@@ -24,7 +24,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
       - name: Lancement de l'application
         run: |
-          ./gradlew bootRun --args="--spring.config.location=file://$(pwd)/playwright_java/src/test/resources/application-for-playwright.properties" &
+          ./gradlew bootRun --args="--spring.config.location=file://$(pwd)/playwright_java/src/test/resources/application-for-playwright.properties --spring.sql.init.platform=ci" &
 
       - name: Test attente de la disponibilité de l'application
         shell: bash
