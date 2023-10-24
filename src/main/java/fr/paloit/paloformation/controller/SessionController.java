@@ -74,8 +74,8 @@ public class SessionController {
         return "redirect:/sessions";
     }
 
-    @GetMapping({"/modifier/session/{id}"})
-    public String modifierSession(Model model, @PathVariable Long id) {
+    @GetMapping({"/modifier-session"})
+    public String modifierSession(Model model, @RequestParam Long id) {
         model.addAttribute("session", sessionService.trouverSessionById(id));
         return "creer-session";
     }

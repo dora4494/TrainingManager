@@ -144,17 +144,17 @@
             <div class="boutons-container-flex">
                 <form action="/archiver-session" method="post" class="container-btn-archiver">
                     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                    <button type="submit" class="pure-button" id="boutons-formate">Archiver session</button>
+                    <button type="submit" class="pure-button" >Archiver session</button>
                 </form>
 
-                <form action="/modifier/session" method="get" class="container-btn-modifier">
+                <form action="/modifier-session" method="get" class="container-btn-modifier">
                     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                    <button type="submit" class="pure-button" id="boutons-formate">Modifier session</button>
+                    <button type="submit" class="pure-button" >Modifier session</button>
                 </form>
 
                 <form action="/annuler-session" method="post" class="container-btn-annuler">
                     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                    <button type="submit" class="pure-button" id="boutons-formate">Annuler session</button>
+                    <button type="submit" class="pure-button">Annuler session</button>
                 </form>
             </div>
         </main>

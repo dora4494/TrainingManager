@@ -32,7 +32,6 @@ public class ToDoService {
 
         LocalDate dateLaPlusPetite = session.getDates().stream().min(Comparator.naturalOrder()).orElse(null);
 
-        System.out.println("Date la plus petite : " + dateLaPlusPetite);
 
         if (conventionFormation == null || feuilleEmargement == null) {
             throw new RuntimeException("Erreur: tâches introuvables");

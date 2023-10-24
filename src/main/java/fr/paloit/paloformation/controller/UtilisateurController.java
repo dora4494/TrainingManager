@@ -49,8 +49,8 @@ public class UtilisateurController {
         return "redirect:/liste-utilisateurs";
     }
 
-    @GetMapping({"/modifier/utilisateur/{id}"})
-    public String modifierUtilisateur(Model model, @PathVariable Long id) {
+    @GetMapping({"/modifier-utilisateur"})
+    public String modifierUtilisateur(Model model, @RequestParam Long id) {
         model.addAttribute("utilisateur", utilisateurService.trouverUtilisateurById(id));
         return "creer-utilisateur";
     }
