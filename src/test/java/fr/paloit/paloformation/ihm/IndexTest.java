@@ -21,7 +21,7 @@ public class IndexTest {
 
     @Test
     public void testIndex() throws Exception {
-        final ResultActions resultActions = this.mvc.perform(get(""))
+        this.mvc.perform(get(""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("formations"));
     }

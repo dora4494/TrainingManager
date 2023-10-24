@@ -6,7 +6,6 @@ import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.ToDo;
 import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.SessionService;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -54,8 +53,7 @@ public class SessionTest {
         final ResultActions resultActions = this.mvc.perform(get("/sessions"))
                 .andExpect(status().isOk());
 
-        final String body = resultActions.andReturn().getResponse().getContentAsString();
-        final Document html = Jsoup.parse(body);
+        final Document html = OutilsTestHtml.toHtmlDocument(resultActions);
 
         final Elements sessions = html.select("#lst-container-sessions");
         final List<String> texteEnTeteColonnes = extraireEnTeteColonnes(sessions);
