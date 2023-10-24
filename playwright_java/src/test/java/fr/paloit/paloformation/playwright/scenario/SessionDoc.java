@@ -36,15 +36,6 @@ public class SessionDoc {
     void creation_d_une_session(TestInfo info) {
         doc.writeln("= Création d'une Session\n");
 
-        menuPage.planning.click();
-        describeStep("Planning");
-        menuPage.clients.click();
-        describeStep("clients");
-        menuPage.formateurs.click();
-        describeStep("formateurs");
-        menuPage.parametres.click();
-        describeStep("parametres");
-
         describeStep("Depuis la pages des sessions");
 
         final String titreFormation = "TDD";

@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback, BeforeEachCallback, BeforeAllCallback {
+public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback, BeforeEachCallback, BeforeAllCallback, TestWatcher {
 
     static Playwright playwright;
     static Browser browser;
@@ -25,6 +25,7 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
     static boolean TRACE_ACTIVE = true;
     // En mode headless, le navigateur ne s'ouvre pas pendant l'execution
     static boolean HEADLESS = true;
+    private String pageContentBeforeClose;
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -96,8 +97,13 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
             context.tracing().stop(
                     new Tracing.StopOptions().setPath(outputPath));
         }
-
+        pageContentBeforeClose = page.content();
         context.close();
+    }
+
+    @Override
+    public void testFailed(ExtensionContext context, Throwable cause) {
+        System.out.println("Content before test failed:\n" + pageContentBeforeClose);
     }
 
     public Page page() {
