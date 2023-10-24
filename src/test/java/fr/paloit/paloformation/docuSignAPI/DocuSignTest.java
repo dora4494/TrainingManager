@@ -1,4 +1,4 @@
-package fr.paloit.paloformation;
+package fr.paloit.paloformation.docuSignAPI;
 
 import com.docusign.esign.client.ApiClient;
 import com.docusign.esign.client.ApiException;
