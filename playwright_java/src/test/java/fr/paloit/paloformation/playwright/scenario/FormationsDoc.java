@@ -38,7 +38,6 @@ public class FormationsDoc {
     @Test
     void creation_d_une_formation(TestInfo info) {
 
-        doc.writeln("ifndef::ROOT_PATH[:ROOT_PATH: .]");
         doc.writeln("= Création et suppression d'une formation\n");
 
         describeStep("Page d'accueil");
@@ -63,11 +62,7 @@ public class FormationsDoc {
     }
 
     private void describeStep(String description) {
-        final String imageFilename = doc.takeNextScreenshot(playwright.page());
-        doc.writeln(description,
-                "",
-                "image::{ROOT_PATH}/" + imageFilename + "[]");
+        doc.describeStep(description, playwright.page());
     }
-
 
 }

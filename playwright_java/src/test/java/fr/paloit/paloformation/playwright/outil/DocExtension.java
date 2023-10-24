@@ -1,11 +1,7 @@
 package fr.paloit.paloformation.playwright.outil;
 
-import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import fr.paloit.paloformation.playwright.page.FormationPage;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -13,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,6 +28,12 @@ public class DocExtension implements BeforeEachCallback, AfterEachCallback {
     public void beforeEach(ExtensionContext context) throws Exception {
         indexScreenshot = 0;
         testName = context.getTestMethod().map(m -> m.getDeclaringClass().getSimpleName() + "." + m.getName()).get();
+
+        writeHeader();
+    }
+
+    protected void writeHeader() {
+        writeln("ifndef::ROOT_PATH[:ROOT_PATH: .]");
     }
 
     @Override
@@ -90,5 +91,17 @@ public class DocExtension implements BeforeEachCallback, AfterEachCallback {
     public void writeln(String... texts) {
         write(texts);
         buffer.append("\n");
+    }
+
+    public void cliquerSur(Locator elementCliquable) {
+        writeln("Cliquer sur `" + elementCliquable.textContent().trim() + "`.", "");
+        elementCliquable.click();
+    }
+
+    public void describeStep(String description, Page page) {
+        final String imageFilename = takeNextScreenshot(page);
+        writeln(description,
+                "",
+                "image::{ROOT_PATH}/" + imageFilename + "[]");
     }
 }

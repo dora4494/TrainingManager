@@ -1,16 +1,15 @@
 package fr.paloit.paloformation.playwright.scenario;
 
 import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.Page;
 import fr.paloit.paloformation.playwright.outil.DocExtension;
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
-import fr.paloit.paloformation.playwright.page.*;
+import fr.paloit.paloformation.playwright.page.AjoutSessionPage;
+import fr.paloit.paloformation.playwright.page.MenuPage;
+import fr.paloit.paloformation.playwright.page.SessionPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.RegisterExtension;
-
-import java.nio.file.Path;
 
 public class SessionDoc {
 
@@ -20,6 +19,7 @@ public class SessionDoc {
     @RegisterExtension
     public static DocExtension doc = new DocExtension();
 
+    MenuPage menuPage;
     SessionPage sessionPage;
     AjoutSessionPage ajoutSessionPage;
 
@@ -27,38 +27,43 @@ public class SessionDoc {
     @BeforeEach
     public void debut(TestInfo info) {
         playwright.setContext(new Browser.NewContextOptions()
-                .setViewportSize(700, 400));
+                .setViewportSize(800, 400));
 
         sessionPage.ouvrir();
     }
 
     @Test
-    void creation_d_une_session(TestInfo info) throws InterruptedException {
+    void creation_d_une_session(TestInfo info) {
+        doc.writeln("= Création d'une Session\n");
 
-        doc.writeln("ifndef::ROOT_PATH[:ROOT_PATH: .]");
-        doc.writeln("= Création et suppression d'une formation\n");
-        describeStep("Page d'accueil");
+        menuPage.planning.click();
+        describeStep("Planning");
+        menuPage.clients.click();
+        describeStep("clients");
+        menuPage.formateurs.click();
+        describeStep("formateurs");
+        menuPage.parametres.click();
+        describeStep("parametres");
+
+        describeStep("Depuis la pages des sessions");
 
         final String titreFormation = "TDD";
 
-        sessionPage.boutonAjouter.click();
+        doc.cliquerSur(sessionPage.boutonAjouter);
         ajoutSessionPage.champFormation.selectOption(titreFormation);
         ajoutSessionPage.champClient.fill("Palo");
 
         ajoutSessionPage.champDates.fill("2023-10-10");
 
         ajoutSessionPage.champFormateur.selectOption("Petit");
-        describeStep("Ajout d'une session pour la formation `" + titreFormation + "`");
-        ajoutSessionPage.boutonEnregister.click();
+        describeStep("Renseigner les informations concernant la session");
+        doc.cliquerSur(ajoutSessionPage.boutonEnregister);
 
-        describeStep("Liste des sessions après l'ajout");
+        describeStep("Après l'enregistrement, on revient à l'écran des sessions qui affiche celle qui vient d'être saisie.");
     }
 
     private void describeStep(String description) {
-        final String imageFilename = doc.takeNextScreenshot(playwright.page());
-        doc.writeln(description,
-                "",
-                "image::{ROOT_PATH}/" + imageFilename + "[]");
+        doc.describeStep(description, playwright.page());
     }
 
 }
