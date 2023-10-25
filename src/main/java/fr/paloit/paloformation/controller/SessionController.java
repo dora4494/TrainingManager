@@ -22,6 +22,7 @@ public class SessionController {
 
     @GetMapping({"/sessions"})
     public String afficherSessions(Model model) {
+        System.out.println("SessionController.afficherSessions");
         model.addAttribute("sessions", sessionService.listeSesions());
         return "sessions";
     }
