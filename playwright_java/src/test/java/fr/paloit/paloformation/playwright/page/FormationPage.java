@@ -3,6 +3,7 @@ package fr.paloit.paloformation.playwright.page;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
+import fr.paloit.paloformation.playwright.outil.Site;
 
 import java.util.Optional;
 
@@ -24,8 +25,7 @@ public class FormationPage {
     }
 
     public void ouvrir() {
-        String host = Optional.ofNullable(System.getenv("APP_HOST")).orElse("localhost:8080");
-        page.navigate("http://" + host + "/formations");
+        page.navigate(Site.getUrlAccueil() + "/formations");
     }
 
     public void allerSurFormation(String nomFormation) {

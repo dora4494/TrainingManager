@@ -4,6 +4,7 @@ import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.Locator;
 import fr.paloit.paloformation.playwright.outil.DocExtension;
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
+import fr.paloit.paloformation.playwright.outil.Site;
 import fr.paloit.paloformation.playwright.page.MenuPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,8 +27,7 @@ public class EcranDoc {
         playwright.setContext(new Browser.NewContextOptions()
                 .setViewportSize(800, 400));
 
-        String host = Optional.ofNullable(System.getenv("APP_HOST")).orElse("localhost:8080");
-        playwright.page().navigate("http://" + host);
+        playwright.page().navigate(Site.getUrlAccueil());
     }
 
     @Test
@@ -38,6 +38,10 @@ public class EcranDoc {
         documenterPage(menuPage.clients);
         documenterPage(menuPage.formateurs);
         documenterPage(menuPage.parametres);
+
+
+        playwright.page().navigate(Site.getUrlAccueil() + "/page_inexistante");
+        doc.describeStep("== Page introuvable", playwright.page());
     }
 
     public void documenterPage(Locator elementCliquable) {

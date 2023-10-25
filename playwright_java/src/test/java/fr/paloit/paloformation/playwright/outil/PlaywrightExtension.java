@@ -106,6 +106,10 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
         System.out.println("Content before test failed:\n" + pageContentBeforeClose);
     }
 
+    public void allerAccueil() {
+        page().navigate(Site.getUrlAccueil());
+    }
+
     public Page page() {
         return page;
     }
