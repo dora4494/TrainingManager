@@ -51,8 +51,14 @@ public class SessionController {
             LocalDate todoDate = todo.getDate().atStartOfDay().toLocalDate();
             if (todoDate.isBefore(dateDuJour.plusDays(7))) {
                 cetteSemaineTodos.add(todo);
+
+
             } else {
                 aVenirTodos.add(todo);
+
+                /* Si todoDate est après (dateDuJour.plusDays(7) mais est déjà contenu dans cetteSemaineTodos
+                faire un cetteSemaineTodos.remove(todo)
+                *  */
             }
         }
 

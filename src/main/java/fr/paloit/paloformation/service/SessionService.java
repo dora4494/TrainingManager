@@ -29,7 +29,9 @@ public class SessionService {
 
     public void creerSession(Session session) {
         sessionRepository.save(session);
+        if (session.getDates() != null && !session.getDates().isEmpty()) {
         toDoService.creerTodos(session);
+        }
     }
 
     public void supprimerSession(Session session) {

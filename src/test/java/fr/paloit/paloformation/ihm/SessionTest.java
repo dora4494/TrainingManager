@@ -58,19 +58,29 @@ public class SessionTest {
         final Document html = Jsoup.parse(body);
 
         final Elements sessions = html.select("#lst-container-sessions");
-        final Element elementEnTete = sessions.select("thead").first();
-        final List<String> texteEnTeteColonnes = elementEnTete.select("th").stream().map(e -> e.text()).collect(Collectors.toList());
-        System.out.println("SessionTest.testSessions: " + texteEnTeteColonnes);
+        final List<String> texteEnTeteColonnes = extraireEnTeteColonnes(sessions);
 
-        final Elements lignes = sessions.select("tbody").first().select("tr");
-        final List<List<String>> tableSessions = lignes.stream().map(
-                ligne -> ligne.select("td").stream().map(e -> e.text()).collect(Collectors.toList())
-        ).collect(Collectors.toList());
+        final List<List<String>> tableSessions = extraireLignes(sessions);
 
         final List<String> session = tableSessions.get(0);
         assertEquals("DDD", session.get(texteEnTeteColonnes.indexOf("Formation")));
         assertEquals("client", session.get(texteEnTeteColonnes.indexOf("Client")));
         assertEquals("Jean Petit", session.get(texteEnTeteColonnes.indexOf("Formateur")));
+    }
+
+    private static List<List<String>> extraireLignes(Elements sessions) {
+        final Elements lignes = sessions.select("tbody").first().select("tr");
+        final List<List<String>> tableSessions = lignes.stream().map(
+                ligne -> ligne.select("td").stream().map(e -> e.text()).collect(Collectors.toList())
+        ).collect(Collectors.toList());
+        return tableSessions;
+    }
+
+    private static List<String> extraireEnTeteColonnes(Elements sessions) {
+        final Element elementEnTete = sessions.select("thead").first();
+        final List<String> texteEnTeteColonnes = elementEnTete.select("th").stream().map(e -> e.text()).collect(Collectors.toList());
+        System.out.println("SessionTest.testSessions: " + texteEnTeteColonnes);
+        return texteEnTeteColonnes;
     }
 
 }

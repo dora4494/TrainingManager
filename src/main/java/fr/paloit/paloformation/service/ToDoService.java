@@ -27,35 +27,44 @@ public class ToDoService {
     SessionRepository sessionRepository;
 
     public void creerTodos(Session session) {
-        Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
-        Tache feuilleEmargement = tacheRepository.findById(2L).orElse(null);
 
-        LocalDate dateLaPlusPetite = session.getDates().stream().min(Comparator.naturalOrder()).orElse(null);
+            Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
+            Tache feuilleEmargement = tacheRepository.findById(2L).orElse(null);
+
+            LocalDate dateLaPlusPetite = session.getDates().stream().min(Comparator.naturalOrder()).orElse(null);
 
 
-        if (conventionFormation == null || feuilleEmargement == null) {
-            throw new RuntimeException("Erreur: tâches introuvables");
+            if (conventionFormation == null || feuilleEmargement == null) {
+                throw new RuntimeException("Erreur: tâches introuvables");
+            }
+
+            ToDo conventionF = new ToDo();
+            conventionF.setTache(conventionFormation);
+            conventionF.setSession(session);
+            conventionF.setDate(dateLaPlusPetite.minusDays(7));
+
+            ToDo feuilleE = new ToDo();
+            feuilleE.setTache(feuilleEmargement);
+            feuilleE.setSession(session);
+            feuilleE.setDate(dateLaPlusPetite.minusDays(2));
+
+            toDoRepository.save(conventionF);
+            toDoRepository.save(feuilleE);
         }
 
-        ToDo conventionF = new ToDo();
-        conventionF.setTache(conventionFormation);
-        conventionF.setSession(session);
-        conventionF.setDate(dateLaPlusPetite.minusDays(7));
-
-        ToDo feuilleE = new ToDo();
-        feuilleE.setTache(feuilleEmargement);
-        feuilleE.setSession(session);
-        feuilleE.setDate(dateLaPlusPetite.minusDays(2));
-
-        toDoRepository.save(conventionF);
-        toDoRepository.save(feuilleE);
-    }
 
 
     public ToDo trouverToDoById(Long id) {
         return toDoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Session introuvable avec l'ID : " + id));
     }
+
+
+    public Iterable<ToDo> listeToDo() {
+        return toDoRepository.findAll();
+    }
+
+
 
 
     // Etat 1 = "A FAIRE" , Etat 2 : "FAIT"
