@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<div th:replace="~{fragments :: head}"></div>
+
+<body>
+
+<div id="layout">
+
+  <div th:replace="~{fragments :: layout-menu}">...</div>
+
+  <div th:replace="~{fragments :: navbar}">...</div>
+
+  <div th:replace="~{fragments :: header}">...</div>
+
+  <div class="content-container">
+
+    <main class="main">
+
+      <div class="titre-main">
+        <h4 class="titre-main-item">Paramètres</h4>
+      </div>
+
+
+    </main>
+  </div>
+</div>
+</body>
+
+<div th:insert="~{fragments :: footer}">...</div>
+
+</html>
