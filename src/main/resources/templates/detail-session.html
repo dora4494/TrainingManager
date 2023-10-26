@@ -88,6 +88,32 @@
 
 
             <div id="container-lst-todo-urgence-haute">
+                <table class="pure-table" id="table-urg-haute">
+                    <thead>
+                    <tr>
+                        <th>Tâche</th>
+                        <th>Echéance</th>
+                        <th>Statut</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="todo : ${sessionFormation.todos}">
+                        <td><span data-th-text="${todo.tache.libelle}"></span></td>
+                        <td><span data-th-text="${todo.date}"></span></td>
+                        <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
+                        <td>
+                            <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
+                                    onclick="modifierToDo(this)" class="pure-button-active">Modifier
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+           <!-- <div id="container-lst-todo-urgence-haute">
                 <h3>Cette semaine</h3>
                 <table class="pure-table" id="table-urg-haute">
                     <thead>
@@ -138,7 +164,7 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>-->
 
 
             <div class="boutons-container-flex">

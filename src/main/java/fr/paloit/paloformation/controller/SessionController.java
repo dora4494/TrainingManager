@@ -43,7 +43,7 @@ public class SessionController {
     @GetMapping({"/session/{id}"})
     public String detailSession(Model model, @PathVariable Long id, @ModelAttribute Utilisateur utilisateur) {
         Session sessionFormation = sessionService.trouverSessionById(id);
-        LocalDate dateDuJour = LocalDate.now();
+       /* LocalDate dateDuJour = LocalDate.now();
 
         List<ToDo> cetteSemaineTodos = new ArrayList<>();
         List<ToDo> aVenirTodos = new ArrayList<>();
@@ -52,20 +52,14 @@ public class SessionController {
             LocalDate todoDate = todo.getDate().atStartOfDay().toLocalDate();
             if (todoDate.isBefore(dateDuJour.plusDays(7))) {
                 cetteSemaineTodos.add(todo);
-
-
             } else {
                 aVenirTodos.add(todo);
-
-                /* Si todoDate est après (dateDuJour.plusDays(7) mais est déjà contenu dans cetteSemaineTodos
-                faire un cetteSemaineTodos.remove(todo)
-                *  */
             }
-        }
+        }*/
 
         model.addAttribute("sessionFormation", sessionFormation);
-        model.addAttribute("cetteSemaineTodos", cetteSemaineTodos);
-        model.addAttribute("aVenirTodos", aVenirTodos);
+      /*  model.addAttribute("cetteSemaineTodos", cetteSemaineTodos);
+        model.addAttribute("aVenirTodos", aVenirTodos);*/
 
 
         return "detail-session";

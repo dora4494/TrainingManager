@@ -39,10 +39,11 @@ public class SessionTest {
     @Test
     public void testContenuDuTableauDesSessions() throws Exception {
         Formation formation = new Formation(5L, "DDD", Arrays.asList());
-        Set< Utilisateur > participants = new HashSet<>();
-        Set< LocalDate > dates = new HashSet<>(){};
+        Set<Utilisateur> participants = new HashSet<>();
+        Set<LocalDate> dates = new HashSet<>() {
+        };
         dates.add(LocalDate.of(2023, 10, 22));
-        List< ToDo > todos = new ArrayList<>();
+        List<ToDo> todos = new ArrayList<>();
         Utilisateur formateur = new Utilisateur(36L, "Jean", "Petit", "jpetit@palo-it.com");
         int etat = 0;
         Mockito.when(sessionService.listeSesions()).thenReturn(Arrays.asList(
@@ -81,4 +82,59 @@ public class SessionTest {
         return texteEnTeteColonnes;
     }
 
+
+    @Test
+    public void testafficherDetailsSession() throws Exception {
+        Formation formation = new Formation(5L, "DDD", Arrays.asList());
+        Set<Utilisateur> participants = new HashSet<>();
+        Set<LocalDate> dates = new HashSet<>() {
+        };
+        dates.add(LocalDate.of(2023, 10, 22));
+        List<ToDo> todos = new ArrayList<>();
+        Utilisateur formateur = new Utilisateur(36L, "Jean", "Petit", "jpetit@palo-it.com");
+        int etat = 0;
+        Mockito.when(sessionService.trouverSessionById(23L)).thenReturn(
+                new Session(23L, formation, "client", participants, todos, formateur, 2, 230L, "modalites", etat, dates)
+        );
+
+
+        final ResultActions resultActions = this.mvc.perform(get("/session/23"))
+                .andExpect(status().isOk());
+
+        final String body = resultActions.andReturn().getResponse().getContentAsString();
+        final Document html = Jsoup.parse(body);
+
+        final Elements detailsSession = html.select("#items-detail-session");
+
+        final Map<String, String> inputs = extrairetexteInput(detailsSession);
+
+        assertEquals("DDD", inputs.get("Formation:"));
+        assertEquals("client", inputs.get("Client:"));
+        assertEquals("Jean Petit", inputs.get("Formateur:"));
+    }
+
+    private static Map<String, String> extrairetexteInput(Elements detailsSession) {
+        final Elements elementInputs = detailsSession.select(".pure-u-1-3");
+//        Map<String, String> listeChamps = new HashMap<>();
+//        for (Element elementInput : elementInputs) {
+//            String span = elementInput.selectFirst("span").text();
+//            String p = elementInput.selectFirst("p").text();
+//            System.out.println(span + " " + p);
+//            listeChamps.put(p, span);
+//        }
+//
+//        return listeChamps;
+
+        return elementInputs.stream().collect(Collectors.toMap(
+                element -> element.selectFirst("p").text(),
+                element -> element.selectFirst("span").text()));
+
+    }
+
 }
+
+
+
+
+
+
