@@ -2,10 +2,7 @@ package fr.paloit.paloformation.ihm;
 
 import fr.paloit.paloformation.controller.IndexController;
 import fr.paloit.paloformation.controller.SessionController;
-import fr.paloit.paloformation.model.Formation;
-import fr.paloit.paloformation.model.Session;
-import fr.paloit.paloformation.model.ToDo;
-import fr.paloit.paloformation.model.Utilisateur;
+import fr.paloit.paloformation.model.*;
 import fr.paloit.paloformation.service.SessionService;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
@@ -20,6 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,10 +36,9 @@ public class IndexTest {
 
     @Test
     public void testIndex() throws Exception {
-        Formation formation = new Formation(5L, "DDD", Arrays.asList());
-        Mockito.when(sessionService.listeSesions()).thenReturn(Arrays.asList(
-                new Session(23L, formation, "client", new HashSet<Utilisateur>(), new ArrayList<ToDo>(), null, 2, 230L, "modalites", 0, new HashSet<>())
-        ));
+
+        Mockito.when(sessionService.listeSesions())
+                .thenReturn(List.of(SessionBuilder.uneSession("DDD").get()));
 
         final String redirectedUrl = "/sessions";
 
@@ -53,8 +50,8 @@ public class IndexTest {
                 .andExpect(status().isOk());
 
         final Document html = OutilsTestHtml.toHtmlDocument(resultActions);
-        System.out.println("IndexTest.testIndex: " + html.body().text());
-        assertTrue(html.body().text().contains("DDD"));
+        final String htmlText = html.body().text();
+        assertTrue(htmlText.contains("DDD"), htmlText);
     }
 
 }
