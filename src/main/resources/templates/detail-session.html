@@ -33,7 +33,7 @@
 
                         <div class="pure-u-1-3">
                             <p>Formateur: </p>
-                            <span data-th-text="${sessionFormation.formateur.prenom + ' ' + sessionFormation.formateur.nom}"></span>
+                            <span th:if="${sessionFormation.formateur}" data-th-text="${sessionFormation.formateur.prenom + ' ' + sessionFormation.formateur.nom}"></span>
                         </div>
 
 
@@ -111,60 +111,6 @@
                     </tbody>
                 </table>
             </div>
-
-
-           <!-- <div id="container-lst-todo-urgence-haute">
-                <h3>Cette semaine</h3>
-                <table class="pure-table" id="table-urg-haute">
-                    <thead>
-                    <tr>
-                        <th>Tâche</th>
-                        <th>Date</th>
-                        <th>État</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="todo : ${cetteSemaineTodos}">
-                        <td><span data-th-text="${todo.tache.libelle}"></span></td>
-                        <td><span data-th-text="${todo.date}"></span></td>
-                        <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
-                        <td>
-                            <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
-                                    onclick="modifierToDo(this)" class="pure-button-active">Modifier
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div id="container-lst-todo-urgence-moyenne">
-                <h3>A venir</h3>
-                <table class="pure-table" id="table-urg-moyenne">
-                    <thead>
-                    <tr>
-                        <th>Tâche</th>
-                        <th>Date</th>
-                        <th>État</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="todo : ${aVenirTodos}">
-                        <td><span data-th-text="${todo.tache.libelle}"></span></td>
-                        <td><span data-th-text="${todo.date}"></span></td>
-                        <td><span data-th-text="${todo.etat}" th:id="'todo-etat-' + ${todo.id}"></span></td>
-                        <td>
-                            <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
-                                    onclick="modifierToDo(this)" class="pure-button-active">Modifier
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>-->
 
 
             <div class="boutons-container-flex">

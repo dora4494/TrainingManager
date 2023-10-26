@@ -78,7 +78,7 @@ public class SessionController {
     @GetMapping({"/modifier-session"})
     public String modifierSession(Model model, @RequestParam Long id) {
         model.addAttribute("session", sessionService.trouverSessionById(id));
-        return "creer-session";
+        return "modifier-session";
     }
 
 

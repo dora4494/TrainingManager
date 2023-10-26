@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<div th:replace="~{fragments :: head}"></div>
+
+<body>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
+
+    <div th:replace="~{fragments :: navbar}">...</div>
+
+    <div th:replace="~{fragments :: header}">...</div>
+
+
+    <div class="content-container">
+
+        <main class="main">
+            <div class="titre-main">
+                <h4 class="titre-main-item">Modifier la session</h4>
+            </div>
+
+
+            <div class="form-container-creer-session">
+                <form th:action="@{/session-modifiee}" th:object="${session}"
+                      method="POST" enctype="multipart/form-data" class="pure-form-aligned">
+                    <input type="hidden" th:field="*{id}"/>
+                    <fieldset id="fieldset-creer-session">
+                        <div class="pure-control-group">
+                            <label for="select-intitule-formation">Formation</label>
+                            <select th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
+                                <option th:each="formation: ${@formationService.listeFormations}"
+                                        th:value="${formation.id}"
+                                        th:text="${formation.intitule}"></option>
+                            </select>
+                        </div>
+
+                        <div class="pure-control-group">
+                            <label for="aligned-client">Client</label>
+                            <input type="text" th:field="*{client}" id="aligned-client" name="client" required>
+                        </div>
+
+
+                        <div class="pure-control-group date-group">
+                            <label for="aligned-dates">Date(s)</label>
+                            <input type="date" th:field="*{dates}" id="aligned-dates" name="dates" required>
+                            <button type="button" class="ajoutDate">Ajouter une date</button>
+                        </div>
+
+<!--
+                        <div class="pure-control-group date-group">
+                            <label for="aligned-dates">Date(s)</label>
+                            <input type="date" th:field="*{dates}" id="aligned-dates" name="dates" required>
+                            <button type="button" class="ajoutDate">Ajouter une date</button>
+                        </div>
+                        -->
+
+
+                        <div class="pure-control-group">
+                            <label for="aligned-formateur">Formateur</label>
+                            <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
+                                <option value="">Sélectionnez un formateur</option>
+                                <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                                        th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+                            </select>
+                        </div>
+
+
+                        <div class="pure-control-group">
+                            <label for="aligned-participant">Participants</label>
+                            <select th:field="*{participants}" id="aligned-participant" name="select-participant"
+                                    multiple>
+                                <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
+                                        th:value="${utilisateur.id}"
+                                        th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="pure-button">Enregistrer</button>
+
+                    </fieldset>
+                </form>
+            </div>
+
+            <!--
+            <form action="/session-modifiee" method="post" class="container-btn-modifier">
+                <input type="hidden" name="id" th:value="${session.id}"/>
+                <button type="submit" class="pure-button">Modifier session</button>
+            </form>
+            -->
+
+
+
+
+
+
+
+
+
+
+
+        </main>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.ajoutDate').on('click', function () {
+                var divDates = $('<div class="pure-control-group date-group">' +
+                    '<label for="aligned-dates">Date(s)</label>' +
+                    '<input type="date" name="dates">' +
+                    '</div>');
+
+                $('.date-group:last').after(divDates);
+
+            });
+        });
+    </script>
+
+
+</div>
+
+</body>
+
+<div th:insert="~{fragments :: footer}">...</div>
+
+
+</html>
