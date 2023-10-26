@@ -82,6 +82,28 @@ spring.jpa.defer-datasource-initialization=true
 Les commandes gradle `bootRun[ENV]` positionne l'attribut `spring.sql.init.platform` avec le nom de l'environnement indiqué.
 Ainsi la commande `bootRundev` va exécuter le script `data.sql` et `data-dev.sql`.
 
+=== Configuration des services
+
+Il est possible de choisir le service d'émargement utilisé en fonction de l'environnement.
+Cela est fait à partir du profil utilisé et positionné sur la variable `spring.profiles.active`.
+
+Une classe service peut indiquer avec quels type de profile elle sera utilisé.
+Cela se fait en ajoutant l'annotation `@Profile`.
+
+On utilisera le profile `prod` pour la production.
+
+Example d'un service injecté pour les profiles "dev" et "ci":
+[source, java]
+----
+@Service
+@Profile({"!prod"})
+public class DocusignMockService implements EmargementService {
+    // Mon code
+}
+----
+
+Un bouchon est mis en place pour DocuSign pour ne pas intéragir avec le vrai service tant que l'on est pas en production.
+
 == Intégration continue
 
 L'intégration continue est géré via des Github Actions.

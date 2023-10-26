@@ -1,6 +1,7 @@
 package fr.paloit.paloformation.docusignAPI;
 
 import fr.paloit.paloformation.model.Utilisateur;
+import fr.paloit.paloformation.service.EmargementService;
 import fr.paloit.paloformation.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class DocusignController {
 
 
     @Autowired
-    DocusignService docusignService;
+    EmargementService docusignService;
 
     @Autowired
     UtilisateurService utilisateurService;
