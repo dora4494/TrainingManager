@@ -40,4 +40,5 @@ out/
 tmp/
 log/
 *.log
+*.private.key
 src/main/resources/application-dev.properties

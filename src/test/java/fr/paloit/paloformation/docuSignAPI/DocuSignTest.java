@@ -8,6 +8,7 @@ import com.docusign.esign.model.EnvelopeDefinition;
 import com.docusign.esign.model.EnvelopeSummary;
 import com.docusign.esign.model.Recipients;
 import com.docusign.esign.model.Signer;
+import fr.paloit.paloformation.docusignAPI.DocuSignConfig;
 import fr.paloit.paloformation.docusignAPI.Docusign;
 import fr.paloit.paloformation.model.Utilisateur;
 import jakarta.ws.rs.core.GenericType;
@@ -579,19 +580,9 @@ public class DocuSignTest {
 
         final DocSignInvokeAPIAnswer mockInvokeAPI;
         public MockDocusign(ApiClient apiClient) throws ApiException {
-            super(apiClient);
+            super(apiClient, new DocuSignConfig("clientId", "userId", privateKeyFile.toString()));
             mockInvokeAPI = new DocSignInvokeAPIAnswer();
             mockDocSignInvokeAPI(apiClient, mockInvokeAPI);
-        }
-
-        // Redéfinition de la méthode pour charger une pseudo configuration.
-        @Override
-        protected Properties loadConfig() throws IOException {
-            final Properties properties = new Properties();
-            properties.put("clientId", "clientId");
-            properties.put("userId", "userId");
-            properties.put("rsaKeyFile", privateKeyFile.toString());
-            return properties;
         }
 
 //        @Override

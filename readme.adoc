@@ -102,7 +102,9 @@ public class DocusignMockService implements EmargementService {
 }
 ----
 
-Un bouchon est mis en place pour DocuSign pour ne pas intéragir avec le vrai service tant que l'on est pas en production.
+=== DocuSign
+
+Une link:{site-url}/docusign.html[page dédiée à DocuSign] décrit la manière de la configurer.
 
 == Intégration continue
 

@@ -6,21 +6,23 @@ import com.docusign.esign.client.ApiException;
 import com.docusign.esign.client.auth.OAuth;
 import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.awt.*;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Properties;
 
 
-@Component
+@Service
 public class Docusign {
+
+    @Autowired
+    DocuSignConfig config;
 
     static String DevCenterPage = "https://developers.docusign.com/platform/auth/consent";
 
@@ -37,6 +39,11 @@ public class Docusign {
         this.apiClient.setOAuthBasePath("account-d.docusign.com");
     }
 
+    public Docusign(ApiClient apiClient, DocuSignConfig docuSignConfig) {
+        this(apiClient);
+        config = docuSignConfig;
+    }
+
     public void envoyerEnveloppe(Utilisateur utilisateur) throws IOException {
         try {
             EnvelopeDefinition envelope = creerEnveloppe(utilisateur);
@@ -51,10 +58,8 @@ public class Docusign {
     }
 
     private String ajouterAccessTokenAuHeader(ApiClient apiClient) throws IOException {
-        Properties prop = loadConfig();
-        String clientId = prop.getProperty("clientId");
         try {
-            this.accessToken = getAccessToken(prop, apiClient);
+            this.accessToken = getAccessToken(apiClient, config.getClientId(), config.getUserId(), config.getRsaKeyFile());
             System.out.println(accessToken);
             apiClient.addDefaultHeader("Authorization", "Bearer " + accessToken);
             return accessToken;
@@ -63,7 +68,7 @@ public class Docusign {
                 try {
                     System.out.println("Consent required, please provide consent in browser window and then run this app again.");
                     // TODO Il est probable que l'on fasse les choses différement sur l'application finale.
-                    Desktop.getDesktop().browse(new URI("https://account-d.docusign.com/oauth/auth?response_type=code&scope=impersonation%20signature&client_id=" + clientId + "&redirect_uri=" + DevCenterPage));
+                    Desktop.getDesktop().browse(new URI("https://account-d.docusign.com/oauth/auth?response_type=code&scope=impersonation%20signature&client_id=" + config.getClientId() + "&redirect_uri=" + DevCenterPage));
                     return null;
                 } catch (Exception desktopException) {
                     throw new RuntimeException("Exception while redirect to the browser for consent", desktopException);
@@ -73,15 +78,6 @@ public class Docusign {
             }
         }
     }
-
-    protected Properties loadConfig() throws IOException {
-        Properties prop = new Properties();
-        String fileName = "app.config";
-        FileInputStream fis = new FileInputStream(fileName);
-        prop.load(fis);
-        return prop;
-    }
-
 
     protected EnvelopeSummary envoyerEnveloppe(EnvelopeDefinition envelope) throws IOException, ApiException {
         String accountId = getAccountId();
@@ -108,14 +104,14 @@ public class Docusign {
         return userInfo.getAccounts().get(0).getAccountId();
     }
 
-    private String getAccessToken(Properties prop, ApiClient apiClient) throws IOException, ApiException {
+    private String getAccessToken(ApiClient apiClient, String clientId, String userId, String rsaKeyFile) throws IOException, ApiException {
         ArrayList<String> scopes = new ArrayList<String>();
         scopes.add("signature");
         scopes.add("impersonation");
-        byte[] privateKeyBytes = Files.readAllBytes(Paths.get(prop.getProperty("rsaKeyFile")));
+        byte[] privateKeyBytes = Files.readAllBytes(Paths.get(rsaKeyFile));
         OAuth.OAuthToken oAuthToken = apiClient.requestJWTUserToken(
-                prop.getProperty("clientId"),
-                prop.getProperty("userId"),
+                clientId,
+                userId,
                 scopes,
                 privateKeyBytes,
                 3600);

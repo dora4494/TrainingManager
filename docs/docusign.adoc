@@ -1,0 +1,17 @@
+= DocuSign
+
+`https://www.docusign.com[DocuSign]` est l'application utilisée pour envoyer les feuilles d'émargement.
+
+== Configuration
+
+Le fichier `docusign.properties` se trouve dans le répertoire `resources`  de l'application.
+
+Il contient les clés suivantes:
+
+* docusign.clientId=[Identifiant client]
+* docusign.userId=[Identifiant utilisateur]
+* docusign.rsaKeyFile=[chemin vers la clé privée]
+
+
+Un bouchon est mis en place pour DocuSign pour ne pas intéragir avec le vrai service tant que l'on est pas en production.
+Il est utilisé sauf si le profile spring est `prod`.
