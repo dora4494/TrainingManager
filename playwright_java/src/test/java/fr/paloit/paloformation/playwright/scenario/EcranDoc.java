@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
-import java.util.Optional;
-
 public class EcranDoc {
     @RegisterExtension
     public static PlaywrightExtension playwright = new PlaywrightExtension();
@@ -35,8 +33,8 @@ public class EcranDoc {
         doc.writeln("= Ecrans de l'application\n");
 
         documenterPage(menuPage.planning);
-        documenterPage(menuPage.clients);
-        documenterPage(menuPage.formateurs);
+        documenterPage(menuPage.formations);
+        documenterPage(menuPage.profils);
         documenterPage(menuPage.parametres);
 
 
