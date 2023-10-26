@@ -68,22 +68,24 @@ public class SessionController {
 
     @PostMapping({"/supprimer-session"})
     public String supprimerSession(@RequestParam Long id) {
-        Session sessionFormation = sessionService.trouverSessionById(id);
-        if (sessionFormation != null) {
-            sessionService.supprimerSession(sessionFormation);
+        Session session = sessionService.trouverSessionById(id);
+        if (session != null) {
+            sessionService.supprimerSession(session);
         }
         return "redirect:/sessions";
     }
 
     @GetMapping({"/modifier-session"})
     public String modifierSession(Model model, @RequestParam Long id) {
-        model.addAttribute("session", sessionService.trouverSessionById(id));
+        Session sessionFormation = sessionService.trouverSessionById(id);
+        model.addAttribute("sessionFormation", sessionFormation);
         return "modifier-session";
     }
 
 
     @PostMapping({"session-modifiee"})
-    public String sessionModifiee(@ModelAttribute Session session) {
+    public String sessionModifiee(@ModelAttribute Session session, Model model) {
+        model.addAttribute("session", session);
         sessionService.modifierSession(session);
         return "redirect:/sessions";
     }
