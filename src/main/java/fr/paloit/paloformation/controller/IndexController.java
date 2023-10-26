@@ -8,7 +8,7 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index() {
-        return "formations";
+        return "redirect:/sessions";
     }
 
 }
