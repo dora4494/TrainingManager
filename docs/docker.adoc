@@ -15,7 +15,7 @@ chmod ug+x gradlew
 Pour démarrer un environnement complet (mysql + springboot):
 [source,bash]
 ----
-docker-compose up
+docker-compose up --force-recreate
 ----
 
 Le schéma de base de données est recréé au démarrage.
