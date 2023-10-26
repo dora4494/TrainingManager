@@ -17,7 +17,7 @@ public class FormationPage {
     public FormationPage(Page page) {
         this.page = page;
 
-        this.titre = page.locator("h2");
+        this.titre = page.locator("h4");
         this.itemsFormation = page.locator("a");
         this.boutonAjouter = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ajouter une formation"));
 
