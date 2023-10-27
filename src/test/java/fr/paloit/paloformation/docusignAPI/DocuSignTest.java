@@ -1,15 +1,10 @@
-package fr.paloit.paloformation.docuSignAPI;
+package fr.paloit.paloformation.docusignAPI;
 
 import com.docusign.esign.client.ApiClient;
 import com.docusign.esign.client.ApiException;
 import com.docusign.esign.client.Pair;
 import com.docusign.esign.client.auth.OAuth;
-import com.docusign.esign.model.EnvelopeDefinition;
-import com.docusign.esign.model.EnvelopeSummary;
-import com.docusign.esign.model.Recipients;
-import com.docusign.esign.model.Signer;
-import fr.paloit.paloformation.docusignAPI.DocuSignConfig;
-import fr.paloit.paloformation.docusignAPI.Docusign;
+import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
 import jakarta.ws.rs.core.GenericType;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +18,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -85,8 +83,31 @@ public class DocuSignTest {
         final MockDocusign mockDocusign = new MockDocusign(mockApiClient);
         mockDocusign.envoyerEnveloppe(utilisateur);
 
-        assertEquals(resultatDeReference(), mockDocusign.mockInvokeAPI.getFirstCall());
+        assertEquals(resultatDeReference(), mockDocusign.getFirstCall());
     }
+
+    @Test
+    public void testAjoutTemplateDansRequeteEmargement() throws ApiException, IOException {
+
+        final Utilisateur utilisateur = new Utilisateur(1L, "", "", "");
+        final MockDocusign mockDocusign = new MockDocusign(mockApiClient);
+
+        EnvelopeTemplateResults envelopeTemplateResults = new EnvelopeTemplateResults();
+        final EnvelopeTemplate envelopeTemplate = new EnvelopeTemplate();
+        envelopeTemplate.setTemplateId("123456");
+        envelopeTemplate.setName("MyTemplate");
+        envelopeTemplateResults.addEnvelopeTemplatesItem(envelopeTemplate);
+
+        mockDocusign.whenInvokePathEndsWith(invocation -> envelopeTemplateResults, "/templates");
+
+        mockDocusign.envoyerEnveloppe(utilisateur);
+
+        final String lastCall = mockDocusign.getLastCall();
+        assertTrue(lastCall.contains("templateId: 123456"), "Valeur inattendu pour templateId: " + Arrays.stream(lastCall.split("\n")).filter(t -> t.contains("templateId:")).collect(Collectors.joining("\n")).trim()+ "\n");
+
+    }
+
+
 
     @Test
     public void testCreerEnveloppe() {
@@ -126,28 +147,7 @@ public class DocuSignTest {
         return myAccessToken;
     }
 
-    // Mock les appels à invokeAPI pour ne pas faire l'appel réel et récupère les paramètres envoyés.
-    private static void mockDocSignInvokeAPI(ApiClient apiClient, DocSignInvokeAPIAnswer docSignAnswer) throws ApiException {
-        Mockito.doAnswer(docSignAnswer)
-                .when(apiClient).invokeAPI(
-                        Mockito.anyString(), // path,
-                        Mockito.anyString(), // method,
-                        Mockito.anyList(), // queryParams,
-                        Mockito.anyList(), // collectionQueryParams,
-                        Mockito.any(), // body,
-                        Mockito.anyMap(), // eaderParams,
-                        Mockito.anyMap(), // formParams,
-                        Mockito.anyString(), // accept,
-                        Mockito.anyString(), // contentType,
-                        Mockito.any(), // String[] authNames,
-                        Mockito.any() // returnType)
-                );
-    }
-
-    /**
-     * Intercepte les appels à invokeAPI et retourne une enveloppe vide.
-     */
-    private static class DocSignInvokeAPIAnswer implements Answer<Object> {
+    private class CallRecorder {
 
         private final List<String> calls = new ArrayList<>();
 
@@ -155,6 +155,27 @@ public class DocuSignTest {
             return calls;
         }
 
+        private String getFirstCall() {
+            return getCalls().get(0);
+        }
+        private String getLastCall() {
+            final List<String> calls = getCalls();
+            return calls.get(calls.size()-1);
+        }
+    }
+    /**
+     * Intercepte les appels à invokeAPI et retourne une enveloppe vide.
+     */
+    private static class DocSignInvokeAPIAnswer implements Answer<Object> {
+
+        private final CallRecorder recorder;
+        private final Function<InvocationOnMock, Object> responseBuilder;
+
+        public DocSignInvokeAPIAnswer(CallRecorder recorder, Function<InvocationOnMock, Object> responseBuilder) {
+            this.recorder = recorder;
+            this.responseBuilder = responseBuilder;
+        }
+        
         @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
             int index = 0;
@@ -177,23 +198,20 @@ public class DocuSignTest {
             result += "queryParams:" + queryParams + "\n";
             result += "collectionQueryParams:" + collectionQueryParams + "\n";
             result += "body:" + body + "\n";
-            final EnvelopeDefinition body1 = (EnvelopeDefinition) body;
-            body1.toString();
+//            final EnvelopeDefinition body1 = (EnvelopeDefinition) body;
+//            body1.toString();
             result += "headerParams:" + headerParams + "\n";
             result += "formParams:" + formParams + "\n";
             result += "accept:" + accept + "\n";
             result += "contentType:" + contentType + "\n";
             result += "authNames:" + Arrays.toString(authNames) + "\n";
             result += "returnType:" + returnType + "\n";
-//                System.out.println("apiClient.invokeAPI parameters:" + result);
-            calls.add(result);
+            recorder.calls.add(result);
+
             System.out.println("InvokeAPI is mocked. An empty EnvelopeSummary is returned");
-            return new EnvelopeSummary();
+            return responseBuilder.apply(invocation);
         }
 
-        private String getFirstCall() {
-            return getCalls().get(0);
-        }
     }
 
     // Cette référence a été enregistrer lors d'un premier appel pour avoir un élément de comparaison pendant la phase de réfactoring.
@@ -267,7 +285,7 @@ public class DocuSignTest {
                 "    documentsUri: null\n" +
                 "    emailBlurb: null\n" +
                 "    emailSettings: null\n" +
-                "    emailSubject: Please sign this document set\n" +
+                "    emailSubject: Feuille d'émargement\n" +
                 "    enableWetSign: null\n" +
                 "    enforceSignerVisibility: null\n" +
                 "    envelopeAttachments: null\n" +
@@ -578,19 +596,58 @@ public class DocuSignTest {
      */
     private class MockDocusign extends Docusign {
 
-        final DocSignInvokeAPIAnswer mockInvokeAPI;
+        final CallRecorder recorder = new CallRecorder();
+        private final ApiClient apiClient;
+
         public MockDocusign(ApiClient apiClient) throws ApiException {
             super(apiClient, new DocuSignConfig("clientId", "userId", privateKeyFile.toString()));
-            mockInvokeAPI = new DocSignInvokeAPIAnswer();
-            mockDocSignInvokeAPI(apiClient, mockInvokeAPI);
+            this.apiClient = apiClient;
+
+            mockDocSignInvokeAPI(invocation -> new EnvelopeSummary());
         }
 
-//        @Override
-//        protected EnvelopeSummary envoyerEnveloppe(ApiClient apiClient, String accountId, EnvelopeDefinition envelope) throws ApiException {
-//            // Ne pas appeler la vrai API
-//            return new EnvelopeSummary();
-////                return super.envoyerEnveloppe(apiClient, accountId, envelope);
-//        }
+        public void mockDocSignInvokeAPI(Function<InvocationOnMock, Object> responseBuilder) throws ApiException {
+            final DocSignInvokeAPIAnswer answer = new DocSignInvokeAPIAnswer(recorder, responseBuilder);
+            Mockito.doAnswer(answer)
+                    .when(apiClient).invokeAPI(
+                            Mockito.anyString(), // path,
+                            Mockito.anyString(), // method,
+                            Mockito.anyList(), // queryParams,
+                            Mockito.anyList(), // collectionQueryParams,
+                            Mockito.any(), // body,
+                            Mockito.anyMap(), // eaderParams,
+                            Mockito.anyMap(), // formParams,
+                            Mockito.anyString(), // accept,
+                            Mockito.anyString(), // contentType,
+                            Mockito.any(), // String[] authNames,
+                            Mockito.any() // returnType)
+                    );
+        }
+
+        private void whenInvokePathEndsWith(Function<InvocationOnMock, Object> responseBuilder, String suffix) throws ApiException {
+            final DocSignInvokeAPIAnswer answer = new DocSignInvokeAPIAnswer(recorder, responseBuilder);
+            Mockito.doAnswer(answer)
+                    .when(apiClient).invokeAPI(
+                    Mockito.endsWith(suffix), // path,
+                    Mockito.anyString(), // method,
+                    Mockito.anyList(), // queryParams,
+                    Mockito.anyList(), // collectionQueryParams,
+                    Mockito.any(), // body,
+                    Mockito.anyMap(), // eaderParams,
+                    Mockito.anyMap(), // formParams,
+                    Mockito.anyString(), // accept,
+                    Mockito.anyString(), // contentType,
+                    Mockito.any(), // String[] authNames,
+                    Mockito.any() // returnType
+            );
+        }
+
+        private String getFirstCall() {
+            return recorder.getFirstCall();
+        }
+        private String getLastCall() {
+            return recorder.getLastCall();
+        }
 
     }
 }

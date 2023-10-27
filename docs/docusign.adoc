@@ -1,8 +1,20 @@
 = DocuSign
+:toc: left
 
 `https://www.docusign.com[DocuSign]` est l'application utilisée pour envoyer les feuilles d'émargement.
 
-== Configuration
+
+== Configuration DocuSign
+
+L'https://apps.docusign.com[application DocuSign] permet de gérer les modèles, suivre les envois.
+
+Il est nécessaire d'avoir un compte pour l'utilisation de l'API.
+Le site pour le développement d'API est https://developers.docusign.com/.
+On peut y trouver le `User Id` et l'`Account ID`
+
+On peut accéder à l'https://appdemo.docusign.com[interface d'administration] pour voir les mails envoyés.
+
+== Configuration de l'application
 
 Le fichier `docusign.properties` se trouve dans le répertoire `resources`  de l'application.
 
@@ -12,6 +24,9 @@ Il contient les clés suivantes:
 * docusign.userId=[Identifiant utilisateur]
 * docusign.rsaKeyFile=[chemin vers la clé privée]
 
+Il faut faire pointer le chemin rsaKeyFile vers le fichier contenant la clé privée.
 
-Un bouchon est mis en place pour DocuSign pour ne pas intéragir avec le vrai service tant que l'on est pas en production.
-Il est utilisé sauf si le profile spring est `prod`.
+== Environnement de développement
+
+Un bouchon est mis en place pour DocuSign afin ne pas intéragir avec le vrai service en dehors de la production.
+Pour utiliser le vrai service `DocuSign` (en production), il faut positionner le profile spring à `docusign`.

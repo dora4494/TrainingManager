@@ -1,6 +1,7 @@
 package fr.paloit.paloformation.docusignAPI;
 
 import com.docusign.esign.api.EnvelopesApi;
+import com.docusign.esign.api.TemplatesApi;
 import com.docusign.esign.client.ApiClient;
 import com.docusign.esign.client.ApiException;
 import com.docusign.esign.client.auth.OAuth;
@@ -15,7 +16,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 @Service
@@ -46,7 +46,14 @@ public class Docusign {
 
     public void envoyerEnveloppe(Utilisateur utilisateur) throws IOException {
         try {
+            // TODO Revoir la récupération des template et du accountId
+            String accountId = getAccountId();
+            final TemplatesApi templatesApi = new TemplatesApi(apiClient);
+            final EnvelopeTemplateResults envelopeTemplateResults = templatesApi.listTemplates(accountId);
+
             EnvelopeDefinition envelope = creerEnveloppe(utilisateur);
+            // TODO Récupération du premier template trouvé: à revoir.
+            envelope.setTemplateId(envelopeTemplateResults.getEnvelopeTemplates().get(0).getTemplateId());
             EnvelopeSummary results = envoyerEnveloppe(envelope);
 
             System.out.println("Successfully sent envelope with envelopeId " + results.getEnvelopeId());
@@ -91,7 +98,7 @@ public class Docusign {
     }
 
 
-    private String getAccountId() throws IOException, ApiException {
+    public String getAccountId() throws IOException, ApiException {
         if (accountId == null) {
             String accessToken = ajouterAccessTokenAuHeader(apiClient);
             accountId = getAccountId(apiClient, accessToken);
@@ -120,48 +127,10 @@ public class Docusign {
 
     public static EnvelopeDefinition creerEnveloppe(Utilisateur utilisateur) {
         // Create envelopeDefinition object
-        EnvelopeDefinition envelope = new EnvelopeDefinition();
-        envelope.setEmailSubject("Please sign this document set");
-        envelope.setStatus("sent");
-        System.out.println("Create envelopeDefinition");
-        // Create tabs object
-        SignHere signHere = new SignHere();
-        signHere.setDocumentId("1");
-        signHere.setPageNumber("1");
-        signHere.setXPosition("191");
-        signHere.setYPosition("148");
-        Tabs tabs = new Tabs();
-        tabs.setSignHereTabs(Arrays.asList(signHere));
-        System.out.println("Create tabs object");
-
-        // Set recipients
-        Signer signer = new Signer();
-        signer.setEmail(utilisateur.getMail());
-        System.out.println(signer.getEmail());
-        signer.setLastName(utilisateur.getNom());
-        signer.setFirstName(utilisateur.getPrenom());
-        signer.setName(utilisateur.getPrenom() + " " + utilisateur.getNom());
-        signer.recipientId(utilisateur.getId().toString());
-        signer.setTabs(tabs);
-        System.out.println("etape 2");
-            /*CarbonCopy cc = new CarbonCopy();
-            cc.setEmail(ccEmail);
-            cc.setName(ccName);
-            cc.recipientId("2");*/
-
-        Recipients recipients = new Recipients();
-        recipients.setSigners(Arrays.asList(signer));
-        //recipients.setCarbonCopies(Arrays.asList(cc));
-        envelope.setRecipients(recipients);
-        System.out.println("recipients");
-        // Add document
-        Document document = new Document();
-        document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
-        document.setName("doc1.txt");
-        document.setFileExtension("txt");
-        document.setDocumentId("1");
-        envelope.setDocuments(Arrays.asList(document));
-        System.out.println("document");
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        enveloppeDocuSign.setEmailSujet("Feuille d'émargement");
+        enveloppeDocuSign.ajouterSignataire(utilisateur);
+        EnvelopeDefinition envelope = enveloppeDocuSign.generer();
         return envelope;
     }
 

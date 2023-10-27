@@ -10,11 +10,16 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@Profile({"default", "!prod"})
+@Profile({"default", "!docusign"})
 public class DocusignMockService implements EmargementService {
     Logger logger = LoggerFactory.getLogger(DocusignMockService.class);
 
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs) throws IOException {
+        envoyerDemandeSignature(utilisateurs, null);
+    }
+
+    @Override
+    public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs, FeuilleEmargement feuilleEmargement) throws IOException {
         logger.info("envoyerDemandeSignature");
 
         logger.info("Envoi d'une demande d'émargement pour:");

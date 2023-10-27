@@ -9,18 +9,20 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@Profile("prod")
+@Profile("docusign")
 public class DocusignService implements EmargementService {
 
     @Autowired
     Docusign docusign;
 
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs) throws IOException {
+        envoyerDemandeSignature(utilisateurs, null);
+    }
+
+    @Override
+    public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs, FeuilleEmargement feuilleEmargement) throws IOException {
         for (Utilisateur utilisateur : utilisateurs) {
             docusign.envoyerEnveloppe(utilisateur);
         }
-
     }
-
-
 }

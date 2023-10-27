@@ -92,12 +92,12 @@ Cela se fait en ajoutant l'annotation `@Profile`.
 
 On utilisera le profile `prod` pour la production.
 
-Example d'un service injecté pour les profiles "dev" et "ci":
+Example d'un service injecté pour le profile `docusign`:
 [source, java]
 ----
 @Service
-@Profile({"!prod"})
-public class DocusignMockService implements EmargementService {
+@Profile({"docusign"})
+public class DocusignService implements EmargementService {
     // Mon code
 }
 ----
