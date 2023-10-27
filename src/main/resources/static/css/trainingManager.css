@@ -98,6 +98,12 @@ p, span {
     display: inline-block;
 }
 
+.label-detail-session {
+    font-weight: bold;
+}
+
+
+
 #container-details-session {
     margin-left: 3%;
     margin-top: 5%;
@@ -158,6 +164,12 @@ p, span {
     margin-left: 3%;
 }
 
+
+.plus-button {
+    font-size: 10px;
+    font-weight: bolder;
+
+}
 
 .pure-img-responsive {
     max-width: 100%;
@@ -286,6 +298,10 @@ p, span {
     #layout.active {
         position: relative;
         left: 190px;
+    }
+
+    .pure-u-1-3 {
+        width: 50%;
     }
 
     .main {

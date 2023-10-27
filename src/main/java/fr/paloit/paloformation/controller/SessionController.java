@@ -10,8 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class SessionController {
@@ -85,11 +88,9 @@ public class SessionController {
 
     @PostMapping({"session-modifiee"})
     public String sessionModifiee(@ModelAttribute Session session, Model model) {
-        model.addAttribute("session", session);
         sessionService.modifierSession(session);
-        return "redirect:/sessions";
+        return "redirect:/session/" + session.getId();
     }
-
 
     @PostMapping({"/annuler-session"})
     public String annulerSession(@RequestParam Long id) {

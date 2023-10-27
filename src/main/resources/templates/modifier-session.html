@@ -23,8 +23,8 @@
 
 
             <div class="form-container-creer-session">
-                <form th:action="@{/session-modifiee}" th:object="${sessionFormation}"
-                      method="POST" enctype="multipart/form-data" class="pure-form-aligned">
+                    <form th:action="@{/session-modifiee}" th:object="${sessionFormation}"
+                          method="POST" enctype="multipart/form-data" class="pure-form-aligned">
                     <input type="hidden" th:field="*{id}"/>
                     <fieldset id="fieldset-creer-session">
                         <div class="pure-control-group">
@@ -42,32 +42,12 @@
                         </div>
 
 
-
-                        <div class="pure-g">
-                            <div class="pure-u-1">
-                                <p>Date(s) de formation: </p>
-                                <th:block th:each="date : ${sessionFormation.dates}">
-                                    <span th:text="${#temporals.format(date, 'dd-MM-yyyy')}"></span>
-                                </th:block>
-                            </div>
-                        </div>
-
-
                         <div class="pure-control-group date-group">
                             <label for="aligned-dates">Date(s)</label>
-                            <input type="date" th:field="*{dates}" id="aligned-dates" name="dates">
-                            <button type="button" class="ajoutDate">Modifier date(s)</button>
+                            <input type="date"  id="aligned-dates" name="dates" th:each="date : *{dates}"  th:value="${date}">
+                            <button type="button" id="ajoutDate" class="pure-button plus-button">+</button>
                         </div>
 
-
-
-                        <!--
-                                                <div class="pure-control-group date-group">
-                                                    <label for="aligned-dates">Date(s)</label>
-                                                    <input type="date" th:field="*{dates}" id="aligned-dates" name="dates" required>
-                                                    <button type="button" class="ajoutDate">Ajouter une date</button>
-                                                </div>
-                                                -->
 
 
                         <div class="pure-control-group">
@@ -96,12 +76,6 @@
                 </form>
             </div>
 
-            <!--
-            <form action="/sessionFormation-modifiee" method="post" class="container-btn-modifier">
-                <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                <button type="submit" class="pure-button">Modifier session</button>
-            </form>
-            -->
 
 
         </main>
@@ -111,7 +85,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.ajoutDate').on('click', function () {
+            $('#ajoutDate').on('click', function () {
                 var divDates = $('<div class="pure-control-group date-group">' +
                     '<label for="aligned-dates">Date(s)</label>' +
                     '<input type="date" name="dates">' +
@@ -122,6 +96,7 @@
             });
         });
     </script>
+
 
 
 </div>

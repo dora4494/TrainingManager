@@ -2,6 +2,7 @@ package fr.paloit.paloformation.model;
 
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class Session {
     private Set<Utilisateur> participants = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "session")
+    @OneToMany(mappedBy = "session", cascade = CascadeType.ALL)
     private List<ToDo> todos = new ArrayList<>();
 
     @ManyToOne
