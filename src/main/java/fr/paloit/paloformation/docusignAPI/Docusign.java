@@ -44,7 +44,7 @@ public class Docusign {
         config = docuSignConfig;
     }
 
-    public void envoyerEnveloppe(Utilisateur utilisateur) throws IOException {
+    public void envoyerEnveloppeTemplate(Utilisateur utilisateur) throws IOException {
         try {
             // TODO Revoir la récupération des template et du accountId
             String accountId = getAccountId();
@@ -54,6 +54,19 @@ public class Docusign {
             EnvelopeDefinition envelope = creerEnveloppe(utilisateur);
             // TODO Récupération du premier template trouvé: à revoir.
             envelope.setTemplateId(envelopeTemplateResults.getEnvelopeTemplates().get(0).getTemplateId());
+            EnvelopeSummary results = envoyerEnveloppe(envelope);
+
+            System.out.println("Successfully sent envelope with envelopeId " + results.getEnvelopeId());
+        } catch (ApiException apiException) {
+            throw new RuntimeException("Exception sending envelop", apiException);
+        } catch (Exception exception) {
+            throw new RuntimeException("Unexpected exception sending envelop", exception);
+        }
+    }
+
+    public void envoyerEnveloppe(Utilisateur utilisateur) throws IOException {
+        try {
+            EnvelopeDefinition envelope = creerEnveloppe(utilisateur);
             EnvelopeSummary results = envoyerEnveloppe(envelope);
 
             System.out.println("Successfully sent envelope with envelopeId " + results.getEnvelopeId());
@@ -130,6 +143,7 @@ public class Docusign {
         final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
         enveloppeDocuSign.setEmailSujet("Feuille d'émargement");
         enveloppeDocuSign.ajouterSignataire(utilisateur);
+        enveloppeDocuSign.setDocument("doc1.txt");
         EnvelopeDefinition envelope = enveloppeDocuSign.generer();
         return envelope;
     }

@@ -100,7 +100,7 @@ public class DocuSignTest {
 
         mockDocusign.whenInvokePathEndsWith(invocation -> envelopeTemplateResults, "/templates");
 
-        mockDocusign.envoyerEnveloppe(utilisateur);
+        mockDocusign.envoyerEnveloppeTemplate(utilisateur);
 
         final String lastCall = mockDocusign.getLastCall();
         assertTrue(lastCall.contains("templateId: 123456"), "Valeur inattendu pour templateId: " + Arrays.stream(lastCall.split("\n")).filter(t -> t.contains("templateId:")).collect(Collectors.joining("\n")).trim()+ "\n");

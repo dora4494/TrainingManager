@@ -3,20 +3,32 @@ package fr.paloit.paloformation.docusignAPI;
 import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
 
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EnveloppeDocuSign {
-    private Utilisateur utilisateur;
+    private List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
     private String emailSujet;
     private String emailContenu;
+    private String templateId;
+    private String documentName;
 
     public void ajouterSignataire(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+        this.utilisateurs.add(utilisateur);
+    }
+
+    public void setDocument(String documentName) {
+        this.documentName = documentName;
     }
 
     public EnvelopeDefinition generer() {
 
         EnvelopeDefinition envelope = new EnvelopeDefinition();
+        envelope.setTemplateId(templateId);
 
         envelope.setEmailSubject(this.emailSujet);
         envelope.setEmailBlurb(this.emailContenu);
@@ -34,11 +46,21 @@ public class EnveloppeDocuSign {
 
         // Liste des destinataires
 
-        Recipients recipients = new Recipients();
-        if (utilisateur != null) {
-            Signer signer = creerSignataireDocuSign(utilisateur);
-            signer.setTabs(tabs);
-            recipients.addSignersItem(signer);
+        if (!utilisateurs.isEmpty()) {
+
+            if (templateId == null) {
+                Recipients recipients = new Recipients();
+                recipients.setSigners(utilisateurs.stream()
+                        .map(this::creerSignataireDocuSign)
+                        .peek(signer -> signer.setTabs(tabs))
+                        .collect(Collectors.toList()));
+                envelope.setRecipients(recipients);
+            } else {
+                envelope.setTemplateRoles(utilisateurs.stream()
+                        .map(EnveloppeDocuSign::creerTemplateRole)
+                        .collect(Collectors.toList()));
+                System.out.println("getTemplateRoles " + envelope.getTemplateRoles());
+            }
         }
             /*CarbonCopy cc = new CarbonCopy();
             cc.setEmail(ccEmail);
@@ -46,20 +68,32 @@ public class EnveloppeDocuSign {
             cc.recipientId("2");*/
 
         //recipients.setCarbonCopies(Arrays.asList(cc));
-        envelope.setRecipients(recipients);
 
-        // Création du document
-        Document document = new Document();
+        if (documentName != null) {
+            Document document = new Document();
+            document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
+            document.setName(documentName);
+            document.setFileExtension(getExtension(documentName).orElse(null));
+            document.setDocumentId("1");
+            envelope.setDocuments(Arrays.asList(document));
+        }
 
-        document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
-        document.setName("doc1.txt");
-        document.setFileExtension("txt");
-        document.setDocumentId("1");
-        envelope.setDocuments(Arrays.asList(document));
-
-
-        System.out.println("document");
         return envelope;
+    }
+
+    private Optional<String> getExtension(String filename) {
+        return Optional.ofNullable(filename)
+                .filter(f -> f.contains("."))
+                .map(f -> f.substring(filename.lastIndexOf(".") + 1));
+
+    }
+
+    private static TemplateRole creerTemplateRole(Utilisateur utilisateur) {
+        TemplateRole signer1 = new TemplateRole();
+        signer1.setEmail(utilisateur.getMail());
+        signer1.setName(utilisateur.getPrenom() + " " + utilisateur.getNom());
+        signer1.setRoleName("signer");
+        return signer1;
     }
 
     private Signer creerSignataireDocuSign(Utilisateur signataire) {
@@ -78,5 +112,9 @@ public class EnveloppeDocuSign {
 
     public void setEmailContenu(String contenu) {
         this.emailContenu = contenu;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 }
