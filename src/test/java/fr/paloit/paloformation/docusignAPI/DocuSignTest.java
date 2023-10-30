@@ -257,7 +257,7 @@ public class DocuSignTest {
                 "        assignTabsToRecipientId: null\n" +
                 "        display: null\n" +
                 "        docGenFormFields: null\n" +
-                "        documentBase64: VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=\n" +
+                "        documentBase64: U2lnbmF0dXJlKHMp\n" +
                 "        documentFields: null\n" +
                 "        documentId: 1\n" +
                 "        encryptedWithKeyManager: null\n" +

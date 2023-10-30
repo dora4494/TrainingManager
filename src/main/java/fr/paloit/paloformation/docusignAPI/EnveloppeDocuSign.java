@@ -9,19 +9,28 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import java.util.Base64;
+import java.nio.file.Files;
+
 public class EnveloppeDocuSign {
     private List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
     private String emailSujet;
     private String emailContenu;
     private String templateId;
     private String documentName;
+    private String texteDocument;
 
     public void ajouterSignataire(Utilisateur utilisateur) {
         this.utilisateurs.add(utilisateur);
     }
 
     public void setDocument(String documentName) {
+        setDocument(documentName, "Signature(s)");
+    }
+
+    public void setDocument(String documentName, String texteDocument) {
         this.documentName = documentName;
+        this.texteDocument = texteDocument;
     }
 
     public EnvelopeDefinition generer() {
@@ -68,7 +77,9 @@ public class EnveloppeDocuSign {
 
         if (documentName != null) {
             Document document = new Document();
-            document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
+
+            document.setDocumentBase64(Base64.getEncoder().encodeToString(texteDocument.getBytes()));
+            //document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
             document.setName(documentName);
             document.setFileExtension(getExtension(documentName).orElse(null));
             document.setDocumentId("1");
@@ -76,6 +87,11 @@ public class EnveloppeDocuSign {
         }
 
         return envelope;
+    }
+
+    private static String encodeFileToBase64(String document) {
+        byte[] fileContent = document.getBytes();
+        return Base64.getEncoder().encodeToString(fileContent);
     }
 
     private static void ajouterSignature(TemplateRole templateRole, Utilisateur utilisateur) {
@@ -129,4 +145,6 @@ public class EnveloppeDocuSign {
     public void setTemplateId(String templateId) {
         this.templateId = templateId;
     }
+
+
 }

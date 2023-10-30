@@ -4,6 +4,7 @@ import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
 import org.junit.jupiter.api.Test;
 
+import java.util.Base64;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -157,7 +158,8 @@ public class EnveloppeDocuSignTest {
     @Test
     public void testDocument() {
         final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
-        enveloppeDocuSign.setDocument("emargement.doc");
+        final String texteDocument = "Merci de bien vouloir signer la feuille d'émargement";
+        enveloppeDocuSign.setDocument("emargement.doc", texteDocument);
 
         EnvelopeDefinition enveloppe = enveloppeDocuSign.generer();
 
@@ -166,6 +168,8 @@ public class EnveloppeDocuSignTest {
         final Document document = documents.get(0);
         assertEquals("1", document.getDocumentId());
         assertEquals("emargement.doc", document.getName());
+        assertEquals(Base64.getEncoder().encodeToString(texteDocument.getBytes()), document.getDocumentBase64());
         assertEquals("doc", document.getFileExtension());
     }
+
 }
