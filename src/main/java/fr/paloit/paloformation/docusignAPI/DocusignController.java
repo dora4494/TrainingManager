@@ -27,7 +27,7 @@ public class DocusignController {
 
 
     @GetMapping("/docusign")
-    public String demandeSignature(@RequestParam(name = "ids") List<Long> ids) throws IOException {
+    public String demandeSignature(@RequestParam(name = "idSession") Long idSession, @RequestParam(name = "ids") List<Long> ids) throws IOException {
         Iterable<Utilisateur> utilisateurs = utilisateurService.listeUtilisateursById(ids);
         docusignService.envoyerDemandeSignature(utilisateurs);
         return "redirect:/sessions";

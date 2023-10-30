@@ -68,6 +68,7 @@
             <div id="container-lst-participants">
                 <h4>Liste des participants:</h4>
                 <form action="/docusign" method="get">
+                    <input type="hidden" th:value="${sessionFormation.id}" name="idSession" />
                     <table class="pure-table" id="table-participants">
                         <tbody>
                         <th:block th:each="participant : ${sessionFormation.participants}">
