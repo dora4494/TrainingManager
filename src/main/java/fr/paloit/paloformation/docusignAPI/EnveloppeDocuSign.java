@@ -3,7 +3,6 @@ package fr.paloit.paloformation.docusignAPI;
 import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
 
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,21 +33,19 @@ public class EnveloppeDocuSign {
         envelope.setEmailBlurb(this.emailContenu);
         envelope.setStatus("sent");
 
-        // Création des zones de signature
-        SignHere signHere = new SignHere();
-        signHere.setDocumentId("1");
-        signHere.setPageNumber("1");
-        signHere.setXPosition("191");
-        signHere.setYPosition("148");
-        Tabs tabs = new Tabs();
-        tabs.setSignHereTabs(Arrays.asList(signHere));
-        System.out.println("Create tabs object");
-
         // Liste des destinataires
-
         if (!utilisateurs.isEmpty()) {
 
             if (templateId == null) {
+                // Création des zones de signature
+                SignHere signHere = new SignHere();
+                signHere.setDocumentId("1");
+                signHere.setPageNumber("1");
+                signHere.setXPosition("191");
+                signHere.setYPosition("148");
+                Tabs tabs = new Tabs();
+                tabs.setSignHereTabs(Arrays.asList(signHere));
+
                 Recipients recipients = new Recipients();
                 recipients.setSigners(utilisateurs.stream()
                         .map(this::creerSignataireDocuSign)
@@ -57,17 +54,17 @@ public class EnveloppeDocuSign {
                 envelope.setRecipients(recipients);
             } else {
                 envelope.setTemplateRoles(utilisateurs.stream()
-                        .map(EnveloppeDocuSign::creerTemplateRole)
+                        .map(utilisateur -> {
+                            final TemplateRole templateRole = creerTemplateRole(utilisateur);
+                            ajouterSignature(templateRole, utilisateur);
+                            return templateRole;
+                        })
                         .collect(Collectors.toList()));
+
+
                 System.out.println("getTemplateRoles " + envelope.getTemplateRoles());
             }
         }
-            /*CarbonCopy cc = new CarbonCopy();
-            cc.setEmail(ccEmail);
-            cc.setName(ccName);
-            cc.recipientId("2");*/
-
-        //recipients.setCarbonCopies(Arrays.asList(cc));
 
         if (documentName != null) {
             Document document = new Document();
@@ -79,6 +76,21 @@ public class EnveloppeDocuSign {
         }
 
         return envelope;
+    }
+
+    private static void ajouterSignature(TemplateRole templateRole, Utilisateur utilisateur) {
+        SignHere signHere = new SignHere();
+        signHere.setDocumentId("1");
+        signHere.setPageNumber("1");
+        signHere.setAnchorString(utilisateur.getNom());
+        signHere.setAnchorUnits("pixels");
+        signHere.setAnchorXOffset("100");
+        signHere.setAnchorYOffset("0");
+        signHere.setAnchorIgnoreIfNotPresent("true"); // Qu'est ce que cela fait si non trouvé ? Cela évite une erreur ?
+
+        Tabs tabs = new Tabs();
+        tabs.setSignHereTabs(Arrays.asList(signHere));
+        templateRole.setTabs(tabs);
     }
 
     private Optional<String> getExtension(String filename) {

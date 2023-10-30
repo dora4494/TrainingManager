@@ -85,6 +85,45 @@ public class EnveloppeDocuSignTest {
     }
 
     @Test
+    public void testAjoutDesSignatureSurTemplate() {
+        List<Utilisateur> utilisateurs = List.of(
+                new Utilisateur(1L, "John", "Doe", "john.doe.test@palo-it.com"),
+                new Utilisateur(2L, "Franck", "Hawk", "franck.hawk.test@palo-it.com")
+        );
+
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        for (Utilisateur utilisateur : utilisateurs) {
+            enveloppeDocuSign.ajouterSignataire(utilisateur);
+        }
+
+        enveloppeDocuSign.setTemplateId("123456");
+
+        EnvelopeDefinition enveloppe = enveloppeDocuSign.generer();
+
+        assertEquals("123456", enveloppe.getTemplateId());
+
+        final Recipients recipients = enveloppe.getRecipients();
+        assertNull(recipients);
+
+
+        final List<TemplateRole> participants = enveloppe.getTemplateRoles();
+        assertEquals(2, participants.size());
+        for (int i = 0; i < participants.size(); i++) {
+            TemplateRole signer = participants.get(i);
+
+            final List<SignHere> signHereTabs = signer.getTabs().getSignHereTabs();
+            assertEquals(1, signHereTabs.size());
+            final SignHere signHere = signHereTabs.get(0);
+            assertEquals("1", signHere.getDocumentId());
+            assertEquals(utilisateurs.get(i).getNom(), signHere.getAnchorString());
+
+            assertTrue(Integer.valueOf(signHere.getAnchorXOffset()) > 0);
+            assertEquals(0, Integer.valueOf(signHere.getAnchorYOffset()));
+
+        }
+      }
+
+    @Test
     public void testEnveloppeSansSignataire() {
 
         final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();

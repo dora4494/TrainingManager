@@ -12,7 +12,7 @@ Il est nécessaire d'avoir un compte pour l'utilisation de l'API.
 Le site pour le développement d'API est https://developers.docusign.com/.
 On peut y trouver le `User Id` et l'`Account ID`
 
-On peut accéder à l'https://appdemo.docusign.com[interface d'administration] pour voir les mails envoyés.
+On peut accéder à l'https://appdemo.docusign.com[interface d'administration de développement] pour voir les mails envoyés.
 
 == Configuration de l'application
 
@@ -30,3 +30,14 @@ Il faut faire pointer le chemin rsaKeyFile vers le fichier contenant la clé pri
 
 Un bouchon est mis en place pour DocuSign afin ne pas intéragir avec le vrai service en dehors de la production.
 Pour utiliser le vrai service `DocuSign` (en production), il faut positionner le profile spring à `docusign`.
+
+== Positionnement des tabs
+
+Lorsque rien n'est précisé, l'utilisateur pour positionner différents champs dans son document (signature, nom, date, ...).
+
+En positionnant le tabs, la signature est imposé et ne peut pas être déplacée.
+
+Explications sur le positionnement des tabs:
+
+* https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/fixed/
+* https://www.docusign.com/blog/developers/tabs-deep-dive-placing-tabs-documents
