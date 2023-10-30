@@ -51,8 +51,10 @@ public class Session {
     @Column(name = "session_date")
     private Set<LocalDate> dates = new HashSet<>();
 
+    private LocalDate dateCreation;
 
-    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, Long cout, String modalites, int etat, Set<LocalDate> dates) {
+
+    public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, Long cout, String modalites, int etat, Set<LocalDate> dates, LocalDate dateCreation) {
         this.id = id;
         this.formation = formation;
         this.client = client;
@@ -64,8 +66,8 @@ public class Session {
         this.modalites = modalites;
         this.etat = etat;
         this.dates = dates;
+        this.dateCreation = dateCreation;
     }
-
 
     public Session() {
     }
@@ -160,6 +162,14 @@ public class Session {
     }
 
 
+    public LocalDate getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDate dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
     @Override
     public String toString() {
         return "Session{" +
@@ -174,6 +184,7 @@ public class Session {
                 ", modalites='" + modalites + '\'' +
                 ", etat=" + etat +
                 ", dates=" + dates +
+                ", dateCreation=" + dateCreation +
                 '}';
     }
 }

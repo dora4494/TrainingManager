@@ -45,7 +45,7 @@
                         <div class="pure-control-group date-group">
                             <label for="aligned-dates">Date(s)</label>
                             <input type="date" th:field="*{dates}" id="aligned-dates" name="dates">
-                            <button type="button" class="ajoutDate">Ajouter une date</button>
+                            <button type="button" id="ajoutDate" class="pure-button plus-button">+</button>
                         </div>
 
 
@@ -75,12 +75,6 @@
                 </form>
             </div>
 
-            <!--
-            <form action="/session-modifiee" method="post" class="container-btn-modifier">
-                <input type="hidden" name="id" th:value="${session.id}"/>
-                <button type="submit" class="pure-button">Modifier session</button>
-            </form>
-            -->
 
         </main>
     </div>
@@ -89,7 +83,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('.ajoutDate').on('click', function () {
+            $('#ajoutDate').on('click', function () {
                 var divDates = $('<div class="pure-control-group date-group">' +
                     '<label for="aligned-dates">Date(s)</label>' +
                     '<input type="date" name="dates">' +

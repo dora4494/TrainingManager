@@ -4,6 +4,8 @@ import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.ToDo;
 import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.SessionService;
+import fr.paloit.paloformation.service.UtilisateurService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 @Controller
 public class SessionController {
@@ -22,6 +25,8 @@ public class SessionController {
     @Autowired
     SessionService sessionService;
 
+    @Autowired
+    UtilisateurService utilisateurService;
 
     @GetMapping({"/sessions"})
     public String afficherSessions(Model model) {
@@ -46,25 +51,14 @@ public class SessionController {
     @GetMapping({"/session/{id}"})
     public String detailSession(Model model, @PathVariable Long id, @ModelAttribute Utilisateur utilisateur) {
         Session sessionFormation = sessionService.trouverSessionById(id);
-       /* LocalDate dateDuJour = LocalDate.now();
 
-        List<ToDo> cetteSemaineTodos = new ArrayList<>();
-        List<ToDo> aVenirTodos = new ArrayList<>();
+        List<ToDo> toDosTriees = sessionFormation.getTodos().stream()
+                .sorted(Comparator.comparing(ToDo::getDate))
+                .collect(Collectors.toList());
 
-        for (ToDo todo : sessionFormation.getTodos()) {
-            LocalDate todoDate = todo.getDate().atStartOfDay().toLocalDate();
-            if (todoDate.isBefore(dateDuJour.plusDays(7))) {
-                cetteSemaineTodos.add(todo);
-            } else {
-                aVenirTodos.add(todo);
-            }
-        }*/
+        sessionFormation.setTodos(toDosTriees);
 
         model.addAttribute("sessionFormation", sessionFormation);
-      /*  model.addAttribute("cetteSemaineTodos", cetteSemaineTodos);
-        model.addAttribute("aVenirTodos", aVenirTodos);*/
-
-
         return "detail-session";
     }
 
@@ -100,6 +94,7 @@ public class SessionController {
         }
         return "redirect:/sessions";
     }
+
 
 }
 

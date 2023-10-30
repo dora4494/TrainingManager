@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ToDoService {
@@ -28,30 +29,96 @@ public class ToDoService {
 
     public void creerTodos(Session session) {
 
-            Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
-            Tache feuilleEmargement = tacheRepository.findById(2L).orElse(null);
+        Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
+        Tache bloquerAgendaFormateur = tacheRepository.findById(2L).orElse(null);
+        Tache demanderListeParticipants = tacheRepository.findById(3L).orElse(null);
+        Tache inviterParticipants = tacheRepository.findById(4L).orElse(null);
+        Tache creerFeuilleEmargement = tacheRepository.findById(5L).orElse(null);
+        Tache creerAttestationFormation = tacheRepository.findById(6L).orElse(null);
+        Tache envoyerFeuilleEmargement = tacheRepository.findById(7L).orElse(null);
+        Tache envoyerQuestionnaire = tacheRepository.findById(8L).orElse(null);
+        Tache transmettreAttestationFormation = tacheRepository.findById(9L).orElse(null);
 
-            LocalDate dateLaPlusPetite = session.getDates().stream().min(Comparator.naturalOrder()).orElse(null);
 
+        LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
-            if (conventionFormation == null || feuilleEmargement == null) {
-                throw new RuntimeException("Erreur: tâches introuvables");
-            }
+        LocalDate dateCreationSession = session.getDateCreation();
 
-            ToDo conventionF = new ToDo();
-            conventionF.setTache(conventionFormation);
-            conventionF.setSession(session);
-            conventionF.setDate(dateLaPlusPetite.minusDays(7));
+        Set<LocalDate> datesSession = session.getDates();
 
-            ToDo feuilleE = new ToDo();
-            feuilleE.setTache(feuilleEmargement);
-            feuilleE.setSession(session);
-            feuilleE.setDate(dateLaPlusPetite.minusDays(2));
-
-            toDoRepository.save(conventionF);
-            toDoRepository.save(feuilleE);
+        if (conventionFormation == null || bloquerAgendaFormateur == null
+        ||demanderListeParticipants == null || inviterParticipants == null
+        || creerFeuilleEmargement == null || creerAttestationFormation == null
+        || envoyerFeuilleEmargement == null || envoyerQuestionnaire == null
+        || transmettreAttestationFormation == null) {
+            throw new RuntimeException("Erreur: tâches introuvables");
         }
 
+        ToDo conventionF = new ToDo();
+        conventionF.setTache(conventionFormation);
+        conventionF.setSession(session);
+        conventionF.setDate(dateCreationSession);
+
+        ToDo bloquerAgendaF = new ToDo();
+        bloquerAgendaF.setTache(bloquerAgendaFormateur);
+        bloquerAgendaF.setSession(session);
+        bloquerAgendaF.setDate(dateCreationSession);
+
+        ToDo listeParticipants = new ToDo();
+        listeParticipants.setTache(demanderListeParticipants);
+        listeParticipants.setSession(session);
+        listeParticipants.setDate(dateCreationSession);
+
+        ToDo inviterPart = new ToDo();
+        inviterPart.setTache(inviterParticipants);
+        inviterPart.setSession(session);
+        inviterPart.setDate(dateCreationSession.plusDays(7));
+
+        ToDo creerFeuilleE = new ToDo();
+        creerFeuilleE.setTache(creerFeuilleEmargement);
+        creerFeuilleE.setSession(session);
+        creerFeuilleE.setDate(dateCreationSession.plusDays(9));
+
+        ToDo creerAttestionF = new ToDo();
+        creerAttestionF.setTache(creerAttestationFormation);
+        creerAttestionF.setSession(session);
+        creerAttestionF.setDate(dateCreationSession.plusDays(9));
+
+
+
+
+        for (LocalDate dateDeSession : datesSession) {
+            ToDo envoyerFeuilleE = new ToDo();
+            envoyerFeuilleE.setTache(envoyerFeuilleEmargement);
+            envoyerFeuilleE.setSession(session);
+
+            LocalDate dateToDo = dateDeSession;
+            envoyerFeuilleE.setDate(dateToDo);
+
+            toDoRepository.save(envoyerFeuilleE);
+        }
+
+        ToDo envoyerQuest = new ToDo();
+        envoyerQuest.setTache(envoyerQuestionnaire);
+        envoyerQuest.setSession(session);
+        envoyerQuest.setDate(dateLaPlusGrande.plusDays(1));
+
+        ToDo transmettreAttestationF = new ToDo();
+        transmettreAttestationF.setTache(transmettreAttestationFormation);
+        transmettreAttestationF.setSession(session);
+        transmettreAttestationF.setDate(dateLaPlusGrande.plusDays(1));
+
+        toDoRepository.save(conventionF);
+        toDoRepository.save(bloquerAgendaF);
+        toDoRepository.save(listeParticipants);
+        toDoRepository.save(inviterPart);
+        toDoRepository.save(creerFeuilleE);
+        toDoRepository.save(creerAttestionF);
+        toDoRepository.save(envoyerQuest);
+        toDoRepository.save(transmettreAttestationF);
+
+
+    }
 
 
     public ToDo trouverToDoById(Long id) {
@@ -63,8 +130,6 @@ public class ToDoService {
     public Iterable<ToDo> listeToDo() {
         return toDoRepository.findAll();
     }
-
-
 
 
     // Etat 1 = "A FAIRE" , Etat 2 : "FAIT"

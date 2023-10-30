@@ -28,6 +28,11 @@ public class SessionService {
     }
 
     public void creerSession(Session session) {
+
+        LocalDate dateCreationSession = LocalDate.now();
+
+        session.setDateCreation(dateCreationSession);
+
         sessionRepository.save(session);
         if (session.getDates() != null && !session.getDates().isEmpty()) {
         toDoService.creerTodos(session);
