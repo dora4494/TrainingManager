@@ -44,7 +44,7 @@ public class SessionServiceTest {
         Set<Utilisateur> participants = new HashSet<>();
         List<ToDo> todos = new ArrayList<>();
         Set<LocalDate> dates = new HashSet<>();
-        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates);
+        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates, null);
 
 
         sessionService.creerSession(session);
@@ -63,7 +63,7 @@ public class SessionServiceTest {
         Set<Utilisateur> participants = new HashSet<>();
         List<ToDo> todos = new ArrayList<>();
         Set<LocalDate> dates =  Set.of(LocalDate.of(2023,11,21));
-        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates);
+        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates, null);
 
         sessionService.creerSession(session);
 

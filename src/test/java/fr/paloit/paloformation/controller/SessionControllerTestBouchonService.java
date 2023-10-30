@@ -50,7 +50,7 @@ public class SessionControllerTestBouchonService {
 
         Mockito.when(sessionService.listeSesions()).thenReturn(Arrays.asList(
                 new Session(null, getUneFormation(), "client", new HashSet<>(), new ArrayList<>(), getUnFormateur(),
-                        2, 4L, "modalites", 1, Set.of(LocalDate.of(2023, 11, 21)))
+                        2, 4L, "modalites", 1, Set.of(LocalDate.of(2023, 11, 21)), null)
         ));
 
         final ResultActions resultActions = this.mvc.perform(get("/sessions"))
@@ -63,7 +63,7 @@ public class SessionControllerTestBouchonService {
     @Test
     public void creerSession() throws Exception {
         Session session = new Session(null, getUneFormation(), "client", new HashSet<>(), new ArrayList<>(), getUnFormateur(),
-                2, 4L, "modalites", 1, Set.of(LocalDate.of(2023, 11, 21)));
+                2, 4L, "modalites", 1, Set.of(LocalDate.of(2023, 11, 21)), null);
 
         final ResultActions resultat_creation = this.mvc.perform(post("/session-creee") // Appel de l'url de création d'une session
                         .flashAttr("session", session)) // Ajout de l'attribut session qui est passé en paramètre de la méthode de création d'une session

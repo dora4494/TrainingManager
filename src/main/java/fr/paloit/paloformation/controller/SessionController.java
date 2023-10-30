@@ -23,10 +23,8 @@ import java.util.Comparator;
 public class SessionController {
 
     @Autowired
-    SessionService sessionService;
+    private SessionService sessionService;
 
-    @Autowired
-    UtilisateurService utilisateurService;
 
     @GetMapping({"/sessions"})
     public String afficherSessions(Model model) {

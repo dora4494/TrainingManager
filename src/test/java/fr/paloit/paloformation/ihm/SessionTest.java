@@ -48,7 +48,7 @@ public class SessionTest {
         Utilisateur formateur = new Utilisateur(36L, "Jean", "Petit", "jpetit@palo-it.com");
         int etat = 0;
         Mockito.when(sessionService.listeSesions()).thenReturn(Arrays.asList(
-                new Session(23L, formation, "client", participants, todos, formateur, 2, 230L, "modalites", etat, dates)
+                new Session(23L, formation, "client", participants, todos, formateur, 2, 230L, "modalites", etat, dates, null)
         ));
 
 
@@ -95,7 +95,7 @@ public class SessionTest {
         Utilisateur formateur = new Utilisateur(36L, "Jean", "Petit", "jpetit@palo-it.com");
         int etat = 0;
         Mockito.when(sessionService.trouverSessionById(23L)).thenReturn(
-                new Session(23L, formation, "client", participants, todos, formateur, 2, 230L, "modalites", etat, dates)
+                new Session(23L, formation, "client", participants, todos, formateur, 2, 230L, "modalites", etat, dates, null)
         );
 
 
