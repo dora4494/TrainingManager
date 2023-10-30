@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.docusignAPI;
 
+import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.EmargementService;
 import org.slf4j.Logger;
@@ -29,6 +30,11 @@ public class DocusignMockService implements EmargementService {
                     + " " + utilisateur.getNom()
                     + "(" +  utilisateur.getMail() + ")");
         }
+    }
+
+    @Override
+    public FeuilleEmargement getFeuilleEmargement(Session session) {
+        return new DocuSignFeuilleEmargement();
     }
 
 

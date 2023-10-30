@@ -159,7 +159,10 @@ public class EnveloppeDocuSignTest {
     public void testDocument() {
         final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
         final String texteDocument = "Merci de bien vouloir signer la feuille d'émargement";
-        enveloppeDocuSign.setDocument("emargement.doc", texteDocument);
+        final DocuSignFeuilleEmargement docuSignFeuilleEmargement = new DocuSignFeuilleEmargement();
+        docuSignFeuilleEmargement.setNomFichier("emargement.doc");
+        docuSignFeuilleEmargement.setTexteDocument(texteDocument);
+        enveloppeDocuSign.setDocument(docuSignFeuilleEmargement);
 
         EnvelopeDefinition enveloppe = enveloppeDocuSign.generer();
 

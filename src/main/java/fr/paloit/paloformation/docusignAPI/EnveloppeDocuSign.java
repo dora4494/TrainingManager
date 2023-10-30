@@ -33,6 +33,10 @@ public class EnveloppeDocuSign {
         this.texteDocument = texteDocument;
     }
 
+    public void setDocument(DocuSignFeuilleEmargement docuSignFeuilleEmargement) {
+        setDocument(docuSignFeuilleEmargement.getNomFichier(), docuSignFeuilleEmargement.getTexteDocument());
+    }
+
     public EnvelopeDefinition generer() {
 
         EnvelopeDefinition envelope = new EnvelopeDefinition();
@@ -145,6 +149,5 @@ public class EnveloppeDocuSign {
     public void setTemplateId(String templateId) {
         this.templateId = templateId;
     }
-
 
 }

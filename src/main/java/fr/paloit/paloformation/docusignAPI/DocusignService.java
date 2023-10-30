@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.docusignAPI;
 
+import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.EmargementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class DocusignService implements EmargementService {
         for (Utilisateur utilisateur : utilisateurs) {
             docusign.envoyerEnveloppe(utilisateur);
         }
+    }
+
+    @Override
+    public FeuilleEmargement getFeuilleEmargement(Session session) {
+        throw new RuntimeException("Not yet implemented");
     }
 }
