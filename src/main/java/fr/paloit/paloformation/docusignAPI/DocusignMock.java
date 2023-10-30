@@ -21,7 +21,7 @@ public class DocusignMock extends Docusign {
     public DocusignMock() {
     }
 
-    public void envoyerEnveloppeTemplate(Utilisateur utilisateur) throws IOException {
+    public void envoyerEnveloppeTemplate(EnvelopeDefinition envelope) throws IOException {
 
     }
 
@@ -36,7 +36,7 @@ public class DocusignMock extends Docusign {
         return "";
     }
 
-    protected EnvelopeSummary envoyerEnveloppe(EnvelopeDefinition envelope) throws IOException, ApiException {
+    public EnvelopeSummary envoyerEnveloppe(EnvelopeDefinition envelope) throws IOException, ApiException {
         return null;
     }
 

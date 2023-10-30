@@ -1,12 +1,12 @@
 package fr.paloit.paloformation.docusignAPI;
 
+import com.docusign.esign.client.ApiException;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.Utilisateur;
 import fr.paloit.paloformation.service.EmargementService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -28,12 +28,28 @@ public class DocusignService implements EmargementService {
                     + utilisateur.getPrenom()
                     + " " + utilisateur.getNom()
                     + "(" + utilisateur.getMail() + ")");
-            docusign.envoyerEnveloppe(utilisateur);
+            EnveloppeDocuSign envelope = creerEnveloppe(utilisateur);
+            try {
+                docusign.envoyerEnveloppe(envelope.generer());
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
+
+
 
     @Override
     public FeuilleEmargement getFeuilleEmargement(Session session) {
         return new DocuSignFeuilleEmargement();
+    }
+
+    public static EnveloppeDocuSign creerEnveloppe(Utilisateur utilisateur) {
+        // Create envelopeDefinition object
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        enveloppeDocuSign.setEmailSujet("Feuille d'émargement");
+        enveloppeDocuSign.ajouterSignataire(utilisateur);
+        enveloppeDocuSign.setDocument("doc1.txt");
+        return enveloppeDocuSign;
     }
 }

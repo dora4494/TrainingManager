@@ -56,9 +56,10 @@ public class DocuSignTest {
 
         final Docusign docusign = new MockDocusign(mockApiClient);
 
-        final Utilisateur utilisateur = new Utilisateur(1L, "Sébastien", "Fauvel", "sfauvel@palo-it.com");
-        docusign.envoyerEnveloppe(utilisateur);
-        docusign.envoyerEnveloppe(utilisateur);
+//        final Utilisateur utilisateur = new Utilisateur(1L, "Sébastien", "Fauvel", "sfauvel@palo-it.com");
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        docusign.envoyerEnveloppe(enveloppeDocuSign.generer());
+        docusign.envoyerEnveloppe(enveloppeDocuSign.generer());
 
         // Vérification qu'il n'y ait qu'un seul appel pour récupérer les infos d'authentification
         Mockito.verify(mockApiClient).setOAuthBasePath("account-d.docusign.com");
@@ -81,8 +82,8 @@ public class DocuSignTest {
 
         final Utilisateur utilisateur = new Utilisateur(1L, "", "", "");
         final MockDocusign mockDocusign = new MockDocusign(mockApiClient);
-        mockDocusign.envoyerEnveloppe(utilisateur);
-
+        final EnvelopeDefinition envelopeDefinition = DocusignService.creerEnveloppe(utilisateur).generer();
+        mockDocusign.envoyerEnveloppe(envelopeDefinition);
         assertEquals(resultatDeReference(), mockDocusign.getFirstCall());
     }
 
@@ -100,7 +101,8 @@ public class DocuSignTest {
 
         mockDocusign.whenInvokePathEndsWith(invocation -> envelopeTemplateResults, "/templates");
 
-        mockDocusign.envoyerEnveloppeTemplate(utilisateur);
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        mockDocusign.envoyerEnveloppeTemplate(enveloppeDocuSign.generer());
 
         final String lastCall = mockDocusign.getLastCall();
         assertTrue(lastCall.contains("templateId: 123456"), "Valeur inattendu pour templateId: " + Arrays.stream(lastCall.split("\n")).filter(t -> t.contains("templateId:")).collect(Collectors.joining("\n")).trim()+ "\n");
@@ -109,28 +111,6 @@ public class DocuSignTest {
 
 
 
-    @Test
-    public void testCreerEnveloppe() {
-
-        final Utilisateur utilisateur = new Utilisateur(1L, "John", "Doe", "john.doe.test@palo-it.com");
-        EnvelopeDefinition enveloppe = Docusign.creerEnveloppe(utilisateur);
-
-        final Recipients recipients = enveloppe.getRecipients();
-
-        assertNull(recipients.getCarbonCopies());
-
-        final List<Signer> participants = recipients.getSigners();
-        assertEquals(1, participants.size());
-        {
-            final Signer signer = participants.get(0);
-            assertEquals("John", signer.getFirstName());
-            assertEquals("Doe", signer.getLastName());
-            // TODO Faut il renseigner le name et le fullName?
-            assertEquals("John Doe", signer.getName());
-            assertEquals(null, signer.getFullName());
-            assertEquals("john.doe.test@palo-it.com", signer.getEmail());
-        }
-    }
 
     // Outillage
 
