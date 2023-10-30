@@ -8,6 +8,7 @@ import com.docusign.esign.client.auth.OAuth;
 import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 
 @Service
+@Profile("docusign")
 public class Docusign {
 
     @Autowired
