@@ -82,7 +82,7 @@ public class DocuSignTest {
 
         final Utilisateur utilisateur = new Utilisateur(1L, "", "", "");
         final MockDocusign mockDocusign = new MockDocusign(mockApiClient);
-        final EnvelopeDefinition envelopeDefinition = DocusignService.creerEnveloppe(utilisateur).generer();
+        final EnvelopeDefinition envelopeDefinition = DocuSignService.creerEnveloppe(utilisateur).generer();
         mockDocusign.envoyerEnveloppe(envelopeDefinition);
         assertEquals(resultatDeReference(), mockDocusign.getFirstCall());
     }

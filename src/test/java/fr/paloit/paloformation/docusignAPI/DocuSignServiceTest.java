@@ -11,14 +11,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class DocuSignService {
+public class DocuSignServiceTest {
 
 
     @Test
     public void testCreerEnveloppe() {
 
         final Utilisateur utilisateur = new Utilisateur(1L, "John", "Doe", "john.doe.test@palo-it.com");
-        EnvelopeDefinition enveloppe = DocusignService.creerEnveloppe(utilisateur).generer();
+        EnvelopeDefinition enveloppe = DocuSignService.creerEnveloppe(utilisateur).generer();
 
         final Recipients recipients = enveloppe.getRecipients();
 

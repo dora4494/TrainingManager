@@ -15,10 +15,10 @@ import java.io.IOException;
 
 @Service
 @Profile({"default", "!docusign"})
-public class DocusignMock extends Docusign {
-    Logger logger = LoggerFactory.getLogger(DocusignMock.class);
+public class DocuSignMock extends Docusign {
+    Logger logger = LoggerFactory.getLogger(DocuSignMock.class);
 
-    public DocusignMock() {
+    public DocuSignMock() {
     }
 
     public void envoyerEnveloppeTemplate(EnvelopeDefinition envelope) throws IOException {

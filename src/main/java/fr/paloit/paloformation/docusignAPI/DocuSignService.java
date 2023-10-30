@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-public class DocusignService implements EmargementService {
-    Logger logger = LoggerFactory.getLogger(DocusignService.class);
+public class DocuSignService implements EmargementService {
+    Logger logger = LoggerFactory.getLogger(DocuSignService.class);
     @Autowired
     Docusign docusign;
 
