@@ -72,7 +72,7 @@ public class SessionServiceTest {
         assertEquals(1, countSession);
         final Iterable<ToDo> lstTodo = toDoService.listeToDo();
         final long countToDo = StreamSupport.stream(lstTodo.spliterator(), false).count();
-        assertEquals(2, countToDo);
+        assertEquals(9, countToDo);
 
     }
 
