@@ -3,13 +3,18 @@ package fr.paloit.paloformation.playwright.scenario;
 import com.microsoft.playwright.Browser;
 import fr.paloit.paloformation.playwright.outil.DocExtension;
 import fr.paloit.paloformation.playwright.outil.PlaywrightExtension;
+import fr.paloit.paloformation.playwright.outil.Site;
 import fr.paloit.paloformation.playwright.page.AjoutSessionPage;
 import fr.paloit.paloformation.playwright.page.MenuPage;
 import fr.paloit.paloformation.playwright.page.SessionPage;
+import fr.paloit.paloformation.playwright.page.SessionsPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.RegisterExtension;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class SessionDoc {
 
@@ -21,6 +26,7 @@ public class SessionDoc {
 
     MenuPage menuPage;
     SessionPage sessionPage;
+    SessionsPage sessionsPage;
     AjoutSessionPage ajoutSessionPage;
 
 
@@ -47,10 +53,38 @@ public class SessionDoc {
         ajoutSessionPage.champDates.fill("2023-10-10");
 
         ajoutSessionPage.champFormateur.selectOption("Petit");
+
+        System.out.println("SessionDoc.creation_d_une_session " + ajoutSessionPage.champParticipants.textContent());
+        ajoutSessionPage.champParticipants.selectOption(new String[]{"Marc Laval", "Paul Durand"});
+
         describeStep("Renseigner les informations concernant la session");
         doc.cliquerSur(ajoutSessionPage.boutonEnregister);
 
         describeStep("Après l'enregistrement, on revient à l'écran des sessions qui affiche celle qui vient d'être saisie.");
+
+        sessionsPage.ouvrirDerniereSession(titreFormation);
+        describeStep("En cliquant sur son nom `" + titreFormation + ", on voit le détail de la session.");
+
+
+        final List<String> participantsSelectionnes = List.of("Paul Durand");
+        for (String participant : participantsSelectionnes) {
+            sessionPage.selectionnerParticipant(participant);
+        }
+
+        describeStep("On peut alors sélectionner des participants et leurs envoyer la feuille d'émargement");
+        Site.viderLogSpring();
+        sessionPage.envoyerEmargement();
+
+        doc.writeln("Ici, après avoir sélectionné "
+                        + participantsSelectionnes.stream().collect(Collectors.joining(", "))
+                        + ", on peut lire dans les logs:",
+                "");
+
+        // Pour lire dans les logs
+        final String logsDocuSign = Site.extraireLogSpring("DocusignMockService");
+        doc.writeln("----",
+                logsDocuSign,
+                "----");
     }
 
     private void describeStep(String description) {

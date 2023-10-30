@@ -10,6 +10,7 @@ public class AjoutSessionPage {
     public final Locator champClient;
     public final Locator champDates;
     public final Locator champFormateur;
+    public final Locator champParticipants;
 
     public AjoutSessionPage(Page page) {
         this.page = page;
@@ -17,6 +18,7 @@ public class AjoutSessionPage {
         this.champClient = page.locator("#aligned-client");
         this.champDates = page.locator("#aligned-dates");
         this.champFormateur = page.locator("#aligned-formateur");
+        this.champParticipants = page.locator("#aligned-participant");
 
         this.boutonEnregister = page.locator("button", new Page.LocatorOptions().setHasText("Enregistrer"));
     }

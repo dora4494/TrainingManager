@@ -54,6 +54,7 @@ public class PlaywrightExtension implements AfterEachCallback, AfterAllCallback,
                .filter(field -> isPageObject(field))
                .collect(Collectors.toList());
 
+        this.page().setDefaultTimeout(3000);
         for (Field pageField : pageFields) {
             try {
                 pageField.setAccessible(true);
