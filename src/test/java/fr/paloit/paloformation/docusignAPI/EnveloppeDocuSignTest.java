@@ -175,4 +175,31 @@ public class EnveloppeDocuSignTest {
         assertEquals("doc", document.getFileExtension());
     }
 
+    @Test
+    public void testPositionnementDeLaSignature() {
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+
+        final DocuSignFeuilleEmargement docuSignFeuilleEmargement = new DocuSignFeuilleEmargement();
+        docuSignFeuilleEmargement.setNomFichier("emargement.doc");
+        docuSignFeuilleEmargement.setTexteDocument("Merci de bien vouloir signer la feuille d'émargement");
+        final Utilisateur signataire = new Utilisateur(32L, "John", "Doe", "jdoe@palo-it.com");
+        enveloppeDocuSign.ajouterSignataire(signataire);
+        enveloppeDocuSign.setDocument(docuSignFeuilleEmargement);
+
+        EnvelopeDefinition envelope = enveloppeDocuSign.generer();
+
+        final List<Document> documents = envelope.getDocuments();
+        assertEquals(1, documents.size());
+        final List<Signer> signers = envelope.getRecipients().getSigners();
+        assertEquals(1, signers.size());
+        final Signer signer = signers.get(0);
+        final Tabs tabs = signer.getTabs();
+        assertEquals(1, tabs.getSignHereTabs().size());
+        final SignHere signHere = tabs.getSignHereTabs().get(0);
+        assertEquals(signataire.getPrenom() + " " + signataire.getNom(), signHere.getAnchorString());
+        assertTrue(Integer.valueOf(signHere.getAnchorXOffset()) > 0);
+        assertTrue(Integer.valueOf(signHere.getAnchorYOffset()) == 0);
+
+    }
+
 }

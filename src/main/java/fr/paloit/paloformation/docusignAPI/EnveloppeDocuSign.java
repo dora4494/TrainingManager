@@ -74,18 +74,15 @@ public class EnveloppeDocuSign {
 
             if (templateId == null) {
                 // Création des zones de signature
-                SignHere signHere = new SignHere();
-                signHere.setDocumentId("1");
-                signHere.setPageNumber("1");
-                signHere.setXPosition("191");
-                signHere.setYPosition("148");
-                Tabs tabs = new Tabs();
-                tabs.setSignHereTabs(Arrays.asList(signHere));
+
 
                 Recipients recipients = new Recipients();
                 recipients.setSigners(utilisateurs.stream()
-                        .map(this::creerSignataireDocuSign)
-                        .peek(signer -> signer.setTabs(tabs))
+                        .map(signataire -> {
+                            final Signer signer = creerSignataireDocuSign(signataire);
+                            ajouterSignature(signer, signataire);
+                            return signer;
+                        })
                         .collect(Collectors.toList()));
                 envelope.setRecipients(recipients);
             } else {
@@ -116,24 +113,10 @@ public class EnveloppeDocuSign {
         return envelope;
     }
 
+
     private static String encodeFileToBase64(String document) {
         byte[] fileContent = document.getBytes();
         return Base64.getEncoder().encodeToString(fileContent);
-    }
-
-    private static void ajouterSignature(TemplateRole templateRole, Utilisateur utilisateur) {
-        SignHere signHere = new SignHere();
-        signHere.setDocumentId("1");
-        signHere.setPageNumber("1");
-        signHere.setAnchorString(utilisateur.getNom());
-        signHere.setAnchorUnits("pixels");
-        signHere.setAnchorXOffset("100");
-        signHere.setAnchorYOffset("0");
-        signHere.setAnchorIgnoreIfNotPresent("true"); // Qu'est ce que cela fait si non trouvé ? Cela évite une erreur ?
-
-        Tabs tabs = new Tabs();
-        tabs.setSignHereTabs(Arrays.asList(signHere));
-        templateRole.setTabs(tabs);
     }
 
     private Optional<String> getExtension(String filename) {
@@ -141,6 +124,35 @@ public class EnveloppeDocuSign {
                 .filter(f -> f.contains("."))
                 .map(f -> f.substring(filename.lastIndexOf(".") + 1));
 
+    }
+
+    private static void ajouterSignature(TemplateRole templateRole, Utilisateur utilisateur) {
+        SignHere signHere = getSignHere(utilisateur);
+
+        Tabs tabs = new Tabs();
+        tabs.setSignHereTabs(Arrays.asList(signHere));
+        templateRole.setTabs(tabs);
+    }
+
+    private static void ajouterSignature(Signer signer, Utilisateur signataire) {
+        SignHere signHere = getSignHere(signataire);
+
+        Tabs tabs = new Tabs();
+        tabs.setSignHereTabs(Arrays.asList(signHere));
+        signer.setTabs(tabs);
+    }
+
+    private static SignHere getSignHere(Utilisateur signataire) {
+        SignHere signHere = new SignHere();
+        signHere.setDocumentId("1");
+        signHere.setPageNumber("1");
+        // TODO cela ajoute une signature en face de chaque nom. S'il apparait plusieurs fois, il y a plusieurs demandes de signature !!!
+        signHere.setAnchorString(signataire.getPrenom() + " " + signataire.getNom());
+        signHere.setAnchorUnits("pixels");
+        signHere.setAnchorXOffset("100");
+        signHere.setAnchorYOffset("0");
+        signHere.setAnchorIgnoreIfNotPresent("true"); // Qu'est ce que cela fait si non trouvé ? Cela évite une erreur ?
+        return signHere;
     }
 
     private static TemplateRole creerTemplateRole(Utilisateur utilisateur) {
