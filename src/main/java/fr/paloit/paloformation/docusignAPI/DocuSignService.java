@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Service
 public class DocuSignService implements EmargementService {
@@ -45,7 +46,24 @@ public class DocuSignService implements EmargementService {
 
     @Override
     public FeuilleEmargement getFeuilleEmargement(Session session) {
-        return new DocuSignFeuilleEmargement();
+        final DocuSignFeuilleEmargement feuilleEmargement = new DocuSignFeuilleEmargement();
+        feuilleEmargement.setNomFichier("emargement_" + session.getFormation().getIntitule() + ".txt");
+
+        String texte = String.join("\n",
+                "Formation: " + session.getFormation().getIntitule(),
+                "Formateur: " + session.getFormateur().getPrenom() + " " + session.getFormateur().getNom(),
+                "\n\n",
+                session.getParticipants().stream()
+                        .map(utilisateur -> formatNomUtilisateur(utilisateur))
+                        .collect(Collectors.joining("\n\n\n"))
+        );
+        feuilleEmargement.setTexteDocument(texte);
+
+        return feuilleEmargement;
+    }
+
+    private static String formatNomUtilisateur(Utilisateur utilisateur) {
+        return utilisateur.getPrenom() + " " + utilisateur.getNom();
     }
 
     public static EnveloppeDocuSign creerEnveloppe(Utilisateur utilisateur) {

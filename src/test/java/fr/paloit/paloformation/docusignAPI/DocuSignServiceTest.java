@@ -7,6 +7,7 @@ import com.docusign.esign.model.Signer;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.SessionBuilder;
 import fr.paloit.paloformation.model.Utilisateur;
+import fr.paloit.paloformation.service.EmargementService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -18,9 +19,9 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @WebMvcTest(DocuSignService.class)
 @AutoConfigureMockMvc
@@ -38,7 +39,7 @@ public class DocuSignServiceTest {
                 .setFormateur(new Utilisateur(1L, "John", "Doe", "jdoe@palo-it.com"))
                 .get();
 
-        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement)docuSignService.getFeuilleEmargement(session);
+        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement) docuSignService.getFeuilleEmargement(session);
         feuilleEmargement.setNomFichier("Emargement.txt");
         feuilleEmargement.setTexteDocument("Contenu de la feuille d'émargement");
 
@@ -86,5 +87,22 @@ public class DocuSignServiceTest {
             assertEquals(null, signer.getFullName());
             assertEquals("john.doe.test@palo-it.com", signer.getEmail());
         }
+    }
+
+    @Test
+    public void testGetFeuilleEmargement() {
+        final Session session = SessionBuilder.uneSession("TDD")
+                .setFormateur(new Utilisateur(32L, "John", "Glenn", "jgleen@palo-it.com"))
+                .setParticipants(Set.of(
+                        new Utilisateur(35L, "Paul", "Martin", "pmartin@palo-it.com"),
+                        new Utilisateur(36L, "Bob", "Ray", "bray@palo-it.com")
+                        )
+                ).get();
+        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement)docuSignService.getFeuilleEmargement(session);
+        assertEquals("emargement_TDD.txt", feuilleEmargement.getNomFichier());
+        assertTrue(feuilleEmargement.getTexteDocument().contains("Formation: TDD"));
+        assertTrue(feuilleEmargement.getTexteDocument().contains("Formateur: John Glenn"));
+        assertTrue(feuilleEmargement.getTexteDocument().contains("Paul Martin"));
+        assertTrue(feuilleEmargement.getTexteDocument().contains("Bob Ray"));
     }
 }
