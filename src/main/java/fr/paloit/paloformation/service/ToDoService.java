@@ -132,15 +132,13 @@ public class ToDoService {
     }
 
 
-    // Etat 1 = "A FAIRE" , Etat 2 : "FAIT"
     public void modifierEtat(ToDo todo) {
-        if (todo.getEtat() == 2) {
-            todo.setEtat(1);
+        if (todo.getEtatb() == ToDo.Etat.FAIT) {
+            todo.setEtatb(ToDo.Etat.A_FAIRE);
         } else {
-            todo.setEtat(2);
+            todo.setEtatb(ToDo.Etat.FAIT);
         }
         toDoRepository.save(todo);
-
     }
 
 

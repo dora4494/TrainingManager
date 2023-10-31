@@ -89,15 +89,35 @@ public class ToDo {
     }
 
     public Etat getEtatb() {
-        if (etat == 1) {
-            return Etat.A_FAIRE;
-        } else {
-            return Etat.FAIT;
-        }
+        return Etat.valueOf(etat);
+    }
+
+    public void setEtatb(Etat etat) {
+        this.etat = etat.id;
     }
 
     public enum Etat {
-        A_FAIRE,FAIT
+        A_FAIRE(1),FAIT(2);
+
+        private final int id;
+
+        // TODO on ne devrait pas en avoir besoin
+        public int getId() {
+            return id;
+        }
+
+        Etat(int id) {
+            this.id = id;
+        }
+
+        private static Etat valueOf(int etatId) {
+            for (Etat etat : values()) {
+                if (etat.id == etatId) {
+                    return etat;
+                }
+            }
+            return null;
+        }
     }
 
 

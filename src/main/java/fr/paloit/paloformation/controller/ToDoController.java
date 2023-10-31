@@ -20,14 +20,14 @@ public class ToDoController {
 
     @GetMapping({"/todo-modifier"})
     @ResponseBody
-    public int modifierEtatToDo(@RequestParam Long id) {
+    public String modifierEtatToDo(@RequestParam Long id) {
         ToDo todo = toDoService.trouverToDoById(id);
         if (todo != null) {
             toDoService.modifierEtat(todo);
         }
         assert todo != null;
 
-        return todo.getEtat();
+        return todo.getEtatb().toString();
     }
 
 
