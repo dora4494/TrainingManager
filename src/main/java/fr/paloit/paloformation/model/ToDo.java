@@ -19,20 +19,12 @@ public class ToDo {
     private Tache tache;
     private LocalDate date;
 
-    private int etatId = 1;
-
+    @Column(name = "etat")
+    private int etatId = Etat.A_FAIRE.id;
 
     @ManyToOne
     @JoinColumn(name = "session_id")
     private Session session;
-
-    public ToDo(Long id, Tache tache, LocalDate date, int etat, Session session) {
-        this.id = id;
-        this.tache = tache;
-        this.date = date;
-        this.etatId = etat;
-        this.session = session;
-    }
 
     public ToDo() {
     }
@@ -61,13 +53,20 @@ public class ToDo {
         this.date = date;
     }
 
-    @Column(name = "etat")
     private int getEtatId() {
         return etatId;
     }
 
     private void setEtatId(int etatId) {
         this.etatId = etatId;
+    }
+
+    public Etat getEtat() {
+        return Etat.valueOf(etatId);
+    }
+
+    public void setEtat(Etat etat) {
+        this.etatId = etat.id;
     }
 
     public Session getSession() {
@@ -84,18 +83,11 @@ public class ToDo {
                 "id=" + id +
                 ", tache=" + tache +
                 ", date=" + date +
-                ", etat=" + etatId +
+                ", etat=" + getEtat() +
                 ", session=" + session +
                 '}';
     }
 
-    public Etat getEtat() {
-        return Etat.valueOf(etatId);
-    }
-
-    public void setEtat(Etat etat) {
-        this.etatId = etat.id;
-    }
 
     public enum Etat {
         A_FAIRE(1),FAIT(2);

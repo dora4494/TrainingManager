@@ -5,41 +5,60 @@ import fr.paloit.paloformation.model.ToDo;
 import fr.paloit.paloformation.repository.SessionRepository;
 import fr.paloit.paloformation.repository.TacheRepository;
 import fr.paloit.paloformation.repository.ToDoRepository;
-import org.junit.jupiter.api.Assertions;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-@SpringBootTest(classes = ToDoService.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@Transactional
 public class ToDoServiceTest {
 
     @Autowired
     private ToDoService toDoService;
 
-    @MockBean
+    @Autowired
     ToDoRepository toDoRepository;
 
-    @MockBean
+    @Autowired
     TacheRepository tacheRepository;
 
-    @MockBean
+    @Autowired
     SessionRepository sessionRepository;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Test
-    public void todoserv(){
+    public void testModifierEtatToDo() {
+        ToDo toDo = new ToDo();
+        assertEquals(ToDo.Etat.A_FAIRE, toDo.getEtat());
 
+        toDoService.modifierEtat(toDo);
+        assertEquals(ToDo.Etat.FAIT, toDo.getEtat());
+        assertNotNull(toDo.getId());
 
-        ToDo todo = new ToDo();
-        Assertions.assertEquals(ToDo.Etat.A_FAIRE,todo.getEtat());
+        entityManager.flush(); // Pour forcer l'enregistrement en base.
+        entityManager.clear(); // Pour forcer le rechargement depuis la base.
 
-        toDoService.modifierEtat(todo);
+        toDo = toDoService.trouverToDoById(toDo.getId());
+        assertEquals(ToDo.Etat.FAIT, toDo.getEtat());
 
-        Assertions.assertEquals(ToDo.Etat.FAIT,todo.getEtat());
+        toDoService.modifierEtat(toDo);
+        assertEquals(ToDo.Etat.A_FAIRE, toDo.getEtat());
 
+        entityManager.flush();
+        entityManager.clear();
+
+        toDo = toDoService.trouverToDoById(toDo.getId());
+        assertEquals(ToDo.Etat.A_FAIRE, toDo.getEtat());
     }
-
-
-
 }

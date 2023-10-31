@@ -101,7 +101,7 @@
                     <tr th:each="todo : ${sessionFormation.todos}">
                         <td><span data-th-text="${todo.tache.libelle}"></span></td>
                         <td><span data-th-text="${#temporals.format(todo.date, 'dd-MM-yyyy')}"></span></td>
-                        <td><span data-th-text="${todo.etatb.toString}" th:id="'todo-etat-' + ${todo.id}"></span></td>
+                        <td><span data-th-text="${todo.etat.toString}" th:id="'todo-etat-' + ${todo.id}"></span></td>
                         <td>
                             <button type="button" id="boutonTodo" th:attr="etatTodo=${todo.id}"
                                     onclick="modifierToDo(this)" class="pure-button-active">Modifier
