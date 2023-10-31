@@ -41,3 +41,13 @@ Explications sur le positionnement des tabs:
 
 * https://developers.docusign.com/docs/esign-rest-api/esign101/concepts/tabs/fixed/
 * https://www.docusign.com/blog/developers/tabs-deep-dive-placing-tabs-documents
+
+On peut utiliser le setAnchorString pour placer la signature à côté d'un texte.
+Il y aura une signature demandé à chaque endroit où apparait le texte.
+
+== Utilisation dans l'application
+
+On va envoyer une feuille d'émargement à l'ensemble des particpants plutôt qu'une feuille d'émargement par personne.
+Cela permet de centraliser les signatures au niveau de l'administration DocuSign.
+
+Lorsqu'un utilisateur accède au docuement pour le signer, il se connecte au serveur et voit les signatures déjà apposées sur celui çi.

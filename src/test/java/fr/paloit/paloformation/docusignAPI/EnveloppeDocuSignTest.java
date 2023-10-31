@@ -116,7 +116,7 @@ public class EnveloppeDocuSignTest {
             assertEquals(1, signHereTabs.size());
             final SignHere signHere = signHereTabs.get(0);
             assertEquals("1", signHere.getDocumentId());
-            assertEquals(utilisateurs.get(i).getNom(), signHere.getAnchorString());
+            assertEquals(utilisateurs.get(i).getPrenom() + " " + utilisateurs.get(i).getNom(), signHere.getAnchorString());
 
             assertTrue(Integer.valueOf(signHere.getAnchorXOffset()) > 0);
             assertEquals(0, Integer.valueOf(signHere.getAnchorYOffset()));

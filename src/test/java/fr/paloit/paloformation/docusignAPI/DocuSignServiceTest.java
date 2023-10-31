@@ -34,7 +34,7 @@ public class DocuSignServiceTest {
     DocuSign docuSign;
 
     @Test
-    public void testEnvoyerFeuilleEmargementEnvoiUnEnveloppeParUtilisateur() throws IOException, ApiException {
+    public void testEnvoyerFeuilleEmargementEnvoiUneEnveloppePourTousLesUtilisateurs() throws IOException, ApiException {
         Session session = SessionBuilder.uneSession("TDD")
                 .setFormateur(new Utilisateur(1L, "John", "Doe", "jdoe@palo-it.com"))
                 .get();
@@ -50,42 +50,18 @@ public class DocuSignServiceTest {
         docuSignService.envoyerDemandeSignature(utilisateurs, feuilleEmargement);
 
         ArgumentCaptor<EnveloppeDocuSign> enveloppeCaptor = ArgumentCaptor.forClass(EnveloppeDocuSign.class);
-        Mockito.verify(docuSignService, Mockito.times(utilisateurs.size())).envoyerEnveloppe(enveloppeCaptor.capture());
+        Mockito.verify(docuSignService, Mockito.times(1)).envoyerEnveloppe(enveloppeCaptor.capture());
         final List<EnveloppeDocuSign> enveloppes = enveloppeCaptor.getAllValues();
+        final EnveloppeDocuSign enveloppe = enveloppes.get(0);
+        assertEquals("Emargement.txt", enveloppe.getNomDocument());
+        assertEquals("Contenu de la feuille d'émargement", enveloppe.getTexteDocument());
 
+        assertEquals(utilisateurs.size(), enveloppe.getUtilisateurs().size());
         for (int i = 0; i < utilisateurs.size(); i++) {
             Utilisateur utilisateur = utilisateurs.get(i);
-            final EnveloppeDocuSign enveloppe = enveloppes.get(i);
 
-            assertEquals(1, enveloppe.getUtilisateurs().size());
-            assertEquals(utilisateur.getNom(), enveloppe.getUtilisateurs().get(0).getNom());
-            assertEquals(utilisateur.getMail(), enveloppe.getUtilisateurs().get(0).getMail());
-
-            assertEquals("Emargement.txt", enveloppe.getNomDocument());
-            assertEquals("Contenu de la feuille d'émargement", enveloppe.getTexteDocument());
-        }
-    }
-
-    @Test
-    public void testCreerEnveloppe() {
-
-        final Utilisateur utilisateur = new Utilisateur(1L, "John", "Doe", "john.doe.test@palo-it.com");
-        EnvelopeDefinition enveloppe = DocuSignService.creerEnveloppe(utilisateur).generer();
-
-        final Recipients recipients = enveloppe.getRecipients();
-
-        assertNull(recipients.getCarbonCopies());
-
-        final List<Signer> participants = recipients.getSigners();
-        assertEquals(1, participants.size());
-        {
-            final Signer signer = participants.get(0);
-            assertEquals("John", signer.getFirstName());
-            assertEquals("Doe", signer.getLastName());
-            // TODO Faut il renseigner le name et le fullName?
-            assertEquals("John Doe", signer.getName());
-            assertEquals(null, signer.getFullName());
-            assertEquals("john.doe.test@palo-it.com", signer.getEmail());
+            assertEquals(utilisateur.getNom(), enveloppe.getUtilisateurs().get(i).getNom());
+            assertEquals(utilisateur.getMail(), enveloppe.getUtilisateurs().get(i).getMail());
         }
     }
 

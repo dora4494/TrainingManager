@@ -3,6 +3,7 @@
 insert into utilisateur (mail,nom,prenom) values ('jpetit@palo-it.com','Petit','Jean')
 insert into utilisateur (mail,nom,prenom) values ('mlaval@palo-it.com','Laval','Marc')
 insert into utilisateur (mail,nom,prenom) values ('pdurand@palo-it.com','Durand','Paul')
+insert into utilisateur (mail,nom,prenom) values ('pduchemin@palo-it.com','Duchemin','Pierre')
 
 insert into formation (intitule) values ('TDD')
 
@@ -22,4 +23,9 @@ insert into session_participant (session_id, participant_id)
     values (
         (select session_id from session),
         (select id from utilisateur where nom = 'Durand')
+    );
+insert into session_participant (session_id, participant_id)
+    values (
+        (select session_id from session),
+        (select id from utilisateur where nom = 'Duchemin')
     );

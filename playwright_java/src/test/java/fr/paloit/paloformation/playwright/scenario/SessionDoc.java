@@ -33,7 +33,7 @@ public class SessionDoc {
     @BeforeEach
     public void debut(TestInfo info) {
         playwright.setContext(new Browser.NewContextOptions()
-                .setViewportSize(800, 400));
+                .setViewportSize(900, 600));
 
         sessionPage.ouvrir();
     }
@@ -55,7 +55,7 @@ public class SessionDoc {
         ajoutSessionPage.champFormateur.selectOption("Petit");
 
         System.out.println("SessionDoc.creation_d_une_session " + ajoutSessionPage.champParticipants.textContent());
-        ajoutSessionPage.champParticipants.selectOption(new String[]{"Marc Laval", "Paul Durand"});
+        ajoutSessionPage.champParticipants.selectOption(new String[]{"Marc Laval", "Paul Durand", "Pierre Duchemin"});
 
         describeStep("Renseigner les informations concernant la session");
         doc.cliquerSur(ajoutSessionPage.boutonEnregister);
@@ -66,7 +66,7 @@ public class SessionDoc {
         describeStep("En cliquant sur son nom `" + titreFormation + ", on voit le détail de la session.");
 
 
-        final List<String> participantsSelectionnes = List.of("Paul Durand");
+        final List<String> participantsSelectionnes = List.of("Paul Durand", "Pierre Duchemin");
         for (String participant : participantsSelectionnes) {
             sessionPage.selectionnerParticipant(participant);
         }
@@ -76,8 +76,8 @@ public class SessionDoc {
         sessionPage.envoyerEmargement();
 
         doc.writeln("Ici, après avoir sélectionné "
-                        + participantsSelectionnes.stream().collect(Collectors.joining(", "))
-                        + ", on peut lire dans les logs:",
+                        + participantsSelectionnes.stream().map(nom -> "`" + nom + "`").collect(Collectors.joining(", "))
+                        + " et envoyé la demande d'émargement, on peut lire dans les logs:",
                 "");
 
         // Pour lire dans les logs

@@ -24,25 +24,32 @@ public class DocuSignService implements EmargementService {
 
     @Override
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs, FeuilleEmargement feuilleEmargement) throws IOException {
+
+        logger.info("Envoi d'une demande d'émargement pour: ");
         for (Utilisateur utilisateur : utilisateurs) {
-            logger.info("Envoi d'une demande d'émargement pour: "
+            logger.info("  - "
                     + utilisateur.getPrenom()
                     + " " + utilisateur.getNom()
                     + "(" + utilisateur.getMail() + ")");
-            EnveloppeDocuSign enveloppe = creerEnveloppe(utilisateur);
-            enveloppe.setDocument((DocuSignFeuilleEmargement) feuilleEmargement);
-            try {
-                envoyerEnveloppe(enveloppe);
-            } catch (ApiException e) {
-                throw new RuntimeException(e);
-            }
         }
+
+        final EnveloppeDocuSign enveloppe = new EnveloppeDocuSign();
+        enveloppe.setEmailSujet("Feuille d'émargement");
+        for (Utilisateur utilisateur : utilisateurs) {
+            enveloppe.ajouterSignataire(utilisateur);
+        }
+        enveloppe.setDocument((DocuSignFeuilleEmargement) feuilleEmargement);
+        try {
+            envoyerEnveloppe(enveloppe);
+        } catch (ApiException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void envoyerEnveloppe(EnveloppeDocuSign enveloppe) throws IOException, ApiException {
         docuSign.envoyerEnveloppe(enveloppe.generer());
     }
-
 
     @Override
     public FeuilleEmargement getFeuilleEmargement(Session session) {
@@ -66,12 +73,4 @@ public class DocuSignService implements EmargementService {
         return utilisateur.getPrenom() + " " + utilisateur.getNom();
     }
 
-    public static EnveloppeDocuSign creerEnveloppe(Utilisateur utilisateur) {
-        // Create envelopeDefinition object
-        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
-        enveloppeDocuSign.setEmailSujet("Feuille d'émargement");
-        enveloppeDocuSign.ajouterSignataire(utilisateur);
-        enveloppeDocuSign.setDocument("doc1.txt");
-        return enveloppeDocuSign;
-    }
 }

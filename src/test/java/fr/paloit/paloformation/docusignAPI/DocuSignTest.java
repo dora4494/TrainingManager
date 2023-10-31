@@ -79,10 +79,15 @@ public class DocuSignTest {
      */
     @Test
     public void testAppelApi() throws ApiException, IOException {
-
         final Utilisateur utilisateur = new Utilisateur(1L, "", "", "");
+        final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
+        enveloppeDocuSign.setEmailSujet("Feuille d'émargement");
+        enveloppeDocuSign.ajouterSignataire(utilisateur);
+        enveloppeDocuSign.setDocument("doc1.txt");
+
+        final EnvelopeDefinition envelopeDefinition = enveloppeDocuSign.generer();
+
         final MockDocusign mockDocusign = new MockDocusign(mockApiClient);
-        final EnvelopeDefinition envelopeDefinition = DocuSignService.creerEnveloppe(utilisateur).generer();
         mockDocusign.envoyerEnveloppe(envelopeDefinition);
         assertEquals(resultatDeReference(), mockDocusign.getFirstCall());
     }
@@ -448,19 +453,19 @@ public class DocuSignTest {
                 "                    anchorCaseSensitiveMetadata: null\n" +
                 "                    anchorHorizontalAlignment: null\n" +
                 "                    anchorHorizontalAlignmentMetadata: null\n" +
-                "                    anchorIgnoreIfNotPresent: null\n" +
+                "                    anchorIgnoreIfNotPresent: true\n" +
                 "                    anchorIgnoreIfNotPresentMetadata: null\n" +
                 "                    anchorMatchWholeWord: null\n" +
                 "                    anchorMatchWholeWordMetadata: null\n" +
-                "                    anchorString: null\n" +
+                "                    anchorString:  \n" +
                 "                    anchorStringMetadata: null\n" +
                 "                    anchorTabProcessorVersion: null\n" +
                 "                    anchorTabProcessorVersionMetadata: null\n" +
-                "                    anchorUnits: null\n" +
+                "                    anchorUnits: pixels\n" +
                 "                    anchorUnitsMetadata: null\n" +
-                "                    anchorXOffset: null\n" +
+                "                    anchorXOffset: 100\n" +
                 "                    anchorXOffsetMetadata: null\n" +
-                "                    anchorYOffset: null\n" +
+                "                    anchorYOffset: 0\n" +
                 "                    anchorYOffsetMetadata: null\n" +
                 "                    caption: null\n" +
                 "                    captionMetadata: null\n" +
@@ -522,9 +527,9 @@ public class DocuSignTest {
                 "                    toolTipMetadata: null\n" +
                 "                    width: null\n" +
                 "                    widthMetadata: null\n" +
-                "                    xPosition: 191\n" +
+                "                    xPosition: null\n" +
                 "                    xPositionMetadata: null\n" +
-                "                    yPosition: 148\n" +
+                "                    yPosition: null\n" +
                 "                    yPositionMetadata: null\n" +
                 "                }]\n" +
                 "                smartSectionTabs: null\n" +
