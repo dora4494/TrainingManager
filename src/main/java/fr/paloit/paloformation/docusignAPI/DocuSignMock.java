@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @Service
 @Profile({"default", "!docusign"})
-public class DocuSignMock extends Docusign {
+public class DocuSignMock extends DocuSign {
     Logger logger = LoggerFactory.getLogger(DocuSignMock.class);
 
     public DocuSignMock() {

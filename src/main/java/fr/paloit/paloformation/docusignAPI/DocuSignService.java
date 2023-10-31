@@ -15,7 +15,7 @@ import java.io.IOException;
 public class DocuSignService implements EmargementService {
     Logger logger = LoggerFactory.getLogger(DocuSignService.class);
     @Autowired
-    Docusign docusign;
+    DocuSign docuSign;
 
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs) throws IOException {
         envoyerDemandeSignature(utilisateurs, null);
@@ -30,7 +30,7 @@ public class DocuSignService implements EmargementService {
                     + "(" + utilisateur.getMail() + ")");
             EnveloppeDocuSign envelope = creerEnveloppe(utilisateur);
             try {
-                docusign.envoyerEnveloppe(envelope.generer());
+                docuSign.envoyerEnveloppe(envelope.generer());
             } catch (ApiException e) {
                 throw new RuntimeException(e);
             }

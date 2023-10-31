@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 @Service
 @Profile("docusign")
-public class Docusign {
+public class DocuSign {
 
     @Autowired
     DocuSignConfig config;
@@ -31,16 +31,16 @@ public class Docusign {
     private String accessToken;
     private String accountId;
 
-    public Docusign() {
+    public DocuSign() {
         this(new ApiClient("https://demo.docusign.net/restapi"));
     }
 
-    public Docusign(ApiClient apiClient) {
+    public DocuSign(ApiClient apiClient) {
         this.apiClient = apiClient;
         this.apiClient.setOAuthBasePath("account-d.docusign.com");
     }
 
-    public Docusign(ApiClient apiClient, DocuSignConfig docuSignConfig) {
+    public DocuSign(ApiClient apiClient, DocuSignConfig docuSignConfig) {
         this(apiClient);
         config = docuSignConfig;
     }
