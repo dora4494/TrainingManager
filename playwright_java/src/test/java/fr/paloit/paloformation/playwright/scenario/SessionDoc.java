@@ -81,7 +81,7 @@ public class SessionDoc {
                 "");
 
         // Pour lire dans les logs
-        final String logsDocuSign = Site.extraireLogSpring("DocusignService");
+        final String logsDocuSign = Site.extraireLogSpring("DocuSignService");
         doc.writeln("----",
                 logsDocuSign,
                 "----");
