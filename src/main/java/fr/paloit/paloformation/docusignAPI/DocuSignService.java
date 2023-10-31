@@ -28,15 +28,19 @@ public class DocuSignService implements EmargementService {
                     + utilisateur.getPrenom()
                     + " " + utilisateur.getNom()
                     + "(" + utilisateur.getMail() + ")");
-            EnveloppeDocuSign envelope = creerEnveloppe(utilisateur);
+            EnveloppeDocuSign enveloppe = creerEnveloppe(utilisateur);
+            enveloppe.setDocument((DocuSignFeuilleEmargement) feuilleEmargement);
             try {
-                docuSign.envoyerEnveloppe(envelope.generer());
+                envoyerEnveloppe(enveloppe);
             } catch (ApiException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
+    public void envoyerEnveloppe(EnveloppeDocuSign enveloppe) throws IOException, ApiException {
+        docuSign.envoyerEnveloppe(enveloppe.generer());
+    }
 
 
     @Override

@@ -164,9 +164,9 @@ public class EnveloppeDocuSignTest {
         docuSignFeuilleEmargement.setTexteDocument(texteDocument);
         enveloppeDocuSign.setDocument(docuSignFeuilleEmargement);
 
-        EnvelopeDefinition enveloppe = enveloppeDocuSign.generer();
+        EnvelopeDefinition envelope = enveloppeDocuSign.generer();
 
-        final List<Document> documents = enveloppe.getDocuments();
+        final List<Document> documents = envelope.getDocuments();
         assertEquals(1, documents.size());
         final Document document = documents.get(0);
         assertEquals("1", document.getDocumentId());

@@ -10,15 +10,38 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import java.util.Base64;
-import java.nio.file.Files;
 
 public class EnveloppeDocuSign {
     private List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
     private String emailSujet;
     private String emailContenu;
     private String templateId;
-    private String documentName;
+    private String nomDocument;
     private String texteDocument;
+
+    public List<Utilisateur> getUtilisateurs() {
+        return utilisateurs;
+    }
+
+    public String getEmailSujet() {
+        return emailSujet;
+    }
+
+    public String getEmailContenu() {
+        return emailContenu;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public String getNomDocument() {
+        return nomDocument;
+    }
+
+    public String getTexteDocument() {
+        return texteDocument;
+    }
 
     public void ajouterSignataire(Utilisateur utilisateur) {
         this.utilisateurs.add(utilisateur);
@@ -28,8 +51,8 @@ public class EnveloppeDocuSign {
         setDocument(documentName, "Signature(s)");
     }
 
-    public void setDocument(String documentName, String texteDocument) {
-        this.documentName = documentName;
+    public void setDocument(String nomDocument, String texteDocument) {
+        this.nomDocument = nomDocument;
         this.texteDocument = texteDocument;
     }
 
@@ -79,13 +102,13 @@ public class EnveloppeDocuSign {
             }
         }
 
-        if (documentName != null) {
+        if (nomDocument != null) {
             Document document = new Document();
 
             document.setDocumentBase64(Base64.getEncoder().encodeToString(texteDocument.getBytes()));
             //document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
-            document.setName(documentName);
-            document.setFileExtension(getExtension(documentName).orElse(null));
+            document.setName(nomDocument);
+            document.setFileExtension(getExtension(nomDocument).orElse(null));
             document.setDocumentId("1");
             envelope.setDocuments(Arrays.asList(document));
         }
