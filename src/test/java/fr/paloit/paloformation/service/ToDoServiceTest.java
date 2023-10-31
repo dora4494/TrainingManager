@@ -32,11 +32,11 @@ public class ToDoServiceTest {
 
 
         ToDo todo = new ToDo();
-        Assertions.assertEquals(ToDo.Etat.A_FAIRE,todo.getEtatb());
+        Assertions.assertEquals(ToDo.Etat.A_FAIRE,todo.getEtat());
 
         toDoService.modifierEtat(todo);
 
-        Assertions.assertEquals(ToDo.Etat.FAIT,todo.getEtatb());
+        Assertions.assertEquals(ToDo.Etat.FAIT,todo.getEtat());
 
     }
 

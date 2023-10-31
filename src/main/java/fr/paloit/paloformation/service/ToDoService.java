@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -133,10 +131,10 @@ public class ToDoService {
 
 
     public void modifierEtat(ToDo todo) {
-        if (todo.getEtatb() == ToDo.Etat.FAIT) {
-            todo.setEtatb(ToDo.Etat.A_FAIRE);
+        if (todo.getEtat() == ToDo.Etat.FAIT) {
+            todo.setEtat(ToDo.Etat.A_FAIRE);
         } else {
-            todo.setEtatb(ToDo.Etat.FAIT);
+            todo.setEtat(ToDo.Etat.FAIT);
         }
         toDoRepository.save(todo);
     }

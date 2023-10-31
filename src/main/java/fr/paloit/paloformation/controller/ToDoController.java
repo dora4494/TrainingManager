@@ -27,7 +27,7 @@ public class ToDoController {
         }
         assert todo != null;
 
-        return todo.getEtatb().toString();
+        return todo.getEtat().toString();
     }
 
 
