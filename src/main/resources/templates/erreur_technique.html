@@ -1,7 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+<div th:replace="~{fragments :: head}"></div>
+
 <body>
-<h1>Erreur technique</h1>
-<a href="/">Retour à l'accueil</a>
+
+<div id="layout">
+
+    <div th:replace="~{fragments :: layout-menu}">...</div>
+
+    <div th:replace="~{fragments :: navbar}">...</div>
+
+    <div th:replace="~{fragments :: header}">...</div>
+
+    <div class="content-container">
+
+        <main class="main">
+
+            <div class="titre-main">
+                <h2 class="titre-main-item">Erreur technique</h2>
+            </div>
+
+            <div class="retour-accueil">
+            <a href="/">Retour à l'accueil</a>
+            </div>
+
+        </main>
+    </div>
+</div>
 </body>
+
+<div th:insert="~{fragments :: footer}">...</div>
+
 </html>

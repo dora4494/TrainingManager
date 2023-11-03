@@ -85,6 +85,24 @@ body {
 }
 
 
+
+#indicateurToDoEnRetard {
+   color: #FF8C00;
+    font-weight: bold;
+}
+
+#indicateurFormationAujourdhui, #indicateurFormationProchainement {
+    color: #00BFFF;
+    font-weight: bold;
+}
+
+
+.retour-accueil {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+
 .pure-g {
     display: flex;
     justify-content: space-between;
