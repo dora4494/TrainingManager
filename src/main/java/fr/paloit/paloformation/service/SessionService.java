@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class SessionService {
@@ -63,6 +65,22 @@ public class SessionService {
         }
     }
 
+    public long nombreDeSessionsAujourdhui() {
+        List<Session> sessions = (List<Session>) sessionRepository.findAll();
+        long nbDeSessionsAujourdhui = sessions.stream()
+                .filter(session -> session.getDates().stream().anyMatch(date -> date.isEqual(LocalDate.now())))
+                .count();
+        return nbDeSessionsAujourdhui;
+    }
+
+
+    public long nombreDeSessionsProchainement() {
+        List<Session> sessions = (List<Session>) sessionRepository.findAll();
+        long nbDeSessionsProchainement = sessions.stream()
+                .filter(session -> session.getDates().stream().anyMatch(date -> date.isAfter(LocalDate.now())))
+                .count();
+        return nbDeSessionsProchainement;
+    }
 
 }
 

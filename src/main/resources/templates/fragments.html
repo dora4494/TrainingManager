@@ -30,9 +30,9 @@
 
 <header th:fragment="header" class="header">
     <div id="container-indicateurs">
-        <div class="indicateur-retard">Retard</div>
-        <div class="indicateur-aujourdhui">Formation aujourd'hui</div>
-        <div class="indicateur-a-venir">Formation à venir</div>
+        <div class="indicateur-retard"><span id="indicateurToDoEnRetard" th:text="${nombreDeTodos}"></span> Retard</div>
+        <div class="indicateur-aujourdhui"><span id="indicateurFormationAujourdhui" th:text="${nombreSessionsAujourdhui}"></span> Formation aujourd'hui</div>
+        <div class="indicateur-a-venir"><span id="indicateurFormationProchainement" th:text="${nombreSessionsProchainement}"></span> Formation à venir</div>
     </div>
 </header>
 

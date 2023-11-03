@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ToDoService {
@@ -25,98 +24,65 @@ public class ToDoService {
     @Autowired
     SessionRepository sessionRepository;
 
+
+
+
     public void creerTodos(Session session) {
+        List<Tache> taches = (List<Tache>) tacheRepository.findAll();
 
-        Tache conventionFormation = tacheRepository.findById(1L).orElse(null);
-        Tache bloquerAgendaFormateur = tacheRepository.findById(2L).orElse(null);
-        Tache demanderListeParticipants = tacheRepository.findById(3L).orElse(null);
-        Tache inviterParticipants = tacheRepository.findById(4L).orElse(null);
-        Tache creerFeuilleEmargement = tacheRepository.findById(5L).orElse(null);
-        Tache creerAttestationFormation = tacheRepository.findById(6L).orElse(null);
-        Tache envoyerFeuilleEmargement = tacheRepository.findById(7L).orElse(null);
-        Tache envoyerQuestionnaire = tacheRepository.findById(8L).orElse(null);
-        Tache transmettreAttestationFormation = tacheRepository.findById(9L).orElse(null);
-
-
-        LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
         LocalDate dateCreationSession = session.getDateCreation();
+        LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
-        Set<LocalDate> datesSession = session.getDates();
-
-        if (conventionFormation == null || bloquerAgendaFormateur == null
-        ||demanderListeParticipants == null || inviterParticipants == null
-        || creerFeuilleEmargement == null || creerAttestationFormation == null
-        || envoyerFeuilleEmargement == null || envoyerQuestionnaire == null
-        || transmettreAttestationFormation == null) {
-            throw new RuntimeException("Erreur: tâches introuvables");
+        for (Tache tache : taches) {
+            ToDo toDo = new ToDo();
+            toDo.setTache(tache);
+            toDo.setSession(session);
+            toDo.setDate(dateCreationSession);
+            toDoRepository.save(toDo);
         }
 
-        ToDo conventionF = new ToDo();
-        conventionF.setTache(conventionFormation);
-        conventionF.setSession(session);
-        conventionF.setDate(dateCreationSession);
-
-        ToDo bloquerAgendaF = new ToDo();
-        bloquerAgendaF.setTache(bloquerAgendaFormateur);
-        bloquerAgendaF.setSession(session);
-        bloquerAgendaF.setDate(dateCreationSession);
-
-        ToDo listeParticipants = new ToDo();
-        listeParticipants.setTache(demanderListeParticipants);
-        listeParticipants.setSession(session);
-        listeParticipants.setDate(dateCreationSession);
 
         ToDo inviterPart = new ToDo();
-        inviterPart.setTache(inviterParticipants);
+        inviterPart.setTache(taches.get(3)); // Inviter Participants
         inviterPart.setSession(session);
         inviterPart.setDate(dateCreationSession.plusDays(7));
+        toDoRepository.save(inviterPart);
 
         ToDo creerFeuilleE = new ToDo();
-        creerFeuilleE.setTache(creerFeuilleEmargement);
+        creerFeuilleE.setTache(taches.get(4)); // Créer feuille d'émargement
         creerFeuilleE.setSession(session);
         creerFeuilleE.setDate(dateCreationSession.plusDays(9));
+        toDoRepository.save(creerFeuilleE);
 
         ToDo creerAttestionF = new ToDo();
-        creerAttestionF.setTache(creerAttestationFormation);
+        creerAttestionF.setTache(taches.get(5)); // Créer l'attestation de formation
         creerAttestionF.setSession(session);
         creerAttestionF.setDate(dateCreationSession.plusDays(9));
+        toDoRepository.save(creerAttestionF);
 
-
-
-
-        for (LocalDate dateDeSession : datesSession) {
+        for (LocalDate dateDeSession : session.getDates()) {
             ToDo envoyerFeuilleE = new ToDo();
-            envoyerFeuilleE.setTache(envoyerFeuilleEmargement);
+            envoyerFeuilleE.setTache(taches.get(6)); // Envoyer la feuille d'émargement
             envoyerFeuilleE.setSession(session);
-
-            LocalDate dateToDo = dateDeSession;
-            envoyerFeuilleE.setDate(dateToDo);
-
+            envoyerFeuilleE.setDate(dateDeSession);
             toDoRepository.save(envoyerFeuilleE);
         }
 
         ToDo envoyerQuest = new ToDo();
-        envoyerQuest.setTache(envoyerQuestionnaire);
+        envoyerQuest.setTache(taches.get(7)); // Envoyer le questionnaire
         envoyerQuest.setSession(session);
         envoyerQuest.setDate(dateLaPlusGrande.plusDays(1));
+        toDoRepository.save(envoyerQuest);
 
         ToDo transmettreAttestationF = new ToDo();
-        transmettreAttestationF.setTache(transmettreAttestationFormation);
+        transmettreAttestationF.setTache(taches.get(8)); // Transmettre l'attestation de formation
         transmettreAttestationF.setSession(session);
         transmettreAttestationF.setDate(dateLaPlusGrande.plusDays(1));
-
-        toDoRepository.save(conventionF);
-        toDoRepository.save(bloquerAgendaF);
-        toDoRepository.save(listeParticipants);
-        toDoRepository.save(inviterPart);
-        toDoRepository.save(creerFeuilleE);
-        toDoRepository.save(creerAttestionF);
-        toDoRepository.save(envoyerQuest);
         toDoRepository.save(transmettreAttestationF);
-
-
     }
+
+
 
 
     public ToDo trouverToDoById(Long id) {
@@ -138,6 +104,18 @@ public class ToDoService {
         }
         toDoRepository.save(todo);
     }
+
+    public long nombreToDoAvecEcheanceDepassee() {
+        List<ToDo> todos = (List<ToDo>) toDoRepository.findAll();
+        long nombreDeToDos = todos.stream()
+                .filter(todo -> todo.getDate().isBefore(LocalDate.now()) && todo.getEtat() == ToDo.Etat.A_FAIRE)
+                .count();
+        return nombreDeToDos;
+    }
+
+
+
+
 
 
 }
