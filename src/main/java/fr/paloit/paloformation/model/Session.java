@@ -6,10 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "session")
@@ -194,6 +191,10 @@ public class Session {
                 ", dates=" + dates +
                 ", dateCreation=" + dateCreation +
                 '}';
+    }
+
+    public LocalDate getDateLaPlusGrande() {
+        return getDates().stream().max(Comparator.naturalOrder()).orElse(null);
     }
 }
 

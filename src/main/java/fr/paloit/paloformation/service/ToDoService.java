@@ -36,45 +36,39 @@ public class ToDoService {
 
     List<ToDo> creerTodos(Session session, List<Tache> taches) {
         List<ToDo> todosASauver = new ArrayList<>();
-        LocalDate dateCreationSession = session.getDateCreation();
-        System.out.println(dateCreationSession);
-        LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
         for (Tache tache : taches) {
-
-            if (tache.getId() == 6L) { // Envoyer Feuille d'émargement
-                for (LocalDate date : session.getDates()) {
-                    ToDo toDo = new ToDo();
-                    toDo.setTache(tache);
-                    toDo.setSession(session);
-                    toDo.setDate(date);
-                    todosASauver.add(toDo);
-                }
-
-            } else {
-
+            List<LocalDate> lstdates = listeDeDatesPourLesToDos(session, tache);
+            for (LocalDate date : lstdates) {
                 ToDo toDo = new ToDo();
                 toDo.setTache(tache);
                 toDo.setSession(session);
-
-                if (tache.getId() == 3L) { // Inviter Participants
-                    toDo.setDate(dateCreationSession.plusDays(7));
-                } else if (tache.getId() == 4L) { // Créer feuille d'émargement
-                    toDo.setDate(dateCreationSession.plusDays(9));
-                } else if (tache.getId() == 5L) { // Créer l'attestation de formation
-                    toDo.setDate(dateCreationSession.plusDays(9));
-                } else if (tache.getId() == 7L) { // Envoyer le questionnaire
-                    toDo.setDate(dateLaPlusGrande.plusDays(1));
-                } else if (tache.getId() == 8L) { // Transmettre l'attestation de formation
-                    toDo.setDate(dateLaPlusGrande.plusDays(1));
-                } else {
-                    toDo.setDate(dateCreationSession);
-                }
+                toDo.setDate(date);
                 todosASauver.add(toDo);
             }
         }
-
         return todosASauver;
+    }
+
+    private List<LocalDate> listeDeDatesPourLesToDos(Session session, Tache tache) {
+        List<LocalDate> lstdates = new ArrayList<>();
+        if (tache.getId() == 3L) { // Inviter Participants
+            lstdates = List.of((session.getDateCreation().plusDays(7)));
+        } else if (tache.getId() == 4L) { // Créer feuille d'émargement
+            lstdates = List.of((session.getDateCreation().plusDays(9)));
+        } else if (tache.getId() == 5L) { // Créer l'attestation de formation
+            lstdates = List.of((session.getDateCreation().plusDays(9)));
+        } else if (tache.getId() == 6L) { // Envoyer Feuille d'émargement
+            lstdates.addAll(session.getDates());
+        } else if (tache.getId() == 7L) { // Envoyer le questionnaire
+            lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
+        } else if (tache.getId() == 8L) { // Transmettre l'attestation de formation
+            lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
+        } else {
+            lstdates = List.of(session.getDateCreation());
+
+        }
+        return lstdates;
     }
 
 
