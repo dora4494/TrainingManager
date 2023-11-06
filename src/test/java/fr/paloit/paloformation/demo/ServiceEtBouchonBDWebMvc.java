@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.demo;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.controller.FormationController;
 import fr.paloit.paloformation.model.Formation;
 import fr.paloit.paloformation.repository.FormationRepository;
@@ -39,6 +40,9 @@ public class ServiceEtBouchonBDWebMvc {
     // Création d'un bouchon pour la base de données
     @MockBean
     FormationRepository formationRepository;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testAfficherFormations() throws Exception {

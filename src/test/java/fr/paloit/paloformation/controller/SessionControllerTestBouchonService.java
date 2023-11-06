@@ -36,6 +36,9 @@ public class SessionControllerTestBouchonService {
     @MockBean
     SessionService sessionService;
 
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
+
 
     private Formation getUneFormation() {
         return new Formation(null, "formation", null);

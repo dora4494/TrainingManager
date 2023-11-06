@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.docusignAPI;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.SessionBuilder;
 import fr.paloit.paloformation.model.Utilisateur;
@@ -36,6 +37,8 @@ public class DocuSignControllerTest {
     private SessionService sessionService;
     @MockBean
     private UtilisateurService utilisateurService;
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testDemandeDeSignature() throws Exception {

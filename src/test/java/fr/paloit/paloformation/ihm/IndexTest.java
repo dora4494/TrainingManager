@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.ihm;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.controller.IndexController;
 import fr.paloit.paloformation.controller.SessionController;
 import fr.paloit.paloformation.model.*;
@@ -33,6 +34,9 @@ public class IndexTest {
 
     @MockBean
     SessionService sessionService;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testIndex() throws Exception {

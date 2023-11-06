@@ -47,6 +47,8 @@ public class SessionControllerTest {
     @Autowired
     private FormationService formationService;
 
+
+
 /*
     @Test
     public void testCreerSessions() throws Exception {

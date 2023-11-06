@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.ihm;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.controller.ErreurController;
 import fr.paloit.paloformation.controller.SessionController;
 import fr.paloit.paloformation.service.SessionService;
@@ -30,6 +31,9 @@ public class ErreurTest {
 
     @MockBean
     private SessionService sessionService;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testPageIntrouvableRetourneStatus404() throws Exception {

@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.demo;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.controller.FormationController;
 import fr.paloit.paloformation.model.Formation;
 import fr.paloit.paloformation.service.FormationService;
@@ -36,6 +37,9 @@ public class ThymeleafAvecControllerTest {
     // Création d'un bouchon pour le service
     @MockBean
     private FormationService formationService;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testFormations() throws Exception {

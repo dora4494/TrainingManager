@@ -1,5 +1,6 @@
 package fr.paloit.paloformation.ihm;
 
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.controller.SessionController;
 import fr.paloit.paloformation.model.Formation;
 import fr.paloit.paloformation.model.Session;
@@ -36,6 +37,9 @@ public class SessionTest {
 
     @MockBean
     private SessionService sessionService;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
 
     @Test
     public void testContenuDuTableauDesSessions() throws Exception {

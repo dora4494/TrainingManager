@@ -4,6 +4,7 @@ import com.docusign.esign.client.ApiException;
 import com.docusign.esign.model.EnvelopeDefinition;
 import com.docusign.esign.model.Recipients;
 import com.docusign.esign.model.Signer;
+import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.SessionBuilder;
 import fr.paloit.paloformation.model.Utilisateur;
@@ -32,6 +33,10 @@ public class DocuSignServiceTest {
 
     @MockBean
     DocuSign docuSign;
+
+    @MockBean
+    ControllerGlobalAdvice controllerGlobalAdvice;
+
 
     @Test
     public void testEnvoyerFeuilleEmargementEnvoiUneEnveloppePourTousLesUtilisateurs() throws IOException, ApiException {
