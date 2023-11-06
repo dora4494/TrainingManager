@@ -28,9 +28,7 @@ public class FormationController {
         return "creer-formation";
     }
 
-
-
-@PostMapping({"/formation-cree"})
+    @PostMapping({"/formation-cree"})
     public String formationCreee(@ModelAttribute Formation formation){
         formationService.creerFormation(formation);
         return "redirect:/formations";

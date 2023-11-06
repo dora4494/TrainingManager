@@ -57,8 +57,9 @@
                     <div class="pure-g">
                         <div class="pure-u-1">
                             <p class="label-detail-session">Date(s) de formation</p>
-                            <th:block th:each="date : ${sessionFormation.dates}">
+                            <th:block th:each="date, iterStat : ${sessionFormation.dates}">
                                 <span th:text="${#temporals.format(date, 'dd-MM-yyyy')}"></span>
+                                <span th:if="${!iterStat.last}">, </span>
                             </th:block>
                         </div>
                     </div>

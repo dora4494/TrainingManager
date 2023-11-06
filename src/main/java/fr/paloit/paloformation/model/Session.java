@@ -51,7 +51,7 @@ public class Session {
     @Column(name = "session_date")
     private Set<LocalDate> dates = new HashSet<>();
 
-    private LocalDate dateCreation;
+    private LocalDate dateCreation = LocalDate.now();
 
 
     public Session(Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, Long cout, String modalites, int etat, Set<LocalDate> dates, LocalDate dateCreation) {

@@ -30,8 +30,8 @@ public class ToDoService {
     public void creerTodos(Session session) {
         List<Tache> taches = (List<Tache>) tacheRepository.findAll();
 
-
         LocalDate dateCreationSession = session.getDateCreation();
+        System.out.println(dateCreationSession);
         LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
         for (Tache tache : taches) {
@@ -41,7 +41,6 @@ public class ToDoService {
             toDo.setDate(dateCreationSession);
             toDoRepository.save(toDo);
         }
-
 
         ToDo inviterPart = new ToDo();
         inviterPart.setTache(taches.get(3)); // Inviter Participants

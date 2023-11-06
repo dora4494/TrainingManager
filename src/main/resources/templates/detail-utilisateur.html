@@ -14,7 +14,6 @@
     <div th:replace="~{fragments :: header}">...</div>
 
     <div class="content-container">
-
         <main class="main">
             <div class="details-container">
                 <div class="input-container" data-th-text="${utilisateur.prenom}"></div>
@@ -32,8 +31,6 @@
                         <input type="hidden" name="id" th:value="${utilisateur.id}"/>
                         <button type="submit" class="pure-button">Modifier l'utilisateur</button>
                     </form>
-
-
                 </div>
             </div>
 

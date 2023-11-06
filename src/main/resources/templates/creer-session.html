@@ -54,7 +54,7 @@
                             <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
                                 <option value="">Sélectionnez un formateur</option>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
-                                        th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
+                                        th:value="${utilisateur.id}" th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
                             </select>
                         </div>
 

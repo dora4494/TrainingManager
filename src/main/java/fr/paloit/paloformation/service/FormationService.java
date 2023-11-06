@@ -12,13 +12,13 @@ public class FormationService {
     FormationRepository formationRepository;
 
 
-    public Formation.Resultat creerFormation(Formation formation) {
+    public Formation creerFormation(Formation formation) {
         Formation formationExistante = formationRepository.findByIntitule(formation.getIntitule());
         if (formationExistante == null) {
             formationRepository.save(formation);
-            return new Formation.Resultat(true, "La formation a été créée");
+            return new Formation(true, "La formation a été créée");
         } else {
-            return new Formation.Resultat(false, "La formation est déjà existante");
+            return new Formation(false, "La formation est déjà existante");
         }
     }
 
