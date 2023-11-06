@@ -44,8 +44,10 @@ public class SessionServiceTest {
         Set<Utilisateur> participants = new HashSet<>();
         List<ToDo> todos = new ArrayList<>();
         Set<LocalDate> dates = new HashSet<>();
-        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates, null);
-
+        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates);
+       // TODO: à améliorer pour que ce ne soit pas dépendant de l'heure où le test est lancé
+//        LocalDate dateCreation = session.getDateCreation();
+//        assertEquals(LocalDate.now(),dateCreation );
 
         sessionService.creerSession(session);
         final Iterable<Session> sessions = sessionService.listeSesions();
@@ -63,7 +65,7 @@ public class SessionServiceTest {
         Set<Utilisateur> participants = new HashSet<>();
         List<ToDo> todos = new ArrayList<>();
         Set<LocalDate> dates =  Set.of(LocalDate.of(2023,11,21));
-        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates, null);
+        Session session = new Session(null, getUneFormation(), "client", participants, todos, getUnFormateur(), 2, 4L, "modalites", 1, dates);
 
         sessionService.creerSession(session);
 

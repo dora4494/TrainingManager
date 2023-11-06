@@ -25,63 +25,57 @@ public class ToDoService {
     SessionRepository sessionRepository;
 
 
-
-
     public void creerTodos(Session session) {
         List<Tache> taches = (List<Tache>) tacheRepository.findAll();
+        List<ToDo> todosASauver = creerTodos(session, taches);
 
+        toDoRepository.saveAll(todosASauver);
+
+
+    }
+
+    List<ToDo> creerTodos(Session session, List<Tache> taches) {
+        List<ToDo> todosASauver = new ArrayList<>();
         LocalDate dateCreationSession = session.getDateCreation();
         System.out.println(dateCreationSession);
         LocalDate dateLaPlusGrande = session.getDates().stream().max(Comparator.naturalOrder()).orElse(null);
 
         for (Tache tache : taches) {
-            ToDo toDo = new ToDo();
-            toDo.setTache(tache);
-            toDo.setSession(session);
-            toDo.setDate(dateCreationSession);
-            toDoRepository.save(toDo);
+
+            if (tache.getId() == 6L) { // Envoyer Feuille d'émargement
+                for (LocalDate date : session.getDates()) {
+                    ToDo toDo = new ToDo();
+                    toDo.setTache(tache);
+                    toDo.setSession(session);
+                    toDo.setDate(date);
+                    todosASauver.add(toDo);
+                }
+
+            } else {
+
+                ToDo toDo = new ToDo();
+                toDo.setTache(tache);
+                toDo.setSession(session);
+
+                if (tache.getId() == 3L) { // Inviter Participants
+                    toDo.setDate(dateCreationSession.plusDays(7));
+                } else if (tache.getId() == 4L) { // Créer feuille d'émargement
+                    toDo.setDate(dateCreationSession.plusDays(9));
+                } else if (tache.getId() == 5L) { // Créer l'attestation de formation
+                    toDo.setDate(dateCreationSession.plusDays(9));
+                } else if (tache.getId() == 7L) { // Envoyer le questionnaire
+                    toDo.setDate(dateLaPlusGrande.plusDays(1));
+                } else if (tache.getId() == 8L) { // Transmettre l'attestation de formation
+                    toDo.setDate(dateLaPlusGrande.plusDays(1));
+                } else {
+                    toDo.setDate(dateCreationSession);
+                }
+                todosASauver.add(toDo);
+            }
         }
 
-        ToDo inviterPart = new ToDo();
-        inviterPart.setTache(taches.get(3)); // Inviter Participants
-        inviterPart.setSession(session);
-        inviterPart.setDate(dateCreationSession.plusDays(7));
-        toDoRepository.save(inviterPart);
-
-        ToDo creerFeuilleE = new ToDo();
-        creerFeuilleE.setTache(taches.get(4)); // Créer feuille d'émargement
-        creerFeuilleE.setSession(session);
-        creerFeuilleE.setDate(dateCreationSession.plusDays(9));
-        toDoRepository.save(creerFeuilleE);
-
-        ToDo creerAttestionF = new ToDo();
-        creerAttestionF.setTache(taches.get(5)); // Créer l'attestation de formation
-        creerAttestionF.setSession(session);
-        creerAttestionF.setDate(dateCreationSession.plusDays(9));
-        toDoRepository.save(creerAttestionF);
-
-        for (LocalDate dateDeSession : session.getDates()) {
-            ToDo envoyerFeuilleE = new ToDo();
-            envoyerFeuilleE.setTache(taches.get(6)); // Envoyer la feuille d'émargement
-            envoyerFeuilleE.setSession(session);
-            envoyerFeuilleE.setDate(dateDeSession);
-            toDoRepository.save(envoyerFeuilleE);
-        }
-
-        ToDo envoyerQuest = new ToDo();
-        envoyerQuest.setTache(taches.get(7)); // Envoyer le questionnaire
-        envoyerQuest.setSession(session);
-        envoyerQuest.setDate(dateLaPlusGrande.plusDays(1));
-        toDoRepository.save(envoyerQuest);
-
-        ToDo transmettreAttestationF = new ToDo();
-        transmettreAttestationF.setTache(taches.get(8)); // Transmettre l'attestation de formation
-        transmettreAttestationF.setSession(session);
-        transmettreAttestationF.setDate(dateLaPlusGrande.plusDays(1));
-        toDoRepository.save(transmettreAttestationF);
+        return todosASauver;
     }
-
-
 
 
     public ToDo trouverToDoById(Long id) {
@@ -111,10 +105,6 @@ public class ToDoService {
                 .count();
         return nombreDeToDos;
     }
-
-
-
-
 
 
 }

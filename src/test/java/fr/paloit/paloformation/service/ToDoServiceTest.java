@@ -1,6 +1,9 @@
 package fr.paloit.paloformation.service;
 
 
+import fr.paloit.paloformation.model.Session;
+import fr.paloit.paloformation.model.SessionBuilder;
+import fr.paloit.paloformation.model.Tache;
 import fr.paloit.paloformation.model.ToDo;
 import fr.paloit.paloformation.repository.SessionRepository;
 import fr.paloit.paloformation.repository.TacheRepository;
@@ -13,8 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -61,4 +69,8 @@ public class ToDoServiceTest {
         toDo = toDoService.trouverToDoById(toDo.getId());
         assertEquals(ToDo.Etat.A_FAIRE, toDo.getEtat());
     }
+
+
+
+
 }

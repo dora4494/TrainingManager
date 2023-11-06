@@ -11,7 +11,7 @@ public class SessionBuilder {
 
     public static SessionBuilder uneSession() {
         Formation formation = null;
-        return new SessionBuilder(new Session(23L, formation, "client", new HashSet<Utilisateur>(), new ArrayList<ToDo>(), null, 2, 230L, "modalites", 0, new HashSet<>(), null));
+        return new SessionBuilder(new Session(23L, formation, "client", new HashSet<Utilisateur>(), new ArrayList<ToDo>(), null, 2, 230L, "modalites", 0, new HashSet<>()));
     }
 
     public static SessionBuilder uneSession(String intituleFormation) {

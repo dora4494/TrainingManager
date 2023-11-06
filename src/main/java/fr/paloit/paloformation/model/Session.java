@@ -69,8 +69,16 @@ public class Session {
         this.dateCreation = dateCreation;
     }
 
+    public Session (Long id, Formation formation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur formateur, int duree, Long cout, String modalites, int etat, Set<LocalDate> dates) {
+        this(id, formation, client, participants, todos, formateur, duree, cout, modalites, etat, dates, LocalDate.now());
+
+    }
+
     public Session() {
     }
+
+//    public Session(Object o, Formation uneFormation, String client, Set<Utilisateur> participants, List<ToDo> todos, Utilisateur unFormateur, int i, long l, String modalites, int i1, Set<LocalDate> dates) {
+//    }
 
 
     public Long getId() {
