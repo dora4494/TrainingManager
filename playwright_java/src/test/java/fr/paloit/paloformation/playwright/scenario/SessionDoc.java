@@ -52,10 +52,12 @@ public class SessionDoc {
 
         ajoutSessionPage.champDates.fill("2023-10-10");
 
-        ajoutSessionPage.champFormateur.selectOption("Jean Petit");
+        final List<String> formateurs = ajoutSessionPage.champFormateur.locator("option").allTextContents();
+        ajoutSessionPage.champFormateur.selectOption(formateurs.get(1));
 
         System.out.println("SessionDoc.creation_d_une_session " + ajoutSessionPage.champParticipants.textContent());
-        ajoutSessionPage.champParticipants.selectOption(new String[]{"Marc Laval", "Paul Durand", "Pierre Duchemin"});
+        final List<String> participants = ajoutSessionPage.champParticipants.locator("option").allTextContents();
+        ajoutSessionPage.champParticipants.selectOption(participants.subList(1, 4).toArray(new String[0]));
 
         describeStep("Renseigner les informations concernant la session");
         doc.cliquerSur(ajoutSessionPage.boutonEnregister);
@@ -65,8 +67,7 @@ public class SessionDoc {
         sessionsPage.ouvrirDerniereSession(titreFormation);
         describeStep("En cliquant sur son nom `" + titreFormation + ", on voit le détail de la session.");
 
-
-        final List<String> participantsSelectionnes = List.of("Paul Durand", "Pierre Duchemin");
+        final List<String> participantsSelectionnes = participants.subList(1,3);
         for (String participant : participantsSelectionnes) {
             sessionPage.selectionnerParticipant(participant);
         }
