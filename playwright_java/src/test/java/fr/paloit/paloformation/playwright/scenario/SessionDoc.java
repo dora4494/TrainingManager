@@ -52,7 +52,7 @@ public class SessionDoc {
 
         ajoutSessionPage.champDates.fill("2023-10-10");
 
-        ajoutSessionPage.champFormateur.selectOption("Petit");
+        ajoutSessionPage.champFormateur.selectOption("Jean Petit");
 
         System.out.println("SessionDoc.creation_d_une_session " + ajoutSessionPage.champParticipants.textContent());
         ajoutSessionPage.champParticipants.selectOption(new String[]{"Marc Laval", "Paul Durand", "Pierre Duchemin"});
