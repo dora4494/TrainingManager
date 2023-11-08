@@ -14,6 +14,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -53,28 +54,32 @@ public class FeuilleEmargementDocxTest {
 
     @Test
     public void testRemplacementPlusieursTextes(@TempDir Path tempDir) throws Docx4JException, JAXBException {
+
+        final Map<String, String> substitutions = Map.of(
+                "<<LieuFormation>>", "Paris",
+                "<<NomFormation>>", "Java");
+
         final String fichier = "src/test/resources/demo_emargement.docx";
         final FeuilleEmargementDocx feuilleEmargementDocx = new FeuilleEmargementDocx(fichier);
-        final String texteInitial = getTexte(fichier);
-        assertTrue(texteInitial.contains("<<LieuFormation>>"));
-        assertFalse(texteInitial.contains("Paris"));
-        assertTrue(texteInitial.contains("<<NomFormation>>"));
-        assertFalse(texteInitial.contains("Java"));
 
-        feuilleEmargementDocx.remplacer("<<LieuFormation>>", "Paris");
-        feuilleEmargementDocx.remplacer("<<NomFormation>>", "Java");
+        final String texteInitial = getTexte(fichier);
+        for (Map.Entry<String, String> substitution : substitutions.entrySet()) {
+            assertTrue(texteInitial.contains(substitution.getKey()));
+            assertFalse(texteInitial.contains(substitution.getValue()));
+        }
+
+        for (Map.Entry<String, String> substitution : substitutions.entrySet()) {
+            feuilleEmargementDocx.remplacer(substitution.getKey(), substitution.getValue());
+        }
+
         final Path fichierSauve = tempDir.resolve("DocumentSauve.docx");
         feuilleEmargementDocx.sauver(fichierSauve);
 
         final String texteObtenu = getTexte(fichierSauve.toString());
-        assertFalse(texteObtenu.contains("<<LieuFormation>>"));
-        assertTrue(texteObtenu.contains("Paris"));
-        assertFalse(texteObtenu.contains("<<NomFormation>>"));
-        assertTrue(texteObtenu.contains("Java"));
-
-
-        final String texte = getTexte(fichierSauve.toString());
-        System.out.println("FeuilleEmargementDocxTest.testRemplacementPlusieursTextes " + texte );
+        for (Map.Entry<String, String> substitution : substitutions.entrySet()) {
+            assertFalse(texteObtenu.contains(substitution.getKey()));
+            assertTrue(texteObtenu.contains(substitution.getValue()));
+        }
     }
 
     @Test
