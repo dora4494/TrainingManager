@@ -1,6 +1,7 @@
-package fr.paloit.paloformation.docusignAPI;
+package fr.paloit.paloformation.controller;
 
-import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
+import fr.paloit.paloformation.docusignAPI.DocuSignFeuilleEmargement;
+import fr.paloit.paloformation.docusignAPI.DocuSignService;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.SessionBuilder;
 import fr.paloit.paloformation.model.Utilisateur;
@@ -24,9 +25,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@WebMvcTest(DocuSignController.class)
+@WebMvcTest(EmargementController.class)
 @AutoConfigureMockMvc
-public class DocuSignControllerTest {
+public class EmargementControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -57,7 +58,7 @@ public class DocuSignControllerTest {
         Mockito.when(utilisateurService.listeUtilisateursById(utilisateurs.stream().map(Utilisateur::getId).toList())).thenReturn(utilisateurs);
         Mockito.when(docuSignService.getFeuilleEmargement(Mockito.any(Session.class))).thenReturn(feuilleEmargement);
 
-        final ResultActions resultActions = this.mvc.perform(post("/docusign")
+        final ResultActions resultActions = this.mvc.perform(post("/emargement")
                         .param("idSession", session.getId().toString())
                         .param("ids", utilisateurs.stream().map(u -> u.getId().toString()).toArray(String[]::new)))
                 .andExpect(status().is3xxRedirection());

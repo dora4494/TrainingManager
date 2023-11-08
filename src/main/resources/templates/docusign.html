@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{/docusign}" th:object="${utilisateur}"
+<form th:action="@{/emargement}" th:object="${utilisateur}"
       method="POST" enctype="multipart/form-data">
     <input type="hidden" name="id" th:value="${utilisateur.id}" />
 

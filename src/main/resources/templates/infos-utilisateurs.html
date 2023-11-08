@@ -17,7 +17,7 @@
 
         <main class="main">
 
-            <form th:action="@{/docusign}" th:object="${utilisateur}"
+            <form th:action="@{/emargement}" th:object="${utilisateur}"
                   method="POST" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="session">
