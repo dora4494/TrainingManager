@@ -1,22 +1,26 @@
 package fr.paloit.paloformation.docusignAPI;
 
-import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.JAXBException;
-import org.docx4j.XmlUtils;
+import org.docx4j.model.table.TblFactory;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.exceptions.InvalidFormatException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.wml.*;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,12 +56,15 @@ public class FeuilleEmargementDocxTest {
         assertTrue(texteObtenu.contains("Paris"));
     }
 
+    // TODO On doit lever une erreur sur le texte a substitué n'est pas trouvé.
+    // TODO Faut il gérer les textes coupés sur plusieurs balises ?
     @Test
     public void testRemplacementPlusieursTextes(@TempDir Path tempDir) throws Docx4JException, JAXBException {
 
         final Map<String, String> substitutions = Map.of(
                 "<<LieuFormation>>", "Paris",
-                "<<NomFormation>>", "Java");
+                "<<NomFormation>>", "Java",
+                "<<NomFormateur>>", "John Doe");
 
         final String fichier = "src/test/resources/demo_emargement.docx";
         final FeuilleEmargementDocx feuilleEmargementDocx = new FeuilleEmargementDocx(fichier);
@@ -114,6 +121,38 @@ public class FeuilleEmargementDocxTest {
         }
     }
 
+    public static Stream<Arguments> testRemplirParticipantsAjouteleNomSurLaPremiereColonneDeChaqueLigne() {
+        return Stream.of(
+                Arguments.of("Cellule avec texte", new TemplateDocx().avecTable(10, 3, "texte")),
+                Arguments.of("Cellule sans texte", new TemplateDocx().avecTable(10, 3))
+        );
+    }
+    @ParameterizedTest
+    @MethodSource
+    public void testRemplirParticipantsAjouteleNomSurLaPremiereColonneDeChaqueLigne(String description, TemplateDocx template, @TempDir Path tempDir) throws Docx4JException {
+
+        final Path fichier = tempDir.resolve("template.docx");
+        template.sauver(fichier);
+
+        final Path fichierGenere = Paths.get("build/DocumentSauve.docx");
+        {
+            final FeuilleEmargementDocx feuilleEmargementDocx = new FeuilleEmargementDocx(fichier);
+
+            final MainDocumentPart mainDocumentPartInitial = WordprocessingMLPackage.load(fichier.toFile()).getMainDocumentPart();
+
+            feuilleEmargementDocx.remplirParticipants(List.of("John Doe","Paul Young", "Marc Zen"));
+            feuilleEmargementDocx.sauver(fichierGenere);
+        }
+        {
+            final MainDocumentPart mainDocumentPartFinal = WordprocessingMLPackage.load(fichierGenere.toFile()).getMainDocumentPart();
+            final Tbl tableFinal = FeuilleEmargementDocx.getElements(mainDocumentPartFinal, Tbl.class).get(0);
+            final List<Tr> lignes = FeuilleEmargementDocx.getElements(tableFinal, Tr.class);
+
+            assertEquals("John Doe", FeuilleEmargementDocx.getElements(lignes.get(2), P.class).get(0).toString());
+            assertEquals("Paul Young", FeuilleEmargementDocx.getElements(lignes.get(3), P.class).get(0).toString());
+            assertEquals("Marc Zen", FeuilleEmargementDocx.getElements(lignes.get(4), P.class).get(0).toString());
+        }
+    }
 
     private String getTexte(String fichier) throws Docx4JException, JAXBException {
         File doc = new File(fichier);
@@ -123,4 +162,60 @@ public class FeuilleEmargementDocxTest {
         List<Object> nodes = mainDocumentPart.getJAXBNodesViaXPath(xpath, true);
         return nodes.stream().map(Objects::toString).collect(Collectors.joining(" "));
     }
+
+    static class TemplateDocx {
+
+        private final WordprocessingMLPackage wordPackage;
+
+        public TemplateDocx() {
+            try {
+                wordPackage = WordprocessingMLPackage.createPackage();
+            } catch (InvalidFormatException e) {
+                throw new RuntimeException(e);
+            }
+
+            MainDocumentPart mainDocumentPart = wordPackage.getMainDocumentPart();
+            mainDocumentPart.addStyledParagraphOfText("Title", "Feuille émargement");
+            mainDocumentPart.addParagraphOfText("Formation : <<NomFormation>>");
+        }
+
+        private TemplateDocx avecTable(int nombreLigne, int nombreColonne, String texte) {
+            int writableWidthTwips = wordPackage.getDocumentModel()
+                    .getSections().get(0).getPageDimensions().getWritableWidthTwips();
+            Tbl tbl = TblFactory.createTable(nombreLigne, nombreColonne, writableWidthTwips/ nombreColonne);
+
+            if (texte != null) {
+                for (Tr tr : (List<Tr>) (List) tbl.getContent()) {
+                    for (Tc td : (List<Tc>) (List) tr.getContent()) {
+                        positionnerTexte(td, texte);
+                    }
+                }
+            }
+            wordPackage.getMainDocumentPart().addObject(tbl);
+            return this;
+        }
+        private TemplateDocx avecTable(int nombreLigne, int nombreColonne) {
+            return avecTable(nombreLigne, nombreColonne, null);
+
+        }
+
+        public void sauver(Path nomFichier) throws Docx4JException {
+            wordPackage.save(nomFichier.toFile());
+        }
+
+        private static void positionnerTexte(Tc td, String texte) {
+            final Text text = new Text();
+            text.setValue(texte);
+
+            final R r = new R();
+            r.getContent().add(text);
+
+            final P p = (P) td.getContent().get(0);
+            p.getContent().clear();
+            p.getContent().add(r);
+        }
+    }
+
+
+
 }
