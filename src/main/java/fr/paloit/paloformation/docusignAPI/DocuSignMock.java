@@ -15,50 +15,13 @@ import java.io.IOException;
 
 @Service
 @Profile({"default", "!docusign"})
-public class DocuSignMock extends DocuSign {
+public class DocuSignMock implements DocuSignAdapter {
     Logger logger = LoggerFactory.getLogger(DocuSignMock.class);
 
-    public DocuSignMock() {
-    }
-
-    public void envoyerEnveloppeTemplate(EnvelopeDefinition envelope) throws IOException {
-
-    }
-
-    public void envoyerEnveloppe(Utilisateur utilisateur) throws IOException {
-        logger.debug("Envoi d'une demande d'émargement pour: "
-                + utilisateur.getPrenom()
-                + " " + utilisateur.getNom()
-                + "(" + utilisateur.getMail() + ")");
-    }
-
-    private String ajouterAccessTokenAuHeader(ApiClient apiClient) throws IOException {
-        return "";
-    }
-
+    @Override
     public EnvelopeSummary envoyerEnveloppe(EnvelopeDefinition envelope) throws IOException, ApiException {
         return null;
     }
 
-    protected EnvelopeSummary envoyerEnveloppe(ApiClient apiClient, String accountId, EnvelopeDefinition envelope) throws ApiException {
-        return null;
-    }
-
-
-    public String getAccountId() throws IOException, ApiException {
-        return null;
-    }
-
-    private String getAccountId(ApiClient apiClient, String accessToken) throws ApiException {
-        return null;
-    }
-
-    private String getAccessToken(ApiClient apiClient, String clientId, String userId, String rsaKeyFile) throws IOException, ApiException {
-        return null;
-    }
-
-    public static EnvelopeDefinition creerEnveloppe(Utilisateur utilisateur) {
-        return null;
-    }
 
 }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class DocuSignService implements EmargementService {
     Logger logger = LoggerFactory.getLogger(DocuSignService.class);
     @Autowired
-    DocuSign docuSign;
+    DocuSignAdapter docuSign;
 
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs) throws IOException {
         envoyerDemandeSignature(utilisateurs, null);

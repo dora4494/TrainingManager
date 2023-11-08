@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 @Service
 @Profile("docusign")
-public class DocuSign {
+public class DocuSignReel implements DocuSignAdapter {
 
     @Autowired
     DocuSignConfig config;
@@ -31,16 +31,16 @@ public class DocuSign {
     private String accessToken;
     private String accountId;
 
-    public DocuSign() {
+    public DocuSignReel() {
         this(new ApiClient("https://demo.docusign.net/restapi"));
     }
 
-    public DocuSign(ApiClient apiClient) {
+    public DocuSignReel(ApiClient apiClient) {
         this.apiClient = apiClient;
         this.apiClient.setOAuthBasePath("account-d.docusign.com");
     }
 
-    public DocuSign(ApiClient apiClient, DocuSignConfig docuSignConfig) {
+    public DocuSignReel(ApiClient apiClient, DocuSignConfig docuSignConfig) {
         this(apiClient);
         config = docuSignConfig;
     }
@@ -86,6 +86,7 @@ public class DocuSign {
         }
     }
 
+    @Override
     public EnvelopeSummary envoyerEnveloppe(EnvelopeDefinition envelope) throws IOException, ApiException {
         String accountId = getAccountId();
         EnvelopeSummary results = envoyerEnveloppe(apiClient, accountId, envelope);

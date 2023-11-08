@@ -54,7 +54,7 @@ public class DocuSignTest {
     @Test
     public void test_appel_authentification() throws ApiException, IOException {
 
-        final DocuSign docusign = new MockDocusign(mockApiClient);
+        final DocuSignReel docusign = new MockDocusign(mockApiClient);
 
 //        final Utilisateur utilisateur = new Utilisateur(1L, "Sébastien", "Fauvel", "sfauvel@palo-it.com");
         final EnveloppeDocuSign enveloppeDocuSign = new EnveloppeDocuSign();
@@ -575,11 +575,11 @@ public class DocuSignTest {
     }
 
     /**
-     * Redéfinition de la classe DocuSign pour les tests.
+     * Redéfinition de la classe DocuSignReel pour les tests.
      * Le fichier de configuration n'est pas chargé mais remplacé par des valeurs en dur.
      * Les appels à invokeAPI sont interceptés pour renvoyer une enveloppe vide et enregistrer les valeurs envoyées.
      */
-    private class MockDocusign extends DocuSign {
+    private class MockDocusign extends DocuSignReel {
 
         final CallRecorder recorder = new CallRecorder();
         private final ApiClient apiClient;

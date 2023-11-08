@@ -1,14 +1,10 @@
 package fr.paloit.paloformation.docusignAPI;
 
 import com.docusign.esign.client.ApiException;
-import com.docusign.esign.model.EnvelopeDefinition;
-import com.docusign.esign.model.Recipients;
-import com.docusign.esign.model.Signer;
 import fr.paloit.paloformation.controller.ControllerGlobalAdvice;
 import fr.paloit.paloformation.model.Session;
 import fr.paloit.paloformation.model.SessionBuilder;
 import fr.paloit.paloformation.model.Utilisateur;
-import fr.paloit.paloformation.service.EmargementService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -18,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +27,7 @@ public class DocuSignServiceTest {
     DocuSignService docuSignService;
 
     @MockBean
-    DocuSign docuSign;
+    DocuSignReel docuSign;
 
     @MockBean
     ControllerGlobalAdvice controllerGlobalAdvice;
