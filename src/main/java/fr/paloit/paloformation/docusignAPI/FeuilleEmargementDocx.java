@@ -102,16 +102,20 @@ public class FeuilleEmargementDocx {
         final Tbl tableEmargement = tables.get(0);
         for (int indexNom = 0; indexNom < noms.size(); indexNom++) {
             final int NB_LIGNE_EN_TETE = 2;
-            final int indexColonne = indexNom + NB_LIGNE_EN_TETE;
-            final int indexLigne = 0;
-            ecrireDansCellule(tableEmargement, indexColonne, indexLigne, noms.get(indexNom));
+            final int indexLigne = indexNom + NB_LIGNE_EN_TETE;
+            final int indexColonne = 0;
+            List<Tr> lignes = FeuilleEmargementDocx.getElements(tableEmargement, Tr.class);
+            if (lignes.size() <= indexLigne) {
+                throw new RuntimeException("La feuille d'émargement ne peut contenir que " + (lignes.size()-NB_LIGNE_EN_TETE) + " particpants");
+            }
+            ecrireDansCellule(tableEmargement, indexLigne, indexColonne, noms.get(indexNom));
         }
     }
 
-    private static void ecrireDansCellule(Tbl table, int indexColonne, int indexLigne, String texte) {
+    private static void ecrireDansCellule(Tbl table, int indexLigne, int indexColonne, String texte) {
         List<Tr> lignes = FeuilleEmargementDocx.getElements(table, Tr.class);
-        final Tr ligne = lignes.get(indexColonne);
-        final Tc td = FeuilleEmargementDocx.getElements(ligne, Tc.class).get(indexLigne);
+        final Tr ligne = lignes.get(indexLigne);
+        final Tc td = FeuilleEmargementDocx.getElements(ligne, Tc.class).get(indexColonne);
         final P p = FeuilleEmargementDocx.getElements(td, P.class).get(0);
         final R premierR = getElementAddedIfNeeded(p, 0, () -> new R());
         final Text premierText = getElementAddedIfNeeded(premierR, 0, () -> new Text());

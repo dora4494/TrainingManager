@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -127,6 +128,7 @@ public class FeuilleEmargementDocxTest {
                 Arguments.of("Cellule sans texte", new TemplateDocx().avecTable(10, 3))
         );
     }
+
     @ParameterizedTest
     @MethodSource
     public void testRemplirParticipantsAjouteleNomSurLaPremiereColonneDeChaqueLigne(String description, TemplateDocx template, @TempDir Path tempDir) throws Docx4JException {
@@ -140,7 +142,7 @@ public class FeuilleEmargementDocxTest {
 
             final MainDocumentPart mainDocumentPartInitial = WordprocessingMLPackage.load(fichier.toFile()).getMainDocumentPart();
 
-            feuilleEmargementDocx.remplirParticipants(List.of("John Doe","Paul Young", "Marc Zen"));
+            feuilleEmargementDocx.remplirParticipants(List.of("John Doe", "Paul Young", "Marc Zen"));
             feuilleEmargementDocx.sauver(fichierGenere);
         }
         {
@@ -152,6 +154,22 @@ public class FeuilleEmargementDocxTest {
             assertEquals("Paul Young", FeuilleEmargementDocx.getElements(lignes.get(3), P.class).get(0).toString());
             assertEquals("Marc Zen", FeuilleEmargementDocx.getElements(lignes.get(4), P.class).get(0).toString());
         }
+    }
+
+    // TODO ce comportement devra évoluer pour permettre d'ajouter plus de participants
+    @Test
+    public void testRemplirParticipantsAvecPlusDeParticipantsQueDelignesLeveUneErreur(@TempDir Path tempDir) throws Docx4JException {
+
+        final Path fichier = tempDir.resolve("template.docx");
+        final int nombreLigne = 5;
+        new TemplateDocx().avecTable(nombreLigne, 3, "texte").sauver(fichier);
+
+        final List<String> participants = IntStream.range(0, nombreLigne + 3).mapToObj(__ -> "").collect(Collectors.toList());
+
+        final FeuilleEmargementDocx feuilleEmargementDocx = new FeuilleEmargementDocx(fichier);
+        final RuntimeException runtimeException = assertThrows(RuntimeException.class, () -> feuilleEmargementDocx.remplirParticipants(participants));
+        // Le tableau fait 5 lignes avec 2 lignes d'en-tête.
+        assertEquals("La feuille d'émargement ne peut contenir que 3 particpants", runtimeException.getMessage());
     }
 
     private String getTexte(String fichier) throws Docx4JException, JAXBException {
@@ -182,7 +200,7 @@ public class FeuilleEmargementDocxTest {
         private TemplateDocx avecTable(int nombreLigne, int nombreColonne, String texte) {
             int writableWidthTwips = wordPackage.getDocumentModel()
                     .getSections().get(0).getPageDimensions().getWritableWidthTwips();
-            Tbl tbl = TblFactory.createTable(nombreLigne, nombreColonne, writableWidthTwips/ nombreColonne);
+            Tbl tbl = TblFactory.createTable(nombreLigne, nombreColonne, writableWidthTwips / nombreColonne);
 
             if (texte != null) {
                 for (Tr tr : (List<Tr>) (List) tbl.getContent()) {
@@ -194,6 +212,7 @@ public class FeuilleEmargementDocxTest {
             wordPackage.getMainDocumentPart().addObject(tbl);
             return this;
         }
+
         private TemplateDocx avecTable(int nombreLigne, int nombreColonne) {
             return avecTable(nombreLigne, nombreColonne, null);
 
@@ -215,7 +234,6 @@ public class FeuilleEmargementDocxTest {
             p.getContent().add(r);
         }
     }
-
 
 
 }
