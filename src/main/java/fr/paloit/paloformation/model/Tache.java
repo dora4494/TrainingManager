@@ -2,8 +2,8 @@ package fr.paloit.paloformation.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -11,6 +11,31 @@ import java.util.List;
 @Table(name = "tache")
 public class Tache {
 
+    public boolean estDeType(Type type) {
+        return type.id == this.id;
+    }
+
+    public Type getType() {
+        return Arrays.stream(Type.values())
+                .filter(type -> type.id == this.id)
+                .findFirst()
+                .orElse(Type.INDETERMINE);
+    }
+    public enum Type {
+        INDETERMINE(-1),
+        INVITER_PARTICIPANT(4),
+        CREER_FEUILLE_EMARGEMENT(5),
+        CREER_ATTESTATION_FORMATION(6),
+        ENVOYER_FEUILLE_EMARGEMENT(7),
+        ENVOYER_QUESTIONNAIRE(8),
+        TRANSMETTRE_ATTESTATION_FORMATION(9);
+
+        private final int id;
+
+        Type(int id) {
+            this.id = id;
+        }
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

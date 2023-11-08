@@ -51,26 +51,30 @@ public class ToDoService {
     }
 
     private List<LocalDate> listeDeDatesPourLesToDos(Session session, Tache tache) {
-        List<LocalDate> lstdates = new ArrayList<>();
-        if (tache.getId() == 4L) { // Inviter Participants
-            lstdates = List.of((session.getDateCreation().plusDays(7)));
-        } else if (tache.getId() == 5L) { // Créer feuille d'émargement
-            lstdates = List.of((session.getDateCreation().plusDays(9)));
-        } else if (tache.getId() == 6L) { // Créer l'attestation de formation
-            lstdates = List.of((session.getDateCreation().plusDays(9)));
-        } else if (tache.getId() == 7L) { // Envoyer Feuille d'émargement
-            lstdates.addAll(session.getDates());
-        } else if (tache.getId() == 8L) { // Envoyer le questionnaire
-            lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
-        } else if (tache.getId() == 9L) { // Transmettre l'attestation de formation
-            lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
-        } else {
-            lstdates = List.of(session.getDateCreation());
 
+        switch (tache.getType()) {
+            case INVITER_PARTICIPANT:
+                return List.of(session.getDateCreation().plusDays(7));
+
+            case CREER_FEUILLE_EMARGEMENT:
+                return List.of(session.getDateCreation().plusDays(9));
+
+            case CREER_ATTESTATION_FORMATION:
+                return List.of(session.getDateCreation().plusDays(9));
+
+            case ENVOYER_FEUILLE_EMARGEMENT:
+                return session.getDates().stream().toList();
+
+            case ENVOYER_QUESTIONNAIRE:
+                return List.of(session.getDateLaPlusGrande().plusDays(1));
+
+            case TRANSMETTRE_ATTESTATION_FORMATION:
+                return List.of(session.getDateLaPlusGrande().plusDays(1));
+
+            default:
+                return List.of(session.getDateCreation());
         }
-        return lstdates;
     }
-
 
     public ToDo trouverToDoById(Long id) {
         return toDoRepository.findById(id)
