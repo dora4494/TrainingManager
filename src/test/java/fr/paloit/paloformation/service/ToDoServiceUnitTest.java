@@ -46,7 +46,7 @@ public class ToDoServiceUnitTest {
         Set<LocalDate> dates = Set.of(
                LocalDate.of(2023, 11, 25),
               LocalDate.of(2023, 11, 26));
-        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(6L, null, new ArrayList<>())));
+        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(7L, null, new ArrayList<>())));
         assertEquals(2, listeToDos.size());
 
         List<LocalDate> lstTodos = listeToDos.stream().map(ToDo::getDate).toList();
@@ -58,7 +58,7 @@ public class ToDoServiceUnitTest {
         Set<LocalDate> dates = Set.of(
                 LocalDate.of(2023, 11, 25),
                 LocalDate.of(2023, 11, 26));
-        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(7L, null, new ArrayList<>())));
+        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(8L, null, new ArrayList<>())));
         assertEquals(1, listeToDos.size());
         assertEquals( LocalDate.of(2023, 11, 26+1), listeToDos.get(0).getDate());
     }
@@ -69,7 +69,7 @@ public class ToDoServiceUnitTest {
         Set<LocalDate> dates = Set.of(
                 LocalDate.of(2023, 11, 25),
                 LocalDate.of(2023, 11, 26));
-        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(8L, null, new ArrayList<>())));
+        List<ToDo> listeToDos = toDoService.creerTodos(SessionBuilder.uneSession().setDates(dates).get(), List.of(new Tache(9L, null, new ArrayList<>())));
         assertEquals(1, listeToDos.size());
         assertEquals( LocalDate.of(2023, 11, 26+1), listeToDos.get(0).getDate());
     }
@@ -77,9 +77,12 @@ public class ToDoServiceUnitTest {
    private static Stream<Arguments> testDateDesToDosCreees() {
         return Stream.of(
                 Arguments.of("todo standard", 1L,LocalDate.now()),
-                Arguments.of("invitation participants", 3L, LocalDate.now().plusDays(7)),
-                Arguments.of("feuille émargement", 4L, LocalDate.now().plusDays(9)),
-                Arguments.of("attestation de formation", 5L, LocalDate.now().plusDays(9)));
+                Arguments.of("bloquer agenda formateur", 2L,LocalDate.now()),
+                Arguments.of("demander liste des participants", 3L,LocalDate.now()),
+                Arguments.of("assigner role de co-animateur au formateur", 10L,LocalDate.now()),
+                Arguments.of("invitation participants", 4L, LocalDate.now().plusDays(7)),
+                Arguments.of("feuille émargement", 5L, LocalDate.now().plusDays(9)),
+                Arguments.of("attestation de formation", 6L, LocalDate.now().plusDays(9)));
 
     }
 

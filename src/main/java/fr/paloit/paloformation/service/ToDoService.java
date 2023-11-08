@@ -52,17 +52,17 @@ public class ToDoService {
 
     private List<LocalDate> listeDeDatesPourLesToDos(Session session, Tache tache) {
         List<LocalDate> lstdates = new ArrayList<>();
-        if (tache.getId() == 3L) { // Inviter Participants
+        if (tache.getId() == 4L) { // Inviter Participants
             lstdates = List.of((session.getDateCreation().plusDays(7)));
-        } else if (tache.getId() == 4L) { // Créer feuille d'émargement
+        } else if (tache.getId() == 5L) { // Créer feuille d'émargement
             lstdates = List.of((session.getDateCreation().plusDays(9)));
-        } else if (tache.getId() == 5L) { // Créer l'attestation de formation
+        } else if (tache.getId() == 6L) { // Créer l'attestation de formation
             lstdates = List.of((session.getDateCreation().plusDays(9)));
-        } else if (tache.getId() == 6L) { // Envoyer Feuille d'émargement
+        } else if (tache.getId() == 7L) { // Envoyer Feuille d'émargement
             lstdates.addAll(session.getDates());
-        } else if (tache.getId() == 7L) { // Envoyer le questionnaire
+        } else if (tache.getId() == 8L) { // Envoyer le questionnaire
             lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
-        } else if (tache.getId() == 8L) { // Transmettre l'attestation de formation
+        } else if (tache.getId() == 9L) { // Transmettre l'attestation de formation
             lstdates = List.of((session.getDateLaPlusGrande().plusDays(1)));
         } else {
             lstdates = List.of(session.getDateCreation());

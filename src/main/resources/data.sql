@@ -8,5 +8,6 @@ insert into tache (id, libelle) values (5, 'Créer les feuilles d''émargement')
 insert into tache (id, libelle) values (6, 'Créer les attestations de formation');
 insert into tache (id, libelle) values (7, 'Envoyer la feuille d''émargement');
 insert into tache (id, libelle) values (8, 'Envoyer le questionnaire de satisfaction aux participants');
-insert into tache (id, libelle) values (9, 'Transmettre l''attestion de formation aux participants')
+insert into tache (id, libelle) values (9, 'Transmettre l''attestion de formation aux participants');
+insert into tache (id, libelle) values (10, 'Assigner au formateur le rôle de co-animateur de la réunion');
 
