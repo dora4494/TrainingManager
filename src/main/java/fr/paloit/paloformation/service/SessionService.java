@@ -50,9 +50,6 @@ public class SessionService {
     public void modifierSession(Session session) {
         if (session.getEtat() == 1) {
             sessionRepository.save(session);
-            if (session.getDates() != null && !session.getDates().isEmpty()) {
-                toDoService.creerTodos(session);
-            }
         }
     }
 
