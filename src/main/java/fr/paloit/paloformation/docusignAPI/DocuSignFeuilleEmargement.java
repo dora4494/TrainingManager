@@ -11,14 +11,19 @@ public class DocuSignFeuilleEmargement implements EmargementService.FeuilleEmarg
     }
 
     public void setTexteDocument(String texteDocument) {
-
         this.texteDocument = texteDocument;
     }
+    @Override
     public String getNomFichier() {
         return nomFichier;
     }
 
     public void setNomFichier(String nomFichier) {
         this.nomFichier = nomFichier;
+    }
+
+    @Override
+    public byte[] getBytes() {
+        return this.texteDocument.getBytes();
     }
 }

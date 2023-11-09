@@ -39,7 +39,7 @@ public class DocuSignServiceTest {
                 .setFormateur(new Utilisateur(1L, "John", "Doe", "jdoe@palo-it.com"))
                 .get();
 
-        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement) docuSignService.getFeuilleEmargement(session);
+        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement) docuSignService.getFeuilleEmargementTexte(session);
         feuilleEmargement.setNomFichier("Emargement.txt");
         feuilleEmargement.setTexteDocument("Contenu de la feuille d'émargement");
 
@@ -54,7 +54,7 @@ public class DocuSignServiceTest {
         final List<EnveloppeDocuSign> enveloppes = enveloppeCaptor.getAllValues();
         final EnveloppeDocuSign enveloppe = enveloppes.get(0);
         assertEquals("Emargement.txt", enveloppe.getNomDocument());
-        assertEquals("Contenu de la feuille d'émargement", enveloppe.getTexteDocument());
+        assertArrayEquals("Contenu de la feuille d'émargement".getBytes(), enveloppe.getDocumentBytes());
 
         assertEquals(utilisateurs.size(), enveloppe.getUtilisateurs().size());
         for (int i = 0; i < utilisateurs.size(); i++) {
@@ -74,7 +74,7 @@ public class DocuSignServiceTest {
                         new Utilisateur(36L, "Bob", "Ray", "bray@palo-it.com")
                         )
                 ).get();
-        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement)docuSignService.getFeuilleEmargement(session);
+        final DocuSignFeuilleEmargement feuilleEmargement = (DocuSignFeuilleEmargement)docuSignService.getFeuilleEmargementTexte(session);
         assertEquals("emargement_TDD.txt", feuilleEmargement.getNomFichier());
         assertTrue(feuilleEmargement.getTexteDocument().contains("Formation: TDD"));
         assertTrue(feuilleEmargement.getTexteDocument().contains("Formateur: John Glenn"));

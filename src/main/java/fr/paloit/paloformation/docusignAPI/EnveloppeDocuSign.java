@@ -2,14 +2,11 @@ package fr.paloit.paloformation.docusignAPI;
 
 import com.docusign.esign.model.*;
 import fr.paloit.paloformation.model.Utilisateur;
+import fr.paloit.paloformation.service.EmargementService;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import java.util.Base64;
 
 public class EnveloppeDocuSign {
     private List<Utilisateur> utilisateurs = new ArrayList<Utilisateur>();
@@ -17,7 +14,7 @@ public class EnveloppeDocuSign {
     private String emailContenu;
     private String templateId;
     private String nomDocument;
-    private String texteDocument;
+    private byte[] documentBytes;
 
     public List<Utilisateur> getUtilisateurs() {
         return utilisateurs;
@@ -39,10 +36,6 @@ public class EnveloppeDocuSign {
         return nomDocument;
     }
 
-    public String getTexteDocument() {
-        return texteDocument;
-    }
-
     public void ajouterSignataire(Utilisateur utilisateur) {
         this.utilisateurs.add(utilisateur);
     }
@@ -52,12 +45,16 @@ public class EnveloppeDocuSign {
     }
 
     public void setDocument(String nomDocument, String texteDocument) {
-        this.nomDocument = nomDocument;
-        this.texteDocument = texteDocument;
+        setDocument(nomDocument, texteDocument.getBytes());
     }
 
-    public void setDocument(DocuSignFeuilleEmargement docuSignFeuilleEmargement) {
-        setDocument(docuSignFeuilleEmargement.getNomFichier(), docuSignFeuilleEmargement.getTexteDocument());
+    public void setDocument(String nomDocument, byte[] documentBytes) {
+        this.nomDocument = nomDocument;
+        this.documentBytes = documentBytes;
+    }
+
+    public void setDocument(EmargementService.FeuilleEmargement feuilleEmargement) {
+        setDocument(feuilleEmargement.getNomFichier(), feuilleEmargement.getBytes());
     }
 
     public EnvelopeDefinition generer() {
@@ -102,8 +99,7 @@ public class EnveloppeDocuSign {
         if (nomDocument != null) {
             Document document = new Document();
 
-            document.setDocumentBase64(Base64.getEncoder().encodeToString(texteDocument.getBytes()));
-            //document.setDocumentBase64("VGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyEKCldlJ2xsIG1vdmUgZm9yd2FyZCBhcyBzb29uIGFzIHdlIGhlYXIgYmFjay4=");
+            document.setDocumentBase64(Base64.getEncoder().encodeToString(this.documentBytes));
             document.setName(nomDocument);
             document.setFileExtension(getExtension(nomDocument).orElse(null));
             document.setDocumentId("1");
@@ -185,4 +181,7 @@ public class EnveloppeDocuSign {
         this.templateId = templateId;
     }
 
+    public byte[] getDocumentBytes() {
+        return this.documentBytes;
+    }
 }

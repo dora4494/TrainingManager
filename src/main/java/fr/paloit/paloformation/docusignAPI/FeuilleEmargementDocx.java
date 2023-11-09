@@ -1,11 +1,15 @@
 package fr.paloit.paloformation.docusignAPI;
 
+import fr.paloit.paloformation.service.EmargementService;
 import jakarta.xml.bind.JAXBElement;
 import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.wml.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -14,17 +18,22 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class FeuilleEmargementDocx {
-    private final Path cheminFichier;
+public class FeuilleEmargementDocx implements EmargementService.FeuilleEmargement {
+
     WordprocessingMLPackage wordMLPackage;
+    private File file;
 
     public FeuilleEmargementDocx(String cheminFichier) throws Docx4JException {
         this(Paths.get(cheminFichier));
     }
 
     public FeuilleEmargementDocx(Path cheminFichier) throws Docx4JException {
-        this.cheminFichier = cheminFichier;
-        wordMLPackage = WordprocessingMLPackage.load(this.cheminFichier.toFile());
+        this(cheminFichier.toFile());
+    }
+
+    public FeuilleEmargementDocx(File fichier) throws Docx4JException {
+        file = fichier;
+        wordMLPackage = WordprocessingMLPackage.load(file);
     }
 
     public void remplacer(String texteARemplacer, String nouveauTexte) {
@@ -64,6 +73,10 @@ public class FeuilleEmargementDocx {
 
     public void sauver(Path fichierCible) throws Docx4JException {
         wordMLPackage.save(fichierCible.toFile());
+    }
+
+    public void sauver(OutputStream output) throws Docx4JException {
+        wordMLPackage.save(output);
     }
 
     public void ajouterLigneEmargement(String nom) {
@@ -136,4 +149,19 @@ public class FeuilleEmargementDocx {
         }
     }
 
+    @Override
+    public String getNomFichier() {
+        return file.getName();
+    }
+
+    @Override
+    public byte[] getBytes() {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        try {
+            sauver(output);
+        } catch (Docx4JException e) {
+            throw new RuntimeException("La feuille d'émargement n'a pas pu être générée.", e);
+        }
+        return output.toByteArray();
+    }
 }

@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -38,6 +40,17 @@ public class FeuilleEmargementDocxTest {
 
         final String texteObtenu = getTexte(fichierSauve.toString());
         assertEquals(texteInitial, texteObtenu);
+    }
+
+    @Test
+    public void testRecuperationContenuEnTableauDeBytes(@TempDir Path tempDir) throws Docx4JException, IOException {
+        final String fichier = "src/test/resources/demo_emargement.docx";
+        final FeuilleEmargementDocx feuilleEmargementDocx = new FeuilleEmargementDocx(fichier);
+
+        final Path fichierSauve = tempDir.resolve("DocumentSauve.docx");
+        feuilleEmargementDocx.sauver(fichierSauve);
+
+        assertArrayEquals(Files.readAllBytes(fichierSauve), feuilleEmargementDocx.getBytes());
     }
 
     @Test

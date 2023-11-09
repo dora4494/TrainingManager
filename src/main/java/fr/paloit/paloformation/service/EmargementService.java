@@ -10,8 +10,11 @@ public interface EmargementService {
 
     interface FeuilleEmargement {
 
+        String getNomFichier();
+
+        byte[] getBytes();
     }
-    public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs) throws IOException;
+
     public void envoyerDemandeSignature(Iterable<Utilisateur> utilisateurs, FeuilleEmargement feuilleEmargement) throws IOException;
 
     public FeuilleEmargement getFeuilleEmargement(Session session);
