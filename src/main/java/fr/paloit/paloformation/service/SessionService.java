@@ -37,6 +37,7 @@ public class SessionService {
         }
     }
 
+
     public void supprimerSession(Session session) {
         sessionRepository.delete(session);
     }
@@ -79,7 +80,6 @@ public class SessionService {
     }
 
 }
-
 
 
 
