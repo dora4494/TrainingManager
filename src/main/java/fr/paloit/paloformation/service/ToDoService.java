@@ -28,10 +28,7 @@ public class ToDoService {
     public void creerTodos(Session session) {
         List<Tache> taches = (List<Tache>) tacheRepository.findAll();
         List<ToDo> todosASauver = creerTodos(session, taches);
-
         toDoRepository.saveAll(todosASauver);
-
-
     }
 
     List<ToDo> creerTodos(Session session, List<Tache> taches) {
