@@ -29,7 +29,7 @@
                     <fieldset id="fieldset-creer-session">
                         <div class="pure-control-group">
                             <label for="select-intitule-formation">Formation</label>
-                            <select th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
+                            <select class="select select-bordered w-full max-w-xs" th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
                                 <option th:each="formation: ${@formationService.listeFormations}"
                                         th:value="${formation.id}"
                                         th:text="${formation.intitule}"></option>
@@ -38,20 +38,20 @@
 
                         <div class="pure-control-group">
                             <label for="aligned-client">Client</label>
-                            <input type="text" th:field="*{client}" id="aligned-client" name="client" required>
+                            <input class="input input-bordered w-full max-w-xs" type="text" th:field="*{client}" id="aligned-client" name="client" required>
                         </div>
 
 
                         <div class="pure-control-group date-group">
                             <label for="aligned-dates">Date(s)</label>
-                            <input type="date" th:field="*{dates}" id="aligned-dates" name="dates">
-                            <button type="button" id="ajoutDate" class="pure-button plus-button">+</button>
+                            <input class="input input-bordered input-accent w-full max-w-xs" type="date" th:field="*{dates}" id="aligned-dates" name="dates">
+                            <button type="button" id="ajoutDate" class="btn btn-accent"> + </button>
                         </div>
 
 
                         <div class="pure-control-group">
                             <label for="aligned-formateur">Formateur</label>
-                            <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
+                            <select class="select select-bordered w-full max-w-xs" th:field="*{formateur}" id="aligned-formateur" name="formateur">
                                 <option value="">Sélectionnez un formateur</option>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}" th:text="${utilisateur.prenom + ' '  + utilisateur.nom}"></option>
@@ -61,7 +61,7 @@
 
                         <div class="pure-control-group">
                             <label for="aligned-participant">Participants</label>
-                            <select th:field="*{participants}" id="aligned-participant" name="select-participant"
+                            <select class="select select-bordered w-full max-w-xs" th:field="*{participants}" id="aligned-participant" name="select-participant"
                                     multiple>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}"
@@ -70,7 +70,7 @@
                         </div>
 
 
-                        <button type="submit" class="pure-button">Enregistrer</button>
+                        <button type="submit" class="btn btn-accent" id="btn-valider-creer-modifier-session">Valider</button>
 
                     </fieldset>
                 </form>
@@ -87,7 +87,7 @@
             $('#ajoutDate').on('click', function () {
                 var divDates = $('<div class="pure-control-group date-group">' +
                     '<label for="aligned-dates">Date(s)</label>' +
-                    '<input type="date" name="dates">' +
+                    '<input class="input input-bordered input-accent w-full max-w-xs" type="date" name="dates">' +
                     '</div>');
 
                 $('.date-group:last').after(divDates);

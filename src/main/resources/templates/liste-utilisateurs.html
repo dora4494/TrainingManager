@@ -18,10 +18,19 @@
         <main class="main">
 
             <div class="titre-main">
-                <h2 class="titre-main-item">Liste des utilisateurs</h2>
+                <h2 class="titre-main-item">Liste des formateurs</h2>
             </div>
 
-            <div id="lst-container-utilisateurs">
+            <div id="container-cartes-formateurs">
+            <div class="card w-96 bg-base-100 shadow-xl" id="carte-formateur" data-th-each="utilisateur: ${utilisateurs}">
+                <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes" /></figure>
+                <div class="card-body">
+                    <h2 class="card-title"><a th:href="@{'utilisateur/'+${utilisateur.id}}"
+                                              data-th-text="${utilisateur.prenom + ' ' + utilisateur.nom}"></a></h2>
+                </div>
+            </div>
+            </div>
+           <!-- <div id="lst-container-utilisateurs">
                 <table class="pure-table">
                     <thead>
                     <tr>
@@ -37,10 +46,12 @@
                     </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>-->
+
+
 
             <form action="/creer-utilisateur" method="get" class="container-btn-enregistrer">
-                <button type="submit" class="pure-button" id="bouton-sessions-submit">Ajouter un utilisateur</button>
+                <button type="submit" class="btn btn-accent" id="bouton-sessions-submit"> + </button>
             </form>
 
         </main>

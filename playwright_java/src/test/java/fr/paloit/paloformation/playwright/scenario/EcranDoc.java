@@ -1,3 +1,4 @@
+/*
 package fr.paloit.paloformation.playwright.scenario;
 
 import com.microsoft.playwright.Browser;
@@ -47,3 +48,4 @@ public class EcranDoc {
         doc.describeStep("== " + elementCliquable.textContent().trim(), playwright.page());
     }
 }
+*/

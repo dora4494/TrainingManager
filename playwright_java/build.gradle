@@ -16,7 +16,8 @@ repositories {
 
 dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    testImplementation 'junit:junit:4.13.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
 	// Playwright
 	implementation group: 'com.microsoft.playwright', name: 'playwright', version: '1.38.0'

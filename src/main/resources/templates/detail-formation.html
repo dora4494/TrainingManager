@@ -16,38 +16,65 @@
     <div class="content-container">
 
         <main class="main">
-            <div class="details-container">
-                <div class="input-container" data-th-text="${formation.intitule}"></div>
 
+            <div class="hero min-h-screen bg-base-200" id="detail-formation">
+                <div class="hero-content flex-col lg:flex-row">
+                    <img src="/logo-2.png" alt="logo formation"
+                         class="max-w-sm rounded-lg shadow-2xl"/>
+                   <!-- <img src="https://daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
+                         class="max-w-sm rounded-lg shadow-2xl"/>-->
+                    <div>
 
-                <div class="boutons-container-flex">
-                    <form action="/supprimer-formation" method="post" class="container-btn-supprimer">
-                        <input type="hidden" name="id" th:value="${formation.id}"/>
-                        <button type="submit" class="pure-button">Supprimer formation</button>
-                    </form>
+                        <h1 class="text-5xl font-bold" data-th-text="${formation.intitule}"></h1>
+                        <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi
+                            exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
 
+                        <div class="boutons-container-flex">
+                            <form action="/modifier-formation" method="get" class="container-btn-modifier">
+                                <input type="hidden" name="id" th:value="${formation.id}"/>
+                                <button type="submit" class="btn btn-active">Modifier</button>
+                            </form>
+                            <form action="/supprimer-formation" method="post" class="container-btn-supprimer">
+                                <input type="hidden" name="id" th:value="${formation.id}"/>
+                                <button type="submit" class="btn btn-outline btn-secondary">Supprimer</button>
+                            </form>
+                        </div>
 
-                    <form action="/modifier-formation" method="get" class="container-btn-modifier">
-                        <input type="hidden" name="id" th:value="${formation.id}"/>
-                        <button type="submit" class="pure-button">Modifier formation</button>
-                    </form>
-
-
+                    </div>
                 </div>
             </div>
 
-<!--
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    let btnModifier = document.querySelector('.btn-modifier');
-                    btnModifier.addEventListener("click", function () {
-                        let idFormation = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
-                        let redirectionUrl = '/modifier/formation/' + idFormation;
-                        window.location.href = redirectionUrl;
-                    });
-                });
-            </script>
--->
+            <!--            <div class="details-container">
+                            <div class="input-container" data-th-text="${formation.intitule}"></div>
+
+
+                            <div class="boutons-container-flex">
+                                <form action="/supprimer-formation" method="post" class="container-btn-supprimer">
+                                    <input type="hidden" name="id" th:value="${formation.id}"/>
+                                    <button type="submit" class="pure-button">Supprimer formation</button>
+                                </form>
+
+
+                                <form action="/modifier-formation" method="get" class="container-btn-modifier">
+                                    <input type="hidden" name="id" th:value="${formation.id}"/>
+                                    <button type="submit" class="pure-button">Modifier formation</button>
+                                </form>
+
+
+                            </div>
+                        </div>-->
+            <!--
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let btnModifier = document.querySelector('.btn-modifier');
+                                btnModifier.addEventListener("click", function () {
+                                    let idFormation = this.closest('.container-btn-modifier').querySelector('input[name="id"]').value;
+                                    let redirectionUrl = '/modifier/formation/' + idFormation;
+                                    window.location.href = redirectionUrl;
+                                });
+                            });
+                        </script>
+            -->
         </main>
     </div>
 </div>

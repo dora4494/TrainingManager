@@ -2,8 +2,8 @@
 
 body {
     font-family: 'Josefin Sans', sans-serif;
-    color: #696969;
-    font-size: smaller;
+    color: #1C1C1C;
+    font-size: x-large;
     top: 0;
 }
 
@@ -15,10 +15,9 @@ body {
     float: left;
     top: 0;
     border-bottom: 1px solid #ccc;
-    background-color: white;
+    background-color: #170A1C;
     border-left: 1px solid #ccc;
-
-
+    color: #FAFAFF;
 }
 
 
@@ -28,15 +27,16 @@ body {
     font-size: small;
     justify-content: flex-end;
     margin-top: 15px;
-    margin-right: 20px;
-
+    margin-left: 900px;
+    width: 400px;
+    font-weight: bold;
 }
 
 
 .main {
     float: right;
     width: 85%;
-    margin-right: 100px;
+    margin-right: 180px;
     margin-top: 20px;
    /* background-color: whitesmoke;*/
     margin-bottom: 50px;
@@ -46,7 +46,7 @@ body {
 }
 
 
-.footer {
+/*.footer {
    position: fixed;
     bottom: 0;
     width: 100%;
@@ -54,7 +54,7 @@ body {
     text-align: center;
     padding: 10px;
     font-size: x-small;
-}
+}*/
 
 
 .indicateur-retard, .indicateur-aujourdhui, .indicateur-a-venir {
@@ -68,7 +68,7 @@ body {
 
 
 .icon {
-    color: #62646a;
+   color: #FAFAFF;
     margin-right: 6px;
 }
 
@@ -77,7 +77,8 @@ body {
 }
 
 .titre-main-item {
-
+    font-size: larger;
+    font-weight: bold;
 }
 
 .form-container-creer-formation, .form-container-creer-session, .form-container-creer-utilisateur {
@@ -87,7 +88,7 @@ body {
 
 
 #indicateurToDoEnRetard {
-   color: #FF8C00;
+   color: #F6F930;
     font-weight: bold;
 }
 
@@ -120,11 +121,15 @@ p, span {
     font-weight: bold;
 }
 
+#titre-lst-participants {
+    color: #315659;
+    font-weight: bold;
+}
 
 
 #container-details-session {
-    margin-left: 3%;
     margin-top: 5%;
+    font-size: 0.8em;
 }
 
 #container-lst-participants {
@@ -137,6 +142,11 @@ p, span {
 
 #container-lst-todo-urgence-moyenne {
     margin-top: 5%;
+}
+
+.libelle-lst-taches {
+    color:#00BBF9;
+    font-size: medium;
 }
 
 #bouton-detail-session {
@@ -158,18 +168,40 @@ p, span {
     margin-right: 10px;
 }
 
+#carte-formateur {
+
+}
+
+#container-cartes-formateurs {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+    display: flex;
+    margin-top: 30px;
+    gap: 30px;
+}
 
 #table-participants, #table-urg-haute, #table-urg-moyenne {
     background-color: white;
 }
 
+.fieldset-form {
+    margin-top: 20px;
+}
 
+#ajoutDate {
+    font-weight: bold;
+}
+
+#btn-valider-creer-formateur {
+    margin-top: 20px;
+}
 .content-container {
     min-height: 150vh;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    background-color: whitesmoke;
+    /*background-color: whitesmoke;*/
 }
 
 #lst-container-sessions, #lst-container-utilisateurs, #lst-container-formations {
@@ -180,13 +212,42 @@ p, span {
 
 #bouton-sessions-submit, #bouton-sessions-submit, #bouton-formations-submit {
     margin-left: 3%;
+    font-weight: 800;
+    margin-top: 3%;
 }
 
+#table-sessions {
+    font-size: large;
+    margin-top: 3%;
+}
+#overflow-x-auto {
+    margin-left: 3%;
+}
+
+#table-sessions-thead {
+    font-size: large;
+    color: #97D8C4;
+}
+
+#detail-formation {
+    min-height: 10vh;
+    background-color: #F8F7FF;
+    border-radius: 35px;
+}
+
+#table-formations-thead {
+    font-size: large;
+    color: #97D8C4;
+}
 
 .plus-button {
     font-size: 10px;
     font-weight: bolder;
+    margin-top: 3%;
+}
 
+#btn-valider-creer-modifier-session {
+    margin-left: 100px;
 }
 
 .pure-img-responsive {
@@ -206,6 +267,11 @@ p, span {
     width: 190px;
 }
 
+#join-sessions {
+    margin-left: 30%;
+    margin-top: 2%;
+}
+
 #layout.active .menu-link {
     left: 190px;
 }
@@ -214,7 +280,7 @@ p, span {
 #menu {
     margin-left: -190px;
     width: 190px;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
@@ -223,6 +289,7 @@ p, span {
     font-size: small;
     border-right: 1px solid #ccc;
     float: left;
+    background-color: #170A1C;
 }
 
 #fieldset-creer-session {
@@ -230,6 +297,9 @@ p, span {
 }
 
 
+#table-sessions-detaillees {
+    margin-top: 20px;
+}
 
 
 .menu-link {
@@ -281,14 +351,39 @@ p, span {
     margin-top: 0.6em;
 }
 
+.pure-menu-item {
+    color: #FAFAFF;
+    font-size: large;
+}
 
+#titre-menu {
+    color: #FAFAFF;
+    font-size: larger;
+    font-weight: bold;
+}
+
+.pure-menu-link {
+    color: #FAFAFF;
+}
+
+. pure-menu-heading {
+    color: #FAFAFF;
+    font-weight: bolder;
+    font-size: larger;
+
+}
+
+.pure-menu-list {
+    top: 20px;
+}
 
 @media (min-width: 48em) {
 
     .header,
     .content {
         padding-left: 2em;
-        padding-right: 2em;
+      /*  padding-right: 2em;*/
+        background-color: #170A1C;
     }
 
     #layout {
@@ -331,7 +426,7 @@ p, span {
     #container-indicateurs {
 
         margin-right: 5px;
-        font-size: xx-small;
+        font-size: medium;
     }
 
   h4{

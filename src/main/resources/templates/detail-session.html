@@ -67,7 +67,7 @@
             </div>
 
             <div id="container-lst-participants">
-                <h4>Liste des participants:</h4>
+                <h4 id="titre-lst-participants">Liste des participants:</h4>
                 <form action="/emargement" method="post">
                     <input type="hidden" th:value="${sessionFormation.id}" name="idSession" />
                     <table class="pure-table" id="table-participants">
@@ -76,29 +76,30 @@
                             <tr>
                                 <td><a th:href="@{'/utilisateur/'+${participant.id}}"
                                        data-th-text="${participant.prenom + ' ' + participant.nom}"></a></td>
-                                <td><input type="checkbox" name="ids" th:value="${participant.id}"/></td>
+                                <td><input type="checkbox" checked="checked" class="checkbox checkbox-accent" name="ids" th:value="${participant.id}"/></td>
                             </tr>
                         </th:block>
                         </tbody>
                     </table>
 
-                    <button type="submit" class="pure-button pure-button-primary" id="bouton-detail-session">Envoyer la feuille d'émargement
+                    <button type="submit" class="btn btn-accent" id="bouton-detail-session">Envoyer la feuille d'émargement
                     </button>
                 </form>
             </div>
 
 
-            <div id="container-lst-todo-urgence-haute">
-                <table class="pure-table" id="table-urg-haute">
+
+            <div class="overflow-x-auto" id="table-sessions-detaillees">
+                <table class="table" id="table-details-sessions">
                     <thead>
                     <tr>
-                        <th>Tâche</th>
-                        <th>Echéance</th>
-                        <th>Statut</th>
+                        <th class="libelle-lst-taches">TACHE</th>
+                        <th class="libelle-lst-taches">ECHEANCE</th>
+                        <th class="libelle-lst-taches">STATUT</th>
                         <th></th>
                     </tr>
                     </thead>
-                  <tbody>
+                    <tbody>
                     <tr th:each="todo : ${sessionFormation.todos}">
                         <td><span data-th-text="${todo.tache.libelle}"></span></td>
                         <td><span data-th-text="${#temporals.format(todo.date, 'dd-MM-yyyy')}"></span></td>
@@ -114,7 +115,6 @@
                 </table>
             </div>
 
-
             <div class="boutons-container-flex">
                 <!--
                 <form action="/archiver-session" method="post" class="container-btn-archiver">
@@ -122,14 +122,14 @@
                     <button type="submit" class="pure-button" >Archiver session</button>
                 </form>
 -->
-                <form action="/modifier-session" method="get" class="container-btn-modifier">
+                <form action="/modifier-session" method="get">
                     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                    <button type="submit" class="pure-button" >Modifier session</button>
+                    <button type="submit" class="btn" >Modifier session</button>
                 </form>
 
-                <form action="/supprimer-session" method="post" class="container-btn-annuler">
+                <form action="/supprimer-session" method="post">
                     <input type="hidden" name="id" th:value="${sessionFormation.id}"/>
-                    <button type="submit" class="pure-button">Annuler session</button>
+                    <button type="submit" class="btn btn-warning">Annuler session</button>
                 </form>
             </div>
         </main>

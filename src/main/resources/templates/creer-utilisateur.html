@@ -20,7 +20,7 @@
         <main class="main">
 
             <div class="titre-main">
-                <h4 class="titre-main-item">Créer un utilisateur</h4>
+                <h4 class="titre-main-item">Créer un formateur</h4>
             </div>
 
             <div class="form-container-creer-utilisateur">
@@ -30,24 +30,26 @@
                     <fieldset class="fieldset-form">
 
                         <div class="pure-control-group">
-                            <label for="aligned-prenom">Prénom</label>
-                            <input type="text" th:field="*{prenom}" id="aligned-prenom" name="prenom" required>
+                           <!-- <label for="aligned-prenom">Prénom</label>-->
+                            <input type="text" placeholder="Prénom"  th:field="*{prenom}" id="aligned-prenom" name="prenom" class="input input-bordered w-full max-w-xs" required>
                         </div>
 
                         <div class="pure-control-group">
-                            <label for="aligned-nom">Nom</label> <input type="text"
+                           <!-- <label for="aligned-nom">Nom</label> -->
+                            <input class="input input-bordered w-full max-w-xs" type="text" placeholder="Nom"
                                                                         th:field="*{nom}" id="aligned-nom" name="nom"
                                                                         required>
                         </div>
 
 
                         <div class="pure-control-group">
-                            <label for="aligned-mail">Email</label> <input type="text"
+                          <!--  <label for="aligned-mail">Email</label> -->
+                            <input class="input input-bordered w-full max-w-xs" type="text" placeholder="Email"
                                                                            th:field="*{mail}" id="aligned-mail"
                                                                            name="mail" required>
                         </div>
 
-                        <button type="submit" class="pure-button">Enregistrer</button>
+                        <button type="submit" class="btn btn-accent" id="btn-valider-creer-formateur">Valider</button>
 
                     </fieldset>
                 </form>

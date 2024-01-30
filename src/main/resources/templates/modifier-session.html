@@ -29,7 +29,7 @@
                     <fieldset id="fieldset-creer-session">
                         <div class="pure-control-group">
                             <label for="select-intitule-formation">Formation</label>
-                            <select th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
+                            <select class="select select-bordered w-full max-w-xs" th:field="*{formation}" id="select-intitule-formation" name="intitule" required>
                                 <option th:each="formation: ${@formationService.listeFormations}"
                                         th:value="${formation.id}"
                                         th:text="${formation.intitule}"></option>
@@ -38,21 +38,20 @@
 
                         <div class="pure-control-group">
                             <label for="aligned-client">Client</label>
-                            <input type="text" th:field="*{client}" id="aligned-client" name="client" required>
+                            <input class="input input-bordered w-full max-w-xs" type="text" th:field="*{client}" id="aligned-client" name="client" required>
                         </div>
 
 
                         <div class="pure-control-group date-group">
                             <label for="aligned-dates">Date(s)</label>
-                            <input type="date"  id="aligned-dates" name="dates" th:each="date : *{dates}"  th:value="${date}">
-                            <button type="button" id="ajoutDate" class="pure-button plus-button">+</button>
+                            <input class="input input-bordered input-accent w-full max-w-xs" type="date"  id="aligned-dates" name="dates" th:each="date: *{#lists.sort(dates)}"  th:value="${date}">
+                            <button type="button" id="ajoutDate" class="btn btn-accent"> + </button>
                         </div>
-
 
 
                         <div class="pure-control-group">
                             <label for="aligned-formateur">Formateur</label>
-                            <select th:field="*{formateur}" id="aligned-formateur" name="formateur">
+                            <select class="select select-bordered w-full max-w-xs" th:field="*{formateur}" id="aligned-formateur" name="formateur">
                                 <option value="">Sélectionnez un formateur</option>
                                 <option th:each="utilisateur: ${@utilisateurService.listeUtilisateurs()}"
                                         th:value="${utilisateur.id}" th:text="${utilisateur.nom}"></option>
@@ -70,7 +69,7 @@
                             </select>
                         </div>
 
-                        <button type="submit" class="pure-button">Enregistrer</button>
+                        <button type="submit" class="btn btn-accent" id="btn-valider-creer-modifier-session">Valider</button>
 
                     </fieldset>
                 </form>
@@ -107,3 +106,6 @@
 
 
 </html>
+
+
+
